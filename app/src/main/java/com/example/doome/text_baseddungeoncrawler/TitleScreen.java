@@ -5,8 +5,10 @@ import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.TextView;
 import android.widget.Button;
+import android.content.Intent;
 
 public class TitleScreen extends AppCompatActivity {
 
@@ -41,7 +43,12 @@ public class TitleScreen extends AppCompatActivity {
         configureNextButton();
     }
     private void configureNextButton() {
-        Button nextButton = (Button) findViewById(R.id.nextButton);
+        Button progressButton = (Button) findViewById(R.id.startButton);
+        progressButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(TitleScreen.this, DifficultySelection.class));
+            }
+        });
     }
-
 }
