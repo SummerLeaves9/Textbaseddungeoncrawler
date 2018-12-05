@@ -6,6 +6,7 @@ import android.support.design.widget.BottomNavigationView;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 import android.widget.TextView;
+import android.widget.Button;
 
 public class TitleScreen extends AppCompatActivity {
 
@@ -37,7 +38,10 @@ public class TitleScreen extends AppCompatActivity {
         setContentView(R.layout.activity_title_screen);
 
         mTextMessage = (TextView) findViewById(R.id.message);
+        configureNextButton();
     }
-    private
+    private void configureNextButton() {
+        Button nextButton = (Button) findViewById(R.id.nextButton);
+    }
 
 }
