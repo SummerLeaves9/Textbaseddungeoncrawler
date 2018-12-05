@@ -38,6 +38,4 @@ public class TitleScreen extends AppCompatActivity {
 
         mTextMessage = (TextView) findViewById(R.id.message);
     }
-    private
-
 }

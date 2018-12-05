@@ -11,63 +11,91 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-        <EditText
-            android:id="@+id/editText2"
+        <TextView
+            android:id="@+id/textView2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:ems="10"
-            android:inputType="textMultiLine"
-            android:text="Enter your stats. The sum of all your stat points must add up to 30 or less!"
-            android:textSize="20sp"
-            android:visibility="visible" />
+            android:text="Stat Selection (30 Points to distribute)"
+            android:textColor="@android:color/black"
+            android:textSize="20sp" />
 
-        <EditText
-            android:id="@+id/editText4"
+        <TextView
+            android:id="@+id/textView10"
             android:layout_width="match_parent"
-            android:layout_height="41dp"
-            android:ems="10"
-            android:inputType="textMultiLine"
-            android:text="Strength- how much damage you deal" />
+            android:layout_height="wrap_content" />
 
-        <EditText
-            android:id="@+id/editText5"
+        <TextView
+            android:id="@+id/textView4"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:ems="10"
-            android:inputType="textMultiLine"
-            android:text="Accuracy- influences chance to land your attack" />
+            android:text="STRENGTH: how much damage you deal"
+            android:textColor="@android:color/black"
+            android:textSize="20sp" />
 
-        <EditText
-            android:id="@+id/editText6"
+        <TextView
+            android:id="@+id/textView11"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:id="@+id/textView5"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:ems="10"
-            android:inputType="textMultiLine"
-            android:text="Defense: your hp" />
+            android:text="ACCURACY: influences chance to land your attack"
+            android:textColor="@android:color/black"
+            android:textSize="20sp" />
 
-        <EditText
-            android:id="@+id/editText7"
+        <TextView
+            android:id="@+id/textView12"
             android:layout_width="match_parent"
-            android:layout_height="66dp"
-            android:ems="10"
-            android:inputType="textMultiLine"
-            android:text="Agility: influences your chance to entirely dodge an attack and run away" />
+            android:layout_height="wrap_content" />
 
-        <EditText
-            android:id="@+id/editText8"
+        <TextView
+            android:id="@+id/textView6"
             android:layout_width="match_parent"
-            android:layout_height="63dp"
-            android:ems="10"
-            android:inputType="textMultiLine"
-            android:text="Intelligence: influences your chances of finding secrets" />
+            android:layout_height="wrap_content"
+            android:text="DEFENSE: your hp"
+            android:textColor="@android:color/black"
+            android:textSize="20sp" />
 
-        <EditText
-            android:id="@+id/editText9"
+        <TextView
+            android:id="@+id/textView13"
             android:layout_width="match_parent"
-            android:layout_height="86dp"
-            android:ems="10"
-            android:inputType="textMultiLine"
-            android:text="Luck: influecnes your chances of landing a critical hit, along with slightly aiding your dodge chance and secret chance" />
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:id="@+id/textView7"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="AGILITY: influences your chance to entirely dodge an attack and run away"
+            android:textColor="@android:color/black"
+            android:textSize="20sp" />
+
+        <TextView
+            android:id="@+id/textView14"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:id="@+id/textView8"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="INTELLIGENCE: influences your chances of finding secrets"
+            android:textColor="@android:color/black"
+            android:textSize="20sp" />
+
+        <TextView
+            android:id="@+id/textView15"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:id="@+id/textView9"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="LUCK: influecnes your chances of landing a critical hit, along with slightly aiding your dodge chance and secret chance"
+            android:textColor="@android:color/black"
+            android:textSize="20sp" />
 
         <android.support.design.widget.TextInputLayout
             android:layout_width="match_parent"
