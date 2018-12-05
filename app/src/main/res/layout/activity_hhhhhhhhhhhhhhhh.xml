@@ -10,8 +10,54 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        tools:layout_editor_absoluteX="0dp"
+        tools:layout_editor_absoluteY="162dp">
 
+        <TextView
+            android:id="@+id/healthDisplay"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:text="HP: "
+            android:textColor="@android:color/holo_red_dark"
+            android:textSize="30sp" />
+
+        <TextView
+            android:id="@+id/currentSituation"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:height="315dp"
+            android:text="This is happening"
+            android:textColor="@android:color/black"
+            android:textSize="40sp" />
+
+        <TextView
+            android:id="@+id/textView3"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:text="What will you do?"
+            android:textColor="@android:color/black"
+            android:textSize="40sp" />
+
+        <EditText
+            android:id="@+id/actionInput"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:gravity="top"
+            android:inputType="text" />
+
+        <Button
+            android:id="@+id/submission"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:contentDescription="Do it"
+            android:gravity="center_horizontal"
+            android:text="Do it"
+            android:textSize="24sp" />
     </LinearLayout>
 
 </android.support.constraint.ConstraintLayout>
