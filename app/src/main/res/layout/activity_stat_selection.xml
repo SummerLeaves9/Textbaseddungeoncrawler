@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    tools:context=".StatSelection">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -18,7 +19,7 @@
             android:inputType="textMultiLine"
             android:text="Enter your stats. The sum of all your stat points must add up to 30 or less!"
             android:textSize="20sp"
-            android:visibility="ss" />
+            android:visibility="visible" />
 
         <EditText
             android:id="@+id/editText4"
@@ -67,6 +68,17 @@
             android:ems="10"
             android:inputType="textMultiLine"
             android:text="Luck: influecnes your chances of landing a critical hit, along with slightly aiding your dodge chance and secret chance" />
+
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:hint="enter the six stats in order, pressing enter between each">
+
+            <android.support.design.widget.TextInputEditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="enter the six stats in order, pressing 'enter' in between." />
+        </android.support.design.widget.TextInputLayout>
 
     </LinearLayout>
 </android.support.constraint.ConstraintLayout>

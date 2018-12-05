@@ -7,7 +7,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 import android.widget.TextView;
 
-public class Hhhhhhhhhhhhhhhh extends AppCompatActivity {
+public class TitleScreen extends AppCompatActivity {
 
     private TextView mTextMessage;
 
@@ -34,9 +34,10 @@ public class Hhhhhhhhhhhhhhhh extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_hhhhhhhhhhhhhhhh);
+        setContentView(R.layout.activity_title_screen);
 
         mTextMessage = (TextView) findViewById(R.id.message);
     }
+    private
 
 }
