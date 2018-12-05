@@ -18,7 +18,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center_horizontal"
-            android:text="HP: (display liveHp variable)"
+            android:text="(Display variable Live HP)"
             android:textColor="@android:color/holo_red_dark"
             android:textSize="30sp" />
 
@@ -27,7 +27,16 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:height="315dp"
-            android:text="output from user input/info from game"
+            android:text="Game Output from user input"
+            android:textColor="@android:color/black"
+            android:textSize="40sp" />
+
+        <TextView
+            android:id="@+id/textView3"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:text="What will you do?"
             android:textColor="@android:color/black"
             android:textSize="40sp" />
 
@@ -46,7 +55,7 @@
             android:layout_gravity="bottom"
             android:contentDescription="Do it"
             android:gravity="center_horizontal"
-            android:text="Enter"
+            android:text="Do it"
             android:textSize="24sp" />
     </LinearLayout>
 </android.support.constraint.ConstraintLayout>
