@@ -1,3 +1,5 @@
+package com.example.doome.text_baseddungeoncrawler;
+
 public class Room {
     /**
      * chance that this room contains an enemy
@@ -6,13 +8,13 @@ public class Room {
     /**
      * If an enemy is in the room, this is how it will be accessed.
      */
-    public Enemy numberOne;
+    public Enemy numberOne = null;
     /**
      * All-purpose constructor
      */
     public Room() {
         double enemyIndicator = Math.random();
-        if (enemyChance < enemyIndicator) {
+        if (enemyIndicator < enemyChance) {
             numberOne = new Enemy();
         }
     }

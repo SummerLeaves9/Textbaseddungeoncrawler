@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -23,7 +23,7 @@
             android:textSize="30sp" />
 
         <TextView
-            android:id="@+id/currentSituation"
+            android:id="@+id/gameInfo"
             android:layout_width="match_parent"
             android:layout_height="278dp"
             android:height="315dp"
@@ -32,7 +32,7 @@
             android:textSize="40sp" />
 
         <TextView
-            android:id="@+id/textView3"
+            android:id="@+id/lineBreak"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="-------------------------------------------------------------------------------------" />
@@ -47,13 +47,12 @@
             android:inputType="text" />
 
         <Button
-            android:id="@+id/submission"
+            android:id="@+id/submitButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom"
-            android:contentDescription="Do it"
             android:gravity="center_horizontal"
             android:text="Enter"
             android:textSize="24sp" />
     </LinearLayout>
-</android.support.constraint.ConstraintLayout>
+</RelativeLayout>

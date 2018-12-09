@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -27,17 +27,13 @@
             android:layout_height="wrap_content"
             android:text="Back to how to play" />
 
-        <android.support.design.widget.TextInputLayout
+        <EditText
+            android:id="@+id/enterStatsBar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="enter the six stats in order, pressing enter between each">
-
-            <android.support.design.widget.TextInputEditText
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="Input your six stats in order, pressing 'enter' in between." />
-
-        </android.support.design.widget.TextInputLayout>
+            android:hint="enter the six stats in order, pressing enter between each"
+            android:inputType="number"
+            android:textSize="14sp" />
 
         <Button
             android:id="@+id/StatStatEnterButton"
@@ -49,7 +45,13 @@
             android:id="@+id/StatNextButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Button" />
+            android:text="Done" />
+
+        <Button
+            android:id="@+id/StatStatRandomizer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Randomize my stats!" />
 
     </LinearLayout>
-</android.support.constraint.ConstraintLayout>
+</RelativeLayout>
