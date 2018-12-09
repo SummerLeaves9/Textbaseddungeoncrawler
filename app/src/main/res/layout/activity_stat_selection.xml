@@ -14,101 +14,42 @@
         tools:layout_editor_absoluteY="0dp">
 
         <TextView
-            android:id="@+id/textView2"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Stat Selection (30 Points to distribute)"
-            android:textColor="@android:color/black"
-            android:textSize="20sp" />
-
-        <TextView
-            android:id="@+id/textView10"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-
-        <TextView
-            android:id="@+id/textView4"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="STRENGTH: how much damage you deal"
-            android:textColor="@android:color/black"
-            android:textSize="20sp" />
-
-        <TextView
-            android:id="@+id/textView11"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-
-        <TextView
-            android:id="@+id/textView5"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="ACCURACY: influences chance to land your attack"
-            android:textColor="@android:color/black"
-            android:textSize="20sp" />
-
-        <TextView
-            android:id="@+id/textView12"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-
-        <TextView
-            android:id="@+id/textView6"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="DEFENSE: your hp"
-            android:textColor="@android:color/black"
-            android:textSize="20sp" />
-
-        <TextView
-            android:id="@+id/textView13"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-
-        <TextView
-            android:id="@+id/textView7"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="AGILITY: influences your chance to entirely dodge an attack and run away"
-            android:textColor="@android:color/black"
-            android:textSize="20sp" />
-
-        <TextView
-            android:id="@+id/textView14"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-
-        <TextView
-            android:id="@+id/textView8"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="INTELLIGENCE: influences your chances of finding secrets"
-            android:textColor="@android:color/black"
-            android:textSize="20sp" />
-
-        <TextView
-            android:id="@+id/textView15"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-
-        <TextView
             android:id="@+id/textView9"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="LUCK: influecnes your chances of landing a critical hit, along with slightly aiding your dodge chance and secret chance"
+            android:text="Now, enter your stats! Make sure to press enter after each number. No stat can be below 0 or above 10. Additionally, the sum of all your stat points must be 30."
             android:textColor="@android:color/black"
             android:textSize="20sp" />
 
+        <Button
+            android:id="@+id/StatBackButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Back to how to play" />
+
         <android.support.design.widget.TextInputLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:hint="enter the six stats in order, pressing enter between each">
 
             <android.support.design.widget.TextInputEditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="enter the six stats in order, pressing 'enter' in between." />
+                android:hint="Input your six stats in order, pressing 'enter' in between." />
+
         </android.support.design.widget.TextInputLayout>
+
+        <Button
+            android:id="@+id/StatStatEnterButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Enter" />
+
+        <Button
+            android:id="@+id/StatNextButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Button" />
 
     </LinearLayout>
 </android.support.constraint.ConstraintLayout>

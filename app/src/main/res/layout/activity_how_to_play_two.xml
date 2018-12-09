@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".DifficultySelection">
+    tools:context=".HowToPlayTwo">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -12,34 +12,21 @@
         android:orientation="vertical">
 
         <TextView
-            android:id="@+id/textView16"
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:ems="10"
-            android:gravity="center_horizontal"
-            android:text="   Select game length!"
-            android:textColor="@android:color/black"
-            android:textSize="24sp" />
-
-        <Button
-            android:id="@+id/EasyButton"
+            android:id="@+id/textView11"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Easy (15 Rooms)"
-            android:textSize="18sp" />
+            android:text="Some more game info (prob stats)" />
 
         <Button
-            android:id="@+id/NormalButton"
+            android:id="@+id/HowTwoNextButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Normal (30 Rooms)"
-            android:textSize="18sp" />
+            android:text="Next" />
 
         <Button
-            android:id="@+id/HardButton"
+            android:id="@+id/HowTwoBackButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Hard (45 Rooms)"
-            android:textSize="18sp" />
+            android:text="Back" />
     </LinearLayout>
 </android.support.constraint.ConstraintLayout>

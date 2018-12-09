@@ -6,27 +6,27 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
-public class StatSelection extends AppCompatActivity {
+public class HowToPlayTwo extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_stat_selection);
+        setContentView(R.layout.activity_how_to_play_two);
         configureNextButton();
     }
     private void configureNextButton() {
-        Button progressButton = (Button) findViewById(R.id.StatNextButton);
+        Button progressButton = (Button) findViewById(R.id.HowTwoNextButton);
         progressButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(StatSelection.this, Gameplay.class));
+                startActivity(new Intent(HowToPlayTwo.this, StatSelection.class));
             }
         });
-        Button progressButton1 = (Button) findViewById(R.id.StatBackButton);
+        Button progressButton1 = (Button) findViewById(R.id.HowTwoBackButton);
         progressButton1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(StatSelection.this, HowToPlayTwo.class));
+                startActivity(new Intent(HowToPlayTwo.this, HowToPlay.class));
             }
         });
     }

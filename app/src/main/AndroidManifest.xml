@@ -20,7 +20,9 @@
         </activity>
         <activity android:name=".DifficultySelection" />
         <activity android:name=".StatSelection" />
-        <activity android:name=".Gameplay"></activity>
+        <activity android:name=".Gameplay" />
+        <activity android:name=".HowToPlay" />
+        <activity android:name=".HowToPlayTwo"></activity>
     </application>
 
 </manifest>

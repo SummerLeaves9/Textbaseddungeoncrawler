@@ -120,7 +120,7 @@ public class Character {
     /**
      * The base dodge chance for all characters
      */
-    public static double baseDodgeChance = .05;
+    public static double baseDodgeChance = .06;
     /**
      * The base additional dodge chance granted by your luck value for all characters
      */
@@ -129,7 +129,7 @@ public class Character {
      * The base chance that a player finds a secret upon entering the "look" command, based on their
      * intelligence stat.
      */
-    public static double baseSecretChance = .05;
+    public static double baseSecretChance = .07;
     /**
      * The base additional chance to find a secret upon entering the "look" command based on the
      * intelligence stat.
