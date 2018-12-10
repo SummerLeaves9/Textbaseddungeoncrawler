@@ -31,22 +31,22 @@ public class StatSelection extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 if (whichStat == 0) {
-                    Dungeon.playerStrength = Integer.valueOf(enterStatsBar.getText().toString());
+                    Gameplay.playerStrength = Integer.valueOf(enterStatsBar.getText().toString());
                     enterStatsBar.setHint("Accuracy");
                 } else if (whichStat == 1) {
-                    Dungeon.playerAccuracy = Integer.valueOf(enterStatsBar.getText().toString());
+                    Gameplay.playerAccuracy = Integer.valueOf(enterStatsBar.getText().toString());
                     enterStatsBar.setHint("Agility");
                 } else if (whichStat == 2) {
-                    Dungeon.playerDefense = Integer.valueOf(enterStatsBar.getText().toString());
+                    Gameplay.playerDefense = Integer.valueOf(enterStatsBar.getText().toString());
                     enterStatsBar.setHint("Defense");
                 } else if (whichStat == 3) {
-                    Dungeon.playerAgility = Integer.valueOf(enterStatsBar.getText().toString());
+                    Gameplay.playerAgility = Integer.valueOf(enterStatsBar.getText().toString());
                     enterStatsBar.setHint("Intelligence");
                 } else if (whichStat == 4) {
-                    Dungeon.playerIntelligence = Integer.valueOf(enterStatsBar.getText().toString());
+                    Gameplay.playerIntelligence = Integer.valueOf(enterStatsBar.getText().toString());
                     enterStatsBar.setHint("And finally, Luck");
                 } else if (whichStat == 5) {
-                    Dungeon.playerLuck = Integer.valueOf(enterStatsBar.getText().toString());
+                    Gameplay.playerLuck = Integer.valueOf(enterStatsBar.getText().toString());
                     startActivity(new Intent(StatSelection.this, Gameplay.class));
                 }
                 enterStatsBar.setText("");
@@ -57,7 +57,7 @@ public class StatSelection extends AppCompatActivity {
         progressButton3.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Dungeon.isRandomized = true;
+                Gameplay.isRandomized = true;
                 startActivity(new Intent(StatSelection.this, Gameplay.class));
             }
         });

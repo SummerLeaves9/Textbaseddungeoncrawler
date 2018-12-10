@@ -30,10 +30,9 @@
             android:textSize="40sp" />
 
         <TextView
-            android:id="@+id/lineBreak"
+            android:id="@+id/availableActions"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="-------------------------------------------------------------------------------------" />
+            android:layout_height="wrap_content" />
 
         <EditText
             android:id="@+id/actionInput"

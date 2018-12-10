@@ -283,17 +283,20 @@ public class Character {
      * Uses the stats of both characters to determine if this character landed a hit on other
      * @param other the character that is being attacked
      */
-    public void determineHit(Character other) {
+    public int determineHit(Character other) {
         double otherDodgeResult = Math.random();
         double thisHitResult = Math.random();
         double thisCritResult = Math.random();
         if (other.dodgeChance < otherDodgeResult && this.hitChance < thisHitResult) {
             if (this.critChance < thisCritResult) {
-                other.liveHP -= (this.attackPower * critMultiplier);
+                other.liveHP -= (int) (this.attackPower * critMultiplier);
+                return (int) (this.attackPower * critMultiplier);
             } else {
                 other.liveHP -= this.attackPower;
+                return this.attackPower;
             }
         }
+        return 0;
     }
 
     /**
