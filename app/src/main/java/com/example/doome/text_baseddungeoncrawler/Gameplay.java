@@ -26,7 +26,7 @@ public class Gameplay extends AppCompatActivity {
         healthDisplay.setText("Hp:" + Dungeon.thisPlayer.liveHP);
     }
     private void configureNextButton() {
-        Button progressButton = (Button) findViewById(R.id.HowNextButton);
+        Button progressButton = (Button) findViewById(R.id.submitButton);
         progressButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -34,5 +34,8 @@ public class Gameplay extends AppCompatActivity {
                 actionInput.setText("");
             }
         });
+    }
+    public static void startBattle() {
+        return;
     }
 }

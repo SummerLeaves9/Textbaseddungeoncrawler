@@ -93,7 +93,7 @@ public class Dungeon {
         if (!(userInput.equals(""))) {
             playerWeaponName = userInput;
         }
-        if (isRandomized == false) {
+        if (!isRandomized) {
             thisPlayer = new Player(playerStrength, playerAccuracy,
                     playerDefense, playerAgility, playerIntelligence, playerLuck, playerName, playerWeaponName);
         } else {
