@@ -59,7 +59,7 @@ public class Dungeon {
      * The string which will be used by the UI to display game text.
      * Is changed and redisplayed throughout play.
      */
-    public static String consoleOutput;
+    public static String consoleOutput = "type 'start' to start!";
     /**
      * The first instructions displayed in console output.
      * Instructs the player to enter their name.
@@ -73,9 +73,9 @@ public class Dungeon {
     /**
      * The player.
      */
-    public static Player thisPlayer;
+    public static Player thisPlayer = new Player("name", "weaponName");
     /**
-     * The String which will store the user's desired action:
+     * The String which will store the user's desired action.
      * Is changed throughout play.
      */
     public static String userInput;
@@ -83,31 +83,5 @@ public class Dungeon {
      * main method for displaying game logic to the app console
      * @param args
      */
-    public static void main (String[] args) {
-        consoleOutput = enterName;
-        //detect when the player has entered their name;
-        if (!(userInput.equals(""))) {
-            playerName = userInput;
-        }
-        consoleOutput = enterWeaponName;
-        if (!(userInput.equals(""))) {
-            playerWeaponName = userInput;
-        }
-        if (isRandomized == false) {
-            thisPlayer = new Player(playerStrength, playerAccuracy,
-                    playerDefense, playerAgility, playerIntelligence, playerLuck, playerName, playerWeaponName);
-        } else {
-            thisPlayer = new Player(playerName, playerWeaponName);
-        }
-        for (int i = 0; i < roomCount; i++) {
-            //run methods relevant to game
-            Room thisRoom = new Room();
-            if (thisRoom.numberOne != null) {
-                startBattle();
-            }
-        }
-    }
-    public static void startBattle() {
-        return;
-    }
+
 }

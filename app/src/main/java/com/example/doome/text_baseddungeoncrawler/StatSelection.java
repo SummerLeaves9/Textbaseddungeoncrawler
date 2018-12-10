@@ -19,13 +19,6 @@ public class StatSelection extends AppCompatActivity {
         enterStatsBar = (EditText) findViewById(R.id.enterStatsBar);
     }
     private void configureNextButton() {
-        Button progressButton = (Button) findViewById(R.id.StatNextButton);
-        progressButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                startActivity(new Intent(StatSelection.this, Gameplay.class));
-            }
-        });
         Button progressButton1 = (Button) findViewById(R.id.StatBackButton);
         progressButton1.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -39,20 +32,20 @@ public class StatSelection extends AppCompatActivity {
             public void onClick(View view) {
                 if (whichStat == 0) {
                     Dungeon.playerStrength = Integer.valueOf(enterStatsBar.getText().toString());
-                }
-                if (whichStat == 1) {
+                    enterStatsBar.setHint("Accuracy");
+                } else if (whichStat == 1) {
                     Dungeon.playerAccuracy = Integer.valueOf(enterStatsBar.getText().toString());
-                }
-                if (whichStat == 2) {
+                    enterStatsBar.setHint("Agility");
+                } else if (whichStat == 2) {
                     Dungeon.playerDefense = Integer.valueOf(enterStatsBar.getText().toString());
-                }
-                if (whichStat == 3) {
+                    enterStatsBar.setHint("Defense");
+                } else if (whichStat == 3) {
                     Dungeon.playerAgility = Integer.valueOf(enterStatsBar.getText().toString());
-                }
-                if (whichStat == 4) {
+                    enterStatsBar.setHint("Intelligence");
+                } else if (whichStat == 4) {
                     Dungeon.playerIntelligence = Integer.valueOf(enterStatsBar.getText().toString());
-                }
-                if (whichStat == 5) {
+                    enterStatsBar.setHint("And finally, Luck");
+                } else if (whichStat == 5) {
                     Dungeon.playerLuck = Integer.valueOf(enterStatsBar.getText().toString());
                     startActivity(new Intent(StatSelection.this, Gameplay.class));
                 }

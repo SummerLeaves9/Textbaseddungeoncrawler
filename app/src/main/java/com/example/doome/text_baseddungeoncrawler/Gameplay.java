@@ -1,6 +1,5 @@
 package com.example.doome.text_baseddungeoncrawler;
 
-import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -13,6 +12,7 @@ public class Gameplay extends AppCompatActivity {
     EditText actionInput;
     TextView healthDisplay;
     TextView gameInfo;
+    String healthDisplayInfo = new String("Hp: " + Dungeon.thisPlayer.liveHP + "/" + Dungeon.thisPlayer.hp);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,10 +23,10 @@ public class Gameplay extends AppCompatActivity {
         healthDisplay = (TextView) findViewById(R.id.healthDisplay);
         gameInfo = (TextView) findViewById(R.id.gameInfo);
         gameInfo.setText(Dungeon.consoleOutput);
-        healthDisplay.setText("Hp:" + Dungeon.thisPlayer.liveHP);
+        healthDisplay.setText(healthDisplayInfo);
     }
     private void configureNextButton() {
-        Button progressButton = (Button) findViewById(R.id.HowNextButton);
+        Button progressButton = (Button) findViewById(R.id.submitButton);
         progressButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
