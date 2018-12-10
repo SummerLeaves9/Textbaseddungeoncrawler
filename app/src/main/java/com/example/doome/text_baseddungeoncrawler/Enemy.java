@@ -29,6 +29,10 @@ public class Enemy extends Character{
      * Stat value, 5 for enemies' stats
      */
     public final int enemyStatFive = 5;
+    /**
+     * The amount of points the player earns upon defeating this type of enemy.
+     */
+    public int pointValue;
 
     public Enemy() {
         determineType();
@@ -71,6 +75,7 @@ public class Enemy extends Character{
             this.defenseValue = enemyStatOne;
             this.strengthValue = enemyStatTwo;
             this.agilityValue = enemyStatTwo;
+            this.pointValue = 80;
         } else if (type == enemyType.Red_Slime) {
             name = "Red Slime";
             weaponName = "body check";
@@ -78,6 +83,7 @@ public class Enemy extends Character{
             this.defenseValue = enemyStatTwo;
             this.strengthValue = enemyStatThree;
             this.agilityValue = enemyStatTwo;
+            this.pointValue = 90;
         } else if (type == enemyType.Goblin) {
             name = "Goblin";
             weaponName = "punch";
@@ -85,6 +91,7 @@ public class Enemy extends Character{
             this.defenseValue = enemyStatThree;
             this.strengthValue = enemyStatTwo;
             this.agilityValue = enemyStatThree;
+            this.pointValue = 110;
         } else if (type == enemyType.Skeleton) {
             name = "Skeleton";
             weaponName = "bone throw";
@@ -92,6 +99,7 @@ public class Enemy extends Character{
             this.defenseValue = enemyStatThree;
             this.strengthValue = enemyStatThree;
             this.agilityValue = enemyStatTwo;
+            this.pointValue = 100;
         } else {
             name = "Giant Isopod";
             weaponName = "bite";
@@ -99,6 +107,7 @@ public class Enemy extends Character{
             this.defenseValue = enemyStatFive;
             this.strengthValue = enemyStatTwo;
             this.agilityValue = enemyStatTwo;
+            this.pointValue = 120;
         }
     }
 }
