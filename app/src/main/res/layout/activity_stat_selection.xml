@@ -31,7 +31,7 @@
             android:id="@+id/enterStatsBar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="enter the six stats in order, pressing enter between each"
+            android:hint="first, Strength"
             android:inputType="number"
             android:textSize="14sp" />
 
@@ -40,12 +40,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Enter" />
-
-        <Button
-            android:id="@+id/StatNextButton"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Done" />
 
         <Button
             android:id="@+id/StatStatRandomizer"
