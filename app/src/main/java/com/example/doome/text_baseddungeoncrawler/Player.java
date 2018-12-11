@@ -8,7 +8,7 @@ public class Player extends Character {
 
     public final int randomlyGeneratedStatCutoff = 6;
 
-    public int myPoints = 0;
+    public int myPoints = 100;
 
     /**
      * The purpose of this empty constructor is for the case where the player decides
