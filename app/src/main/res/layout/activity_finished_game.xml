@@ -6,4 +6,29 @@
     android:layout_height="match_parent"
     tools:context=".FinishedGame">
 
+    <TextView
+        android:id="@+id/Concrats"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Congratulations! You've escaped!"
+        android:textColor="@android:color/black"
+        android:textSize="50sp" />
+
+    <TextView
+        android:id="@+id/Player Name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="TextView" />
+
+    <TextView
+        android:id="@+id/Weapon Name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="TextView" />
+
+    <TextView
+        android:id="@+id/Stats"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="TextView" />
 </android.support.constraint.ConstraintLayout>

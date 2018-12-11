@@ -6,6 +6,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.content.Intent;
 
 public class Gameplay extends AppCompatActivity {
     /**
@@ -218,12 +219,20 @@ public class Gameplay extends AppCompatActivity {
         healthDisplay.setText(displayInfo);
     }
     private void configureNextButton() {
-        Button progressButton = (Button) findViewById(R.id.submitButton);
+        final Button progressButton = (Button) findViewById(R.id.submitButton);
         progressButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 userInput = actionInput.getText().toString();
                 actionInput.setText("");
+                if (liveRoomCount == roomCount) {
+                    progressButton.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            startActivity(new Intent(Gameplay.this, FinishedGame.class));
+                        }
+                    });
+                }
                 changeOutput(userInput);
                 setGameInfo();
             }
@@ -304,8 +313,6 @@ public class Gameplay extends AppCompatActivity {
             if (liveRoomCount < roomCount) {
                 thisRoom = new Room();
                 liveRoomCount++;
-            } else {
-
             }
         } else if (action.equals(look)) {
             if (thisRoom.disSearchable) {

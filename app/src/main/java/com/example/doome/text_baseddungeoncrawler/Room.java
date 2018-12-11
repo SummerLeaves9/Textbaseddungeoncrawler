@@ -26,13 +26,18 @@ public class Room {
      * All-purpose constructor
      */
     public Room() {
-        double enemyIndicator = Math.random();
-        double isSearchable = Math.random();
-        if (enemyIndicator < enemyChance) {
-            numberOne = new Enemy();
-        }
-        if (isSearchable < searchableChance) {
-            disSearchable = true;
+        if (Gameplay.liveRoomCount == 0) {
+            numberOne = null;
+            disSearchable = false;
+        } else {
+            double enemyIndicator = Math.random();
+            double isSearchable = Math.random();
+            if (enemyIndicator < enemyChance) {
+                numberOne = new Enemy();
+            }
+            if (isSearchable < searchableChance) {
+                disSearchable = true;
+            }
         }
     }
 
