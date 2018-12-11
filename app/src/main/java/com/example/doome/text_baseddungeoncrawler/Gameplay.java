@@ -6,6 +6,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import java.util.Scanner;
 
 public class Gameplay extends AppCompatActivity {
     /**
@@ -74,11 +75,6 @@ public class Gameplay extends AppCompatActivity {
      * The boolean that determines when the user leaves a room.
      */
     public boolean hasProgressed = false;
-    /**
-     * The string which will be used by the UI to display game text.
-     * Is changed and redisplayed throughout play.
-     */
-    public static String consoleOutput = "type 'start' to start!";
     /**
      * The first instructions displayed in console output.
      * Instructs the player to enter their name.
@@ -195,6 +191,11 @@ public class Gameplay extends AppCompatActivity {
      * The message displayed when the user has already searched a room.
      */
     public static final String alreadySearched = "You've already searched this room, seems unproductive to search it again.";
+    /**
+     * The string which will be used by the UI to display game text.
+     * Is changed and redisplayed throughout play.
+     */
+    public static String consoleOutput = "Welcome, " + thisPlayer.name + "! Type any String to start!";
 
     EditText actionInput;
     static TextView healthDisplay;
@@ -205,6 +206,12 @@ public class Gameplay extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_gameplay);
+        if (isRandomized) {
+            thisPlayer = new Player(playerName, playerWeaponName);
+        } else {
+            thisPlayer = new Player(playerStrength, playerAccuracy, playerDefense, playerAgility,
+                    playerIntelligence, playerLuck, playerName, playerWeaponName);
+        }
         configureNextButton();
         actionInput = (EditText) findViewById(R.id.actionInput);
         healthDisplay = (TextView) findViewById(R.id.healthDisplay);
@@ -289,7 +296,6 @@ public class Gameplay extends AppCompatActivity {
             if (thisPlayer.liveHP <= 0) {
                 consoleOutput += darkSouls;
                 isBattling = false;
-                thisPlayer.myPoints += thisRoom.numberOne.pointValue;
             }
         }
         turnAdvantage = true;
@@ -333,15 +339,8 @@ public class Gameplay extends AppCompatActivity {
         healthDisplay.setText("Hp: " + thisPlayer.liveHP + "/" + thisPlayer.hp + " Points: " + thisPlayer.myPoints);
     }
     public static void main(String[] args) {
-        if (isRandomized) {
-            thisPlayer = new Player(playerName, playerWeaponName);
-        } else {
-            thisPlayer = new Player(playerStrength, playerAccuracy, playerDefense, playerAgility,
-                    playerIntelligence, playerLuck, playerName, playerWeaponName);
-        }
         for (int i = 0; i < roomCount; i++) {
             thisRoom = new Room();
-
         }
     }
 }
