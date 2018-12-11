@@ -23,7 +23,8 @@
         <activity android:name=".Gameplay" />
         <activity android:name=".HowToPlay" />
         <activity android:name=".HowToPlayTwo" />
-        <activity android:name=".EnterNames"></activity>
+        <activity android:name=".EnterNames" />
+        <activity android:name=".FinishedGame"></activity>
     </application>
 
 </manifest>

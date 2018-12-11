@@ -9,6 +9,10 @@ import android.widget.TextView;
 
 public class Gameplay extends AppCompatActivity {
     /**
+     * This variable keeps count of how many rooms have been traversed.
+     */
+    public static int liveRoomCount = 0;
+    /**
      * The amount of rooms which will be used for this game.
      * Set by the user's selection between 15, 30, or 45.
      */
@@ -199,7 +203,7 @@ public class Gameplay extends AppCompatActivity {
     EditText actionInput;
     static TextView healthDisplay;
     static TextView gameInfo;
-    String displayInfo = new String("Hp: not set... " + " Points: " + thisPlayer.myPoints);
+    String displayInfo = new String("Hp:" + thisPlayer.liveHP + "/" + thisPlayer.hp + " Points: " + thisPlayer.myPoints);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -209,6 +213,7 @@ public class Gameplay extends AppCompatActivity {
         actionInput = (EditText) findViewById(R.id.actionInput);
         healthDisplay = (TextView) findViewById(R.id.healthDisplay);
         gameInfo = (TextView) findViewById(R.id.gameInfo);
+        thisPlayer.setAllStats();
         setGameInfo();
         healthDisplay.setText(displayInfo);
     }
@@ -296,7 +301,12 @@ public class Gameplay extends AppCompatActivity {
     }
     public static void movementStatus(String action) {
         if (action.equals(progress)) {
+            if (liveRoomCount < roomCount) {
+                thisRoom = new Room();
+                liveRoomCount++;
+            } else {
 
+            }
         } else if (action.equals(look)) {
             if (thisRoom.disSearchable) {
                 if (!thisRoom.roomSearched) {
@@ -333,15 +343,6 @@ public class Gameplay extends AppCompatActivity {
         healthDisplay.setText("Hp: " + thisPlayer.liveHP + "/" + thisPlayer.hp + " Points: " + thisPlayer.myPoints);
     }
     public static void main(String[] args) {
-        if (isRandomized) {
-            thisPlayer = new Player(playerName, playerWeaponName);
-        } else {
-            thisPlayer = new Player(playerStrength, playerAccuracy, playerDefense, playerAgility,
-                    playerIntelligence, playerLuck, playerName, playerWeaponName);
-        }
-        for (int i = 0; i < roomCount; i++) {
-            thisRoom = new Room();
 
-        }
     }
 }
