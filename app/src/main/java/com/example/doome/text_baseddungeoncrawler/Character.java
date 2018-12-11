@@ -328,6 +328,7 @@ public class Character {
         setSecretChance();
         setCritChance();
         setHp();
+        liveHP = hp;
         setHitChance();
         setAttackPower();
     }
