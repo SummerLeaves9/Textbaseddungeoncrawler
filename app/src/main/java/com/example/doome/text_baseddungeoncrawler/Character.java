@@ -105,7 +105,7 @@ public class Character {
     /**
      * The base hp for all characters
      */
-    public static int baseHP = 20;
+    public static int baseHP = 10;
     /**
      * The base attackPower for all characters
      */
@@ -131,7 +131,7 @@ public class Character {
      * The base chance that a player finds a secret upon entering the "look" command, based on their
      * intelligence stat.
      */
-    public static double baseSecretChance = .07;
+    public static double baseSecretChance = .04;
     /**
      * The base additional chance to find a secret upon entering the "look" command based on the
      * intelligence stat.
@@ -297,6 +297,24 @@ public class Character {
             }
         }
         return 0;
+    }
+    /**
+     * Determines whether a secret was found or not.
+     */
+    public int foundSecret() {
+        double foundSecret = Math.random();
+        double secretType = Math.random();
+        if (foundSecret < secretChance) {
+            if (secretType < 0.33) {
+                return 1;
+            } else if (secretType < 0.66) {
+                return 2;
+            } else {
+                return 3;
+            }
+        } else {
+            return 0;
+        }
     }
 
     /**

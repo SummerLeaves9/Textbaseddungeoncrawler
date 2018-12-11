@@ -39,13 +39,13 @@ public class Gameplay extends AppCompatActivity {
      */
     public static int playerStrength;
     /**
-     * The int that stores the player's defense stat before the player is initialized.
-     */
-    public static int playerDefense;
-    /**
      * The int that stores the player's accuracy stat before the player is initialized.
      */
     public static int playerAccuracy;
+    /**
+     * The int that stores the player's defense stat before the player is initialized.
+     */
+    public static int playerDefense;
     /**
      * The int that stores the player's agility stat before the player is initialized.
      */
@@ -70,6 +70,10 @@ public class Gameplay extends AppCompatActivity {
      * The String that stores the player's weapon name before the player is initalized.
      */
     public static String playerWeaponName;
+    /**
+     * The boolean that determines when the user leaves a room.
+     */
+    public boolean hasProgressed = false;
     /**
      * The string which will be used by the UI to display game text.
      * Is changed and redisplayed throughout play.
@@ -167,11 +171,35 @@ public class Gameplay extends AppCompatActivity {
      * The message displayed when the user puts in an invalid command.
      */
     public static final String invalidCommand = "Unlike real life, you can't do literaly anything. Please enter a valid command.";
+    /**
+     * The message displayed when the user cannot search a room.
+     */
+    public static final String unsearchable = "You can tell everything about this room with a single glance. No need to search for secrets.";
+    /**
+     * The message displayed when the user finds a attack boost secret.
+     */
+    public static final String foundAttackUp = "You have found a potion, which increases muscular effeciency. Attack Power +2!";
+    /**
+     * The message displayed when the user finds a defense boost secret.
+     */
+    public static final String foundDefenseUp = "You have found some new armor. It's still in good condition! Max HP +3!";
+    /**
+     * The message displayed when the user finds a point boost secret.
+     */
+    public static final String foundPoints = "You have found some gold! Surely this will fetch a nice price. +300 Points!";
+    /**
+     * The message displayed when the user fails to find a secret.
+     */
+    public static final String noSecretFound = "You searched every nook and crany, but were unable to find anything. :( ";
+    /**
+     * The message displayed when the user has already searched a room.
+     */
+    public static final String alreadySearched = "You've already searched this room, seems unproductive to search it again.";
 
     EditText actionInput;
-    TextView healthDisplay;
-    TextView gameInfo;
-    String healthDisplayInfo = new String("Hp: " + thisPlayer.liveHP + "/" + thisPlayer.hp);
+    static TextView healthDisplay;
+    static TextView gameInfo;
+    String displayInfo = new String("Hp: not set... " + " Points: " + thisPlayer.myPoints);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -181,8 +209,8 @@ public class Gameplay extends AppCompatActivity {
         actionInput = (EditText) findViewById(R.id.actionInput);
         healthDisplay = (TextView) findViewById(R.id.healthDisplay);
         gameInfo = (TextView) findViewById(R.id.gameInfo);
-        gameInfo.setText(consoleOutput);
-        healthDisplay.setText(healthDisplayInfo);
+        setGameInfo();
+        healthDisplay.setText(displayInfo);
     }
     private void configureNextButton() {
         Button progressButton = (Button) findViewById(R.id.submitButton);
@@ -192,7 +220,7 @@ public class Gameplay extends AppCompatActivity {
                 userInput = actionInput.getText().toString();
                 actionInput.setText("");
                 changeOutput(userInput);
-                gameInfo.setText(consoleOutput);
+                setGameInfo();
             }
         });
     }
@@ -212,7 +240,8 @@ public class Gameplay extends AppCompatActivity {
         } else {
             movementStatus(action);
         }
-        gameInfo.setText(consoleOutput);
+        setGameInfo();
+        setHealthDisplay();
     }
     public static void myBattleStatus (String action) {
         if (action.equals(look) || action.equals(progress)) {
@@ -266,10 +295,57 @@ public class Gameplay extends AppCompatActivity {
         turnAdvantage = true;
     }
     public static void movementStatus(String action) {
+        if (action.equals(progress)) {
 
+        } else if (action.equals(look)) {
+            if (thisRoom.disSearchable) {
+                if (!thisRoom.roomSearched) {
+                    int foundSecret = thisPlayer.foundSecret();
+                    if (foundSecret == 0) {
+                        consoleOutput = noSecretFound;
+                    } else if (foundSecret == 1) {
+                        consoleOutput = foundAttackUp;
+                        thisPlayer.attackPower += 2;
+                    } else if (foundSecret == 2) {
+                        consoleOutput = foundDefenseUp;
+                        thisPlayer.hp += 3;
+                        thisPlayer.liveHP += 3;
+                    } else if (foundSecret == 3) {
+                        consoleOutput = foundPoints;
+                        thisPlayer.myPoints += 300;
+                    }
+                    thisRoom.roomSearched = true;
+                    setHealthDisplay();
+                } else {
+                    consoleOutput = alreadySearched;
+                }
+            } else {
+                consoleOutput = unsearchable;
+            }
+        } else {
+            consoleOutput = invalidCommand;
+        }
+    }
+    public static void setGameInfo() {
+        gameInfo.setText((consoleOutput));
+    }
+    public static void setHealthDisplay() {
+        healthDisplay.setText("Hp: " + thisPlayer.liveHP + "/" + thisPlayer.hp + " Points: " + thisPlayer.myPoints);
     }
     public static void main(String[] args) {
 
+        consoleOutput = enterName;
+        setGameInfo();
+        if (isRandomized) {
+            thisPlayer = new Player(playerName, playerWeaponName);
+        } else {
+            thisPlayer = new Player(playerStrength, playerAccuracy, playerDefense, playerAgility,
+                    playerIntelligence, playerLuck, playerName, playerWeaponName);
+        }
+        for (int i = 0; i < roomCount; i++) {
+            thisRoom = new Room();
+
+        }
     }
 
 }
