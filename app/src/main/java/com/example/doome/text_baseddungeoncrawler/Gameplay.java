@@ -333,9 +333,6 @@ public class Gameplay extends AppCompatActivity {
         healthDisplay.setText("Hp: " + thisPlayer.liveHP + "/" + thisPlayer.hp + " Points: " + thisPlayer.myPoints);
     }
     public static void main(String[] args) {
-
-        consoleOutput = enterName;
-        setGameInfo();
         if (isRandomized) {
             thisPlayer = new Player(playerName, playerWeaponName);
         } else {
@@ -347,5 +344,4 @@ public class Gameplay extends AppCompatActivity {
 
         }
     }
-
 }

@@ -22,7 +22,8 @@
         <activity android:name=".StatSelection" />
         <activity android:name=".Gameplay" />
         <activity android:name=".HowToPlay" />
-        <activity android:name=".HowToPlayTwo"></activity>
+        <activity android:name=".HowToPlayTwo" />
+        <activity android:name=".EnterNames"></activity>
     </application>
 
 </manifest>

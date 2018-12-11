@@ -47,7 +47,7 @@ public class StatSelection extends AppCompatActivity {
                     enterStatsBar.setHint("And finally, Luck");
                 } else if (whichStat == 5) {
                     Gameplay.playerLuck = Integer.valueOf(enterStatsBar.getText().toString());
-                    startActivity(new Intent(StatSelection.this, Gameplay.class));
+                    startActivity(new Intent(StatSelection.this, EnterNames.class));
                 }
                 enterStatsBar.setText("");
                 whichStat++;
@@ -58,7 +58,7 @@ public class StatSelection extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Gameplay.isRandomized = true;
-                startActivity(new Intent(StatSelection.this, Gameplay.class));
+                startActivity(new Intent(StatSelection.this, EnterNames.class));
             }
         });
     }
