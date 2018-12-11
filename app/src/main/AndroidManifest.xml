@@ -24,7 +24,8 @@
         <activity android:name=".HowToPlay" />
         <activity android:name=".HowToPlayTwo" />
         <activity android:name=".EnterNames" />
-        <activity android:name=".FinishedGame"></activity>
+        <activity android:name=".FinishedGame" />
+        <activity android:name=".bloodborne"></activity>
     </application>
 
 </manifest>

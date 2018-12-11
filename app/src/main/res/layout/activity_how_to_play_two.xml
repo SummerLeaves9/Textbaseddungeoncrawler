@@ -16,6 +16,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="You are given 30 stat points to distribute among 6 stats. The max amount of stat points for any stat is 10, and the minimum is 0. STRENGTH influences the power of your attack. ACCURACY influences your chance to land an attack. DEFENSE influences your hitpoints, or how much damage you can take. AGILITY influences your chance to dodge an attack altogether. INTELLIGENCE influences your chance to find secrets in seemingly empty rooms. And finally, LUCK influences your chance of landing a critical hit, as well as minorly helping your secret and dodge chances. Choose wisely!"
+            android:textColor="@android:color/black"
             android:textSize="17sp"
             tools:layout_editor_absoluteX="8dp"
             tools:layout_editor_absoluteY="0dp" />

@@ -4,7 +4,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.TextView;
 
-public class FinishedGame extends AppCompatActivity {
+public class bloodborne extends AppCompatActivity {
 
     TextView score;
     TextView playerName1;

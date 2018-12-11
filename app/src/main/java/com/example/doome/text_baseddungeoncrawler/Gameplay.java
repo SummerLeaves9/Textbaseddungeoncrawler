@@ -110,6 +110,14 @@ public class Gameplay extends AppCompatActivity {
      */
     public static final String heal = "heal";
     /**
+     * A counter used to show the player how many enemies they've defeated by the end of the game.
+     */
+    public static int enemiesDefeatedCounter = 0;
+    /**
+     * A counter used to show the player how many secrets they've found throughout the adventure.
+     */
+    public static int secretsFoundCounter = 0;
+    /**
      * The player.
      */
     public static Player thisPlayer = new Player("name", "weaponName");
@@ -199,7 +207,11 @@ public class Gameplay extends AppCompatActivity {
      * The string which will be used by the UI to display game text.
      * Is changed and redisplayed throughout play.
      */
-    public static String consoleOutput = "Welcome, " + thisPlayer.name + "! Type any String to start!";
+    public static String consoleOutput;
+    /**
+     * The message displayed when a user progresses and enters battle with an enemy.
+     */
+    public static String startBattle = "A " + thisRoom.numberOne.name + " appears in the room! Prepare for battle!";
 
     EditText actionInput;
     static TextView healthDisplay;
@@ -216,6 +228,7 @@ public class Gameplay extends AppCompatActivity {
             thisPlayer = new Player(playerStrength, playerAccuracy, playerDefense, playerAgility,
                     playerIntelligence, playerLuck, playerName, playerWeaponName);
         }
+        consoleOutput = "Welcome, " + thisPlayer.name + "! Type any String to start!";
         configureNextButton();
         actionInput = (EditText) findViewById(R.id.actionInput);
         healthDisplay = (TextView) findViewById(R.id.healthDisplay);
@@ -274,6 +287,7 @@ public class Gameplay extends AppCompatActivity {
                     consoleOutput += victoryMessage;
                     isBattling = false;
                     thisPlayer.myPoints += thisRoom.numberOne.pointValue;
+                    enemiesDefeatedCounter++;
                 }
             } else {
                 consoleOutput = displayMiss;
@@ -319,6 +333,9 @@ public class Gameplay extends AppCompatActivity {
                 thisRoom = new Room();
                 liveRoomCount++;
             }
+            if (thisRoom.numberOne != null) {
+                consoleOutput = startBattle;
+            }
         } else if (action.equals(look)) {
             if (thisRoom.disSearchable) {
                 if (!thisRoom.roomSearched) {
@@ -337,6 +354,7 @@ public class Gameplay extends AppCompatActivity {
                         thisPlayer.myPoints += 300;
                     }
                     thisRoom.roomSearched = true;
+                    secretsFoundCounter++;
                     setHealthDisplay();
                 } else {
                     consoleOutput = alreadySearched;
