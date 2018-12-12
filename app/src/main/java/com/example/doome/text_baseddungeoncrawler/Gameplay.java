@@ -152,7 +152,7 @@ public class Gameplay extends AppCompatActivity {
     /**
      * The message displayed when the user is defeated.
      */
-    public static final String darkSouls = "You Died. Final Score: " + thisPlayer.myPoints + "\nPlease close the app and try again.";
+    public static String darkSouls = "You Died. Final Score: " + thisPlayer.myPoints + "\nPlease close the app and try again.";
     /**
      * The message displayed when the user doesn't have enough points to run or heal.
      */
@@ -236,6 +236,12 @@ public class Gameplay extends AppCompatActivity {
             thisPlayer = new Player(playerStrength, playerAccuracy, playerDefense, playerAgility,
                     playerIntelligence, playerLuck, playerName, playerWeaponName);
         }
+        displayHit = "You use " + thisPlayer.weaponName + " and it hits! for ";
+        displayMiss = "You use your " + thisPlayer.weaponName + ", but you miss. ";
+        darkSouls = "You Died. Final Score: " + thisPlayer.myPoints + "\nPlease close the app and try again.";
+        victoryMessage = "You won! " + thisRoom.numberOne.name +
+                " dropped " + thisRoom.numberOne.pointValue + " points. Now you have " +
+                thisPlayer.myPoints + " points!";
         consoleOutput = "Welcome, " + thisPlayer.name + "! You are in an empty room, too small to be searched. If it could be searched, you could type, 'look'. To enter the next room, type 'progress'.";
         configureNextButton();
         actionInput = (EditText) findViewById(R.id.actionInput);
@@ -259,6 +265,9 @@ public class Gameplay extends AppCompatActivity {
                             startActivity(new Intent(Gameplay.this, FinishedGame.class));
                         }
                     });
+                }
+                if (thisPlayer.liveHP <= 0) {
+                    startActivity(new Intent(Gameplay.this, bloodborne.class));
                 }
                 changeOutput(userInput);
                 setGameInfo();
@@ -290,7 +299,7 @@ public class Gameplay extends AppCompatActivity {
         } else if (action.equals(attack)) {
             int dealtDamage = thisPlayer.determineHit(thisRoom.numberOne);
             if (dealtDamage != 0) {
-                consoleOutput = displayHit + dealtDamage;
+                consoleOutput = displayHit + dealtDamage + ". ";
                 if (thisRoom.numberOne.liveHP <= 0) {
                     consoleOutput += victoryMessage;
                     isBattling = false;

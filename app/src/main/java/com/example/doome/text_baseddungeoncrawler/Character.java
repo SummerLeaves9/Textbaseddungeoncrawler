@@ -162,7 +162,7 @@ public class Character {
     /**
      * The value to multiply scalarOne by, then add to the base hp to get the final hp value
      */
-    public final static int hpScalar = 5;
+    public final static int hpScalar = 7;
     /**
      * Maximum value for any stat
      */
