@@ -1,5 +1,6 @@
 package com.example.doome.text_baseddungeoncrawler;
 
+import android.app.Activity;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -263,6 +264,11 @@ public class Gameplay extends AppCompatActivity {
         gameInfo = (TextView) findViewById(R.id.gameInfo);
         setGameInfo();
         healthDisplay.setText(displayInfo);
+
+        if (getIntent().getExtras() != null && getIntent().getExtras().getString("action", "").equals("attack")) {
+            attack(this);
+            changeOutput(attack);
+        }
     }
     private void configureNextButton() {
         final Button progressButton = (Button) findViewById(R.id.submitButton);
@@ -299,9 +305,11 @@ public class Gameplay extends AppCompatActivity {
             }
             if (!turnAdvantage) {
                 enemyBattleStatus();
+                turnAdvantage = true;
             }
         } else {
             movementStatus(action);
+            turnAdvantage = true;
         }
         setGameInfo();
         setHealthDisplay();
@@ -314,7 +322,7 @@ public class Gameplay extends AppCompatActivity {
             consoleOutput = pleaseShake;
             startActivity(new Intent(Gameplay.this, Shake.class));
         } else if (action.equals(attackBypass)) {
-            attack();
+            attack(this);
         } else if (action.equals(run)) {
             if (thisPlayer.myPoints < 100) {
                 consoleOutput = insufficientPoints;
@@ -351,7 +359,6 @@ public class Gameplay extends AppCompatActivity {
                 consoleOutput += displayEnemyMiss;
             }
         }
-        turnAdvantage = true;
     }
     public static void movementStatus(String action) {
         if (action.equals(progress)) {
@@ -410,7 +417,8 @@ public class Gameplay extends AppCompatActivity {
     public static void setHealthDisplay() {
         healthDisplay.setText("Hp: " + thisPlayer.liveHP + "/" + thisPlayer.hp + " Points: " + thisPlayer.myPoints);
     }
-    public static void attack() {
+    public static void attack(Activity context) {
+        Gameplay.turnAdvantage = true;
             int dealtDamage = Gameplay.thisPlayer.determineHit(Gameplay.thisRoom.numberOne);
             if (dealtDamage != 0) {
                 Gameplay.consoleOutput = Gameplay.displayHit + dealtDamage + ". ";
@@ -432,6 +440,7 @@ public class Gameplay extends AppCompatActivity {
                 Gameplay.consoleOutput = Gameplay.displayMiss;
                 Gameplay.turnAdvantage = false;
             }
-        turnAdvantage = false;
+        Gameplay.turnAdvantage = false;
+
     }
 }
