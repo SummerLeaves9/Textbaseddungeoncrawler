@@ -219,7 +219,7 @@ public class Gameplay extends AppCompatActivity {
     /**
      * The message displayed when the player enters an empty room.
      */
-    public static final String emptyRoom = "You have entered the next room, room " + liveRoomCount + ".";
+    public static String emptyRoom = "You have entered the next room, room " + liveRoomCount + ".";
 
     EditText actionInput;
     static TextView healthDisplay;
@@ -355,8 +355,10 @@ public class Gameplay extends AppCompatActivity {
             if (liveRoomCount < roomCount) {
                 thisRoom = new Room();
                 liveRoomCount++;
+                emptyRoom = "You have entered the next room, room " + liveRoomCount + ".";
+                consoleOutput = emptyRoom;
                 if (!(thisRoom.numberOne.name.equals("null"))) {
-                    consoleOutput = startBattle;
+                    consoleOutput += startBattle;
                 } else {
                     consoleOutput = emptyRoom;
                     if (thisRoom.disSearchable) {
@@ -395,7 +397,7 @@ public class Gameplay extends AppCompatActivity {
         }
     }
     public static void setGameInfo() {
-        gameInfo.setText((consoleOutput));
+        gameInfo.setText(consoleOutput);
     }
     public static void setHealthDisplay() {
         healthDisplay.setText("Hp: " + thisPlayer.liveHP + "/" + thisPlayer.hp + " Points: " + thisPlayer.myPoints);

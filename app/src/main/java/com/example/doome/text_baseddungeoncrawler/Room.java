@@ -34,6 +34,7 @@ public class Room {
             double isSearchable = Math.random();
             if (enemyIndicator > enemyChance) {
                 numberOne.name = "null";
+            } else {
                 Gameplay.isBattling = true;
             }
             if (isSearchable < searchableChance) {
@@ -41,5 +42,4 @@ public class Room {
             }
         }
     }
-
 }
