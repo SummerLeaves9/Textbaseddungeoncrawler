@@ -37,6 +37,7 @@ public class Enemy extends Character{
     public Enemy() {
         determineType();
         determineEnemy(enemyType);
+        setAllStats();
         intelligenceValue = statMin;
         luckValue = statMin;
     }

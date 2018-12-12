@@ -80,16 +80,6 @@ public class Gameplay extends AppCompatActivity {
      */
     public boolean hasProgressed = false;
     /**
-     * The first instructions displayed in console output.
-     * Instructs the player to enter their name.
-     */
-    public static final String enterName = "Please enter your name.";
-    /**
-     * The second instructions displayed in the console output.
-     * Instructs the player to enter the name of their weapon.
-     */
-    public static final String enterWeaponName = "What weapon do you prefer to use?";
-    /**
      * The final string to compare the userInput to attack.
      */
     public static final String attack = "attack";
@@ -133,30 +123,30 @@ public class Gameplay extends AppCompatActivity {
     /**
      * The message displayed to the user upon trying an illegal action while in battle.
      */
-    public static final String cantInBattle = "You tried to, but the enemy insisted you stay!";
+    public static String cantInBattle = "You tried to, but the enemy insisted you stay!";
     /**
      * The message displayed to the user when they attack a monster.
      */
-    public static final String displayHit = "You use " + thisPlayer.weaponName + "and it hits! for ";
+    public static String displayHit = "You use " + thisPlayer.weaponName + " and it hits! for ";
     /**
      * The message displayed to the user when they attempt to attack, but miss
      */
-    public static final String displayMiss = "You use your " + thisPlayer.weaponName + ", but you miss.";
+    public static String displayMiss = "You use your " + thisPlayer.weaponName + ", but you miss. ";
     /**
      * The message displayed when an enemy's attack hits the player.
      */
-    public static final String displayEnemyHit = thisRoom.numberOne.name + " uses " +
+    public static String displayEnemyHit = thisRoom.numberOne.name + " uses " +
             thisRoom.numberOne.weaponName + " and it hits! for ";
     /**
      * The message displayed when an enemy's attack misses the player.
      */
-    public static final String displayEnemyMiss = thisRoom.numberOne.name + "uses " +
+    public static String displayEnemyMiss = thisRoom.numberOne.name + "uses " +
             thisRoom.numberOne.weaponName + ", but they miss.";
     /**
      * The message displayed to the user when they win and end a battle.
      * To be added onto an attack meesage, as this must be displayed before the battle could end.
      */
-    public static final String victoryMessage = "You won! " + thisRoom.numberOne.name +
+    public static String victoryMessage = "You won! " + thisRoom.numberOne.name +
             " dropped " + thisRoom.numberOne.pointValue + " points. Now you have " +
             thisPlayer.myPoints + " points!";
     /**
@@ -211,7 +201,7 @@ public class Gameplay extends AppCompatActivity {
     /**
      * The message displayed when a user progresses and enters battle with an enemy.
      */
-    public static String startBattle = "A " + thisRoom.numberOne.name + " appears in the room! Prepare for battle!";
+    public static String startBattle = " A " + thisRoom.numberOne.name + " appears in the room! Prepare for battle!";
     /**
      * The add-on message displayed to the user when the room can be searched.
      */
@@ -346,6 +336,8 @@ public class Gameplay extends AppCompatActivity {
                     consoleOutput += darkSouls;
                     isBattling = false;
                 }
+            } else {
+                consoleOutput += displayEnemyMiss;
             }
         }
         turnAdvantage = true;
@@ -358,6 +350,7 @@ public class Gameplay extends AppCompatActivity {
                 emptyRoom = "You have entered the next room, room " + liveRoomCount + ".";
                 consoleOutput = emptyRoom;
                 if (!(thisRoom.numberOne.name.equals("null"))) {
+                    startBattle = " A " + thisRoom.numberOne.name + " appears in the room! Prepare for battle!";
                     consoleOutput += startBattle;
                 } else {
                     consoleOutput = emptyRoom;
