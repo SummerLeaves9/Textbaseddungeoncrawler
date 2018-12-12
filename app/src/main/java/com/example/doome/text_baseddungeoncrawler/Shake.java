@@ -58,9 +58,7 @@ public class Shake extends AppCompatActivity {
                         shaken = false;
                     }
                 };
-                Intent intent = new Intent(Shake.this, Gameplay.class);
-                intent.putExtra("action", "attack");
-                startActivity(intent);
+                finish();
             }
         }
         @Override

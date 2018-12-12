@@ -267,7 +267,6 @@ public class Gameplay extends AppCompatActivity {
 
         if (getIntent().getExtras() != null && getIntent().getExtras().getString("action", "").equals("attack")) {
             attack(this);
-            changeOutput(attack);
         }
     }
     private void configureNextButton() {
@@ -320,6 +319,29 @@ public class Gameplay extends AppCompatActivity {
         } else if (action.equals(attack)) {
             isReadyToAttack = true;
             consoleOutput = pleaseShake;
+            Gameplay.turnAdvantage = true;
+            int dealtDamage = Gameplay.thisPlayer.determineHit(Gameplay.thisRoom.numberOne);
+            if (dealtDamage != 0) {
+                Gameplay.consoleOutput = Gameplay.displayHit + dealtDamage + ". ";
+                if (Gameplay.thisRoom.numberOne.liveHP <= 0) {
+                    Gameplay.thisPlayer.myPoints += Gameplay.thisRoom.numberOne.pointValue;
+                    Gameplay.victoryMessage = "You won! " + Gameplay.thisRoom.numberOne.name +
+                            " dropped " + Gameplay.thisRoom.numberOne.pointValue + " points. Now you have " +
+                            Gameplay.thisPlayer.myPoints + " points!";
+                    Gameplay.consoleOutput += Gameplay.victoryMessage;
+                    Gameplay.isBattling = false;
+                    Gameplay.enemiesDefeatedCounter++;
+                    if (Gameplay.thisRoom.disSearchable) {
+                        Gameplay.consoleOutput += Gameplay.canBeSearched;
+                    }
+                    Gameplay.displayInfo = "Hp:" + Gameplay.thisPlayer.liveHP + "/" + Gameplay.thisPlayer.hp + " Points: " + Gameplay.thisPlayer.myPoints;
+                    Gameplay.turnAdvantage = true;
+                }
+            } else {
+                Gameplay.consoleOutput = Gameplay.displayMiss;
+                Gameplay.turnAdvantage = false;
+            }
+            Gameplay.turnAdvantage = false;
             startActivity(new Intent(Gameplay.this, Shake.class));
         } else if (action.equals(attackBypass)) {
             attack(this);
