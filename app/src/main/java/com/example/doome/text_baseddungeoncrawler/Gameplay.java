@@ -88,6 +88,10 @@ public class Gameplay extends AppCompatActivity {
      */
     public static final String attack = "a";
     /**
+     * The final string used to bypass the shake to attack
+     */
+    public static final String attackBypass = "ab";
+    /**
      * The final string to compare the userInput to run.
      */
     public static final String run = "r";
@@ -308,6 +312,8 @@ public class Gameplay extends AppCompatActivity {
         } else if (action.equals(attack)) {
             isReadyToAttack = true;
             consoleOutput = pleaseShake;
+        } else if (action.equals(attackBypass)) {
+            attack();
         } else if (action.equals(run)) {
             if (thisPlayer.myPoints < 100) {
                 consoleOutput = insufficientPoints;
@@ -403,7 +409,28 @@ public class Gameplay extends AppCompatActivity {
     public static void setHealthDisplay() {
         healthDisplay.setText("Hp: " + thisPlayer.liveHP + "/" + thisPlayer.hp + " Points: " + thisPlayer.myPoints);
     }
-    public static void main(String[] args) {
-
+    public static void attack() {
+            int dealtDamage = Gameplay.thisPlayer.determineHit(Gameplay.thisRoom.numberOne);
+            if (dealtDamage != 0) {
+                Gameplay.consoleOutput = Gameplay.displayHit + dealtDamage + ". ";
+                if (Gameplay.thisRoom.numberOne.liveHP <= 0) {
+                    Gameplay.thisPlayer.myPoints += Gameplay.thisRoom.numberOne.pointValue;
+                    Gameplay.victoryMessage = "You won! " + Gameplay.thisRoom.numberOne.name +
+                            " dropped " + Gameplay.thisRoom.numberOne.pointValue + " points. Now you have " +
+                            Gameplay.thisPlayer.myPoints + " points!";
+                    Gameplay.consoleOutput += Gameplay.victoryMessage;
+                    Gameplay.isBattling = false;
+                    Gameplay.enemiesDefeatedCounter++;
+                    if (Gameplay.thisRoom.disSearchable) {
+                        Gameplay.consoleOutput += Gameplay.canBeSearched;
+                    }
+                    Gameplay.displayInfo = "Hp:" + Gameplay.thisPlayer.liveHP + "/" + Gameplay.thisPlayer.hp + " Points: " + Gameplay.thisPlayer.myPoints;
+                    Gameplay.turnAdvantage = true;
+                }
+            } else {
+                Gameplay.consoleOutput = Gameplay.displayMiss;
+                Gameplay.turnAdvantage = false;
+            }
+        turnAdvantage = false;
     }
 }

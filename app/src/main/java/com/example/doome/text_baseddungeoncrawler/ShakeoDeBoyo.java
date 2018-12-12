@@ -43,30 +43,7 @@ public class ShakeoDeBoyo extends AppCompatActivity {
             shake = shake * .9f + delta;
 
             if (shake > 10) {
-                if (Gameplay.isReadyToAttack) {
-                    int dealtDamage = Gameplay.thisPlayer.determineHit(Gameplay.thisRoom.numberOne);
-                    if (dealtDamage != 0) {
-                        Gameplay.consoleOutput = Gameplay.displayHit + dealtDamage + ". ";
-                        if (Gameplay.thisRoom.numberOne.liveHP <= 0) {
-                            Gameplay.thisPlayer.myPoints += Gameplay.thisRoom.numberOne.pointValue;
-                            Gameplay.victoryMessage = "You won! " + Gameplay.thisRoom.numberOne.name +
-                                    " dropped " + Gameplay.thisRoom.numberOne.pointValue + " points. Now you have " +
-                                    Gameplay.thisPlayer.myPoints + " points!";
-                            Gameplay.consoleOutput += Gameplay.victoryMessage;
-                            Gameplay.isBattling = false;
-                            Gameplay.enemiesDefeatedCounter++;
-                            if (Gameplay.thisRoom.disSearchable) {
-                                Gameplay.consoleOutput += Gameplay.canBeSearched;
-                            }
-                            Gameplay.displayInfo = "Hp:" + Gameplay.thisPlayer.liveHP + "/" + Gameplay.thisPlayer.hp + " Points: " + Gameplay.thisPlayer.myPoints;
-                            Gameplay.turnAdvantage = true;
-                        }
-                    } else {
-                        Gameplay.consoleOutput = Gameplay.displayMiss;
-                        Gameplay.turnAdvantage = false;
-                    }
-                    Gameplay.isReadyToAttack = false;
-                }
+                Gameplay.attack();
             }
         }
         @Override
