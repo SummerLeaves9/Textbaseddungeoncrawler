@@ -29,8 +29,8 @@
         <activity android:name=".HowToPlayTwo" />
         <activity android:name=".EnterNames" />
         <activity android:name=".FinishedGame" />
-        <activity android:name=".bloodborne" />
-        <activity android:name=".ShakeoDeBoyo" />
+        <activity android:name=".GameOverScreen" />
+        <activity android:name=".Shake" />
     </application>
 
 </manifest>

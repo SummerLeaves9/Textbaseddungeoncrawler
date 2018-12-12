@@ -184,15 +184,15 @@ public class Gameplay extends AppCompatActivity {
     /**
      * The message displayed when the user finds a attack boost secret.
      */
-    public static final String foundAttackUp = "You have found a potion, which increases muscular efficiency. Attack Power +2! ";
+    public static final String foundAttackUp = "You found a pinkish-purple potion which increases muscular efficiency. Attack Power +2! ";
     /**
      * The message displayed when the user finds a defense boost secret.
      */
-    public static final String foundDefenseUp = "You have found some new armor. It's still in good condition! Max HP +3! ";
+    public static final String foundDefenseUp = "You found some new armor. It's still in good condition! Max HP +3! ";
     /**
      * The message displayed when the user finds a point boost secret.
      */
-    public static final String foundPoints = "You have found some gold! Surely this will fetch a nice price. +300 Points! ";
+    public static final String foundPoints = "You found some gold! +300 Points! ";
     /**
      * The message displayed when the user fails to find a secret.
      */
@@ -248,6 +248,7 @@ public class Gameplay extends AppCompatActivity {
             thisPlayer = new Player(playerStrength, playerAccuracy, playerDefense, playerAgility,
                     playerIntelligence, playerLuck, playerName, playerWeaponName);
         }
+        thisPlayer.setAllStats();
         displayHit = "You use " + thisPlayer.weaponName + " and it hits! for ";
         displayMiss = "You use your " + thisPlayer.weaponName + ", but you miss. ";
         darkSouls = "You Died. Final Score: " + thisPlayer.myPoints + "\nPress enter to see how you did. ";
@@ -260,7 +261,6 @@ public class Gameplay extends AppCompatActivity {
         actionInput = (EditText) findViewById(R.id.actionInput);
         healthDisplay = (TextView) findViewById(R.id.healthDisplay);
         gameInfo = (TextView) findViewById(R.id.gameInfo);
-        thisPlayer.setAllStats();
         setGameInfo();
         healthDisplay.setText(displayInfo);
     }
@@ -280,7 +280,7 @@ public class Gameplay extends AppCompatActivity {
                     });
                 }
                 if (thisPlayer.liveHP <= 0) {
-                    startActivity(new Intent(Gameplay.this, bloodborne.class));
+                    startActivity(new Intent(Gameplay.this, GameOverScreen.class));
                 }
                 changeOutput(userInput);
                 setGameInfo();
@@ -292,7 +292,7 @@ public class Gameplay extends AppCompatActivity {
      * sets consoleOutput appropriately depending on what the user inputs.
      * @param action the passed command from the user to
      */
-    public static void changeOutput (String action) {
+    public void changeOutput (String action) {
         if (isBattling) {
             if (turnAdvantage) {
                 myBattleStatus(action);
@@ -306,12 +306,13 @@ public class Gameplay extends AppCompatActivity {
         setGameInfo();
         setHealthDisplay();
     }
-    public static void myBattleStatus (String action) {
+    public void myBattleStatus (String action) {
         if (action.equals(look) || action.equals(progress)) {
             consoleOutput = cantInBattle;
         } else if (action.equals(attack)) {
             isReadyToAttack = true;
             consoleOutput = pleaseShake;
+            startActivity(new Intent(Gameplay.this, Shake.class));
         } else if (action.equals(attackBypass)) {
             attack();
         } else if (action.equals(run)) {
