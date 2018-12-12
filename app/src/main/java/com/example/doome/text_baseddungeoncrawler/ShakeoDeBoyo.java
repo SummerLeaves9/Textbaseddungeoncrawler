@@ -19,7 +19,6 @@ public class ShakeoDeBoyo extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_shakeo_de_boyo);
 
         smh = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
         smh.registerListener(sensorListener, smh.getDefaultSensor(Sensor.TYPE_ACCELEROMETER), SensorManager.SENSOR_DELAY_NORMAL);
@@ -42,8 +41,11 @@ public class ShakeoDeBoyo extends AppCompatActivity {
             float delta = acelValue - acelLastValue;
             shake = shake * .9f + delta;
 
-            if (shake > 10) {
-                Gameplay.attack();
+            if (shake > 12) {
+                if (Gameplay.isReadyToAttack) {
+                    Gameplay.attack();
+                    Gameplay.isReadyToAttack = false;
+                }
             }
         }
         @Override
