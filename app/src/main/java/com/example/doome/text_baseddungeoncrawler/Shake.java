@@ -6,6 +6,7 @@ import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
+import android.os.CountDownTimer;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
@@ -16,6 +17,7 @@ public class Shake extends AppCompatActivity {
     private float acelValue;
     private float acelLastValue;
     private float shake;
+    private boolean shaken = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,6 +35,7 @@ public class Shake extends AppCompatActivity {
     private final SensorEventListener sensorListener = new SensorEventListener() {
         @Override
         public void onSensorChanged(SensorEvent sensorEvent) {
+            if (shaken) return;
 
             float x = sensorEvent.values[0];
             float y = sensorEvent.values[1];
@@ -43,9 +46,21 @@ public class Shake extends AppCompatActivity {
             float delta = acelValue - acelLastValue;
             shake = shake * .9f + delta;
 
-            if (shake > 11) {
-                startActivity(new Intent(Shake.this, Gameplay.class));
-                Gameplay.attack();
+            if (shake > 7) {
+                shaken = true;
+                new CountDownTimer(2000, 1000) {
+                    @Override
+                    public void onTick(long millisUntilFinished) {
+                    }
+
+                    @Override
+                    public void onFinish() {
+                        shaken = false;
+                    }
+                };
+                Intent intent = new Intent(Shake.this, Gameplay.class);
+                intent.putExtra("action", "attack");
+                startActivity(intent);
             }
         }
         @Override
