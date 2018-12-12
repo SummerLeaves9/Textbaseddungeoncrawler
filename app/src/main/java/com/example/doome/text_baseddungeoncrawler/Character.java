@@ -109,7 +109,7 @@ public class Character {
     /**
      * The base attackPower for all characters
      */
-    public static int baseAttackPower = 4;
+    public static int baseAttackPower = 3;
     /**
      * The base chance to land a critical hit for all characters. Only for characters with luckValue
      * above 0, otherwise their critChance is 0.
@@ -193,7 +193,7 @@ public class Character {
         for (int i = 0; i < strengthValue; i++) {
             scaled *= scalarTwo;
         }
-        attackPower = (int) Math.round(baseAttackPower * scaled);
+        attackPower = (int)  Math.round(baseAttackPower * scaled);
     }
     /**
      * Sets this character's chance to entirely dodge an attack, assuming the attacker lands their

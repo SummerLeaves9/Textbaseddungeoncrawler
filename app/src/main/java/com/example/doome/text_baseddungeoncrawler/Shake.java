@@ -1,6 +1,7 @@
 package com.example.doome.text_baseddungeoncrawler;
 
 import android.content.Context;
+import android.content.Intent;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
@@ -8,7 +9,7 @@ import android.hardware.SensorManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
-public class ShakeoDeBoyo extends AppCompatActivity {
+public class Shake extends AppCompatActivity {
 
     private SensorManager smh;
 
@@ -42,7 +43,8 @@ public class ShakeoDeBoyo extends AppCompatActivity {
             float delta = acelValue - acelLastValue;
             shake = shake * .9f + delta;
 
-            if (shake > 10) {
+            if (shake > 11) {
+                startActivity(new Intent(Shake.this, Gameplay.class));
                 Gameplay.attack();
             }
         }
