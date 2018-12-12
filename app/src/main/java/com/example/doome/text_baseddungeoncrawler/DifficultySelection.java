@@ -8,6 +8,7 @@ import android.widget.Button;
 
 public class DifficultySelection extends AppCompatActivity {
 
+    public static int gameRoomCount = 0;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -20,7 +21,7 @@ public class DifficultySelection extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 startActivity(new Intent(DifficultySelection.this, HowToPlay.class));
-                Dungeon.roomCount = Dungeon.easyRoomCount;
+                gameRoomCount = Dungeon.easyRoomCount;
             }
         });
         Button progressButton2 = (Button) findViewById(R.id.NormalButton);
@@ -28,7 +29,7 @@ public class DifficultySelection extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 startActivity(new Intent(DifficultySelection.this, HowToPlay.class));
-                Dungeon.roomCount = Dungeon.normalRoomCount;
+                gameRoomCount = Dungeon.normalRoomCount;
             }
         });
         Button progressButton3 = (Button) findViewById(R.id.HardButton);
@@ -36,7 +37,7 @@ public class DifficultySelection extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 startActivity(new Intent(DifficultySelection.this, HowToPlay.class));
-                Dungeon.roomCount = Dungeon.hardRoomCount;
+                gameRoomCount = Dungeon.hardRoomCount;
             }
         });
     }

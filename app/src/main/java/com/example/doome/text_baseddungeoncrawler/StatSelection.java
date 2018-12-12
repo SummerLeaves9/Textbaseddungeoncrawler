@@ -11,6 +11,13 @@ public class StatSelection extends AppCompatActivity {
 
     EditText enterStatsBar;
     int whichStat = 0;
+    public static boolean statsAreRandomized = false;
+    public static int statPlayerStrength;
+    public static int statPlayerAccuracy;
+    public static int statPlayerDefense;
+    public static int statPlayerAgility;
+    public static int statPlayerIntelligence;
+    public static int statPlayerLuck;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -31,22 +38,22 @@ public class StatSelection extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 if (whichStat == 0) {
-                    Gameplay.playerStrength = Integer.valueOf(enterStatsBar.getText().toString());
+                    statPlayerStrength = Integer.valueOf(enterStatsBar.getText().toString());
                     enterStatsBar.setHint("Accuracy");
                 } else if (whichStat == 1) {
-                    Gameplay.playerAccuracy = Integer.valueOf(enterStatsBar.getText().toString());
+                    statPlayerAccuracy = Integer.valueOf(enterStatsBar.getText().toString());
                     enterStatsBar.setHint("Agility");
                 } else if (whichStat == 2) {
-                    Gameplay.playerDefense = Integer.valueOf(enterStatsBar.getText().toString());
+                    statPlayerDefense = Integer.valueOf(enterStatsBar.getText().toString());
                     enterStatsBar.setHint("Defense");
                 } else if (whichStat == 3) {
-                    Gameplay.playerAgility = Integer.valueOf(enterStatsBar.getText().toString());
+                    statPlayerAgility = Integer.valueOf(enterStatsBar.getText().toString());
                     enterStatsBar.setHint("Intelligence");
                 } else if (whichStat == 4) {
-                    Gameplay.playerIntelligence = Integer.valueOf(enterStatsBar.getText().toString());
+                    statPlayerIntelligence = Integer.valueOf(enterStatsBar.getText().toString());
                     enterStatsBar.setHint("And finally, Luck");
                 } else if (whichStat == 5) {
-                    Gameplay.playerLuck = Integer.valueOf(enterStatsBar.getText().toString());
+                    statPlayerLuck = Integer.valueOf(enterStatsBar.getText().toString());
                     startActivity(new Intent(StatSelection.this, EnterNames.class));
                 }
                 enterStatsBar.setText("");
@@ -57,7 +64,7 @@ public class StatSelection extends AppCompatActivity {
         progressButton3.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Gameplay.isRandomized = true;
+                statsAreRandomized = true;
                 startActivity(new Intent(StatSelection.this, EnterNames.class));
             }
         });

@@ -178,7 +178,7 @@ public class Gameplay extends AppCompatActivity {
     /**
      * The message displayed when the user puts in an invalid command.
      */
-    public static final String invalidCommand = "Unlike real life, you can't do literaly anything. Please enter a valid command.";
+    public static final String invalidCommand = "Unlike real life, you can't do literally anything. Please enter a valid command.";
     /**
      * The message displayed when the user cannot search a room.
      */
@@ -186,7 +186,7 @@ public class Gameplay extends AppCompatActivity {
     /**
      * The message displayed when the user finds a attack boost secret.
      */
-    public static final String foundAttackUp = "You have found a potion, which increases muscular effeciency. Attack Power +2!";
+    public static final String foundAttackUp = "You have found a potion, which increases muscular efficiency. Attack Power +2!";
     /**
      * The message displayed when the user finds a defense boost secret.
      */
@@ -212,6 +212,14 @@ public class Gameplay extends AppCompatActivity {
      * The message displayed when a user progresses and enters battle with an enemy.
      */
     public static String startBattle = "A " + thisRoom.numberOne.name + " appears in the room! Prepare for battle!";
+    /**
+     * The add-on message displayed to the user when the room can be searched.
+     */
+    public static final String canBeSearched = " This room looks pretty big, so it may be worth looking around.";
+    /**
+     * The message displayed when the player enters an empty room.
+     */
+    public static final String emptyRoom = "You have entered the next room, room " + liveRoomCount + ".";
 
     EditText actionInput;
     static TextView healthDisplay;
@@ -222,13 +230,23 @@ public class Gameplay extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_gameplay);
+        roomCount = DifficultySelection.gameRoomCount;
+        playerName = EnterNames.enterName;
+        playerWeaponName = EnterNames.enterWeaponName;
+        playerStrength = StatSelection.statPlayerStrength;
+        playerAccuracy = StatSelection.statPlayerAccuracy;
+        playerDefense = StatSelection.statPlayerDefense;
+        playerAgility = StatSelection.statPlayerAgility;
+        playerIntelligence = StatSelection.statPlayerIntelligence;
+        playerLuck = StatSelection.statPlayerLuck;
+        isRandomized = StatSelection.statsAreRandomized;
         if (isRandomized) {
             thisPlayer = new Player(playerName, playerWeaponName);
         } else {
             thisPlayer = new Player(playerStrength, playerAccuracy, playerDefense, playerAgility,
                     playerIntelligence, playerLuck, playerName, playerWeaponName);
         }
-        consoleOutput = "Welcome, " + thisPlayer.name + "! Type any String to start!";
+        consoleOutput = "Welcome, " + thisPlayer.name + "! You are in an empty room, too small to be searched. If it could be searched, you could type, 'look'. To enter the next room, type 'progress'.";
         configureNextButton();
         actionInput = (EditText) findViewById(R.id.actionInput);
         healthDisplay = (TextView) findViewById(R.id.healthDisplay);
@@ -288,6 +306,9 @@ public class Gameplay extends AppCompatActivity {
                     isBattling = false;
                     thisPlayer.myPoints += thisRoom.numberOne.pointValue;
                     enemiesDefeatedCounter++;
+                    if (thisRoom.disSearchable) {
+                        consoleOutput += canBeSearched;
+                    }
                 }
             } else {
                 consoleOutput = displayMiss;
@@ -318,11 +339,13 @@ public class Gameplay extends AppCompatActivity {
     }
     public static void enemyBattleStatus() {
         int damageDealt = thisRoom.numberOne.determineHit(thisPlayer);
-        if (damageDealt != 0) {
-            consoleOutput += displayEnemyHit + damageDealt;
-            if (thisPlayer.liveHP <= 0) {
-                consoleOutput += darkSouls;
-                isBattling = false;
+        if (isBattling) {
+            if (damageDealt != 0) {
+                consoleOutput += displayEnemyHit + damageDealt;
+                if (thisPlayer.liveHP <= 0) {
+                    consoleOutput += darkSouls;
+                    isBattling = false;
+                }
             }
         }
         turnAdvantage = true;
@@ -332,9 +355,14 @@ public class Gameplay extends AppCompatActivity {
             if (liveRoomCount < roomCount) {
                 thisRoom = new Room();
                 liveRoomCount++;
-            }
-            if (thisRoom.numberOne != null) {
-                consoleOutput = startBattle;
+                if (!(thisRoom.numberOne.name.equals("null"))) {
+                    consoleOutput = startBattle;
+                } else {
+                    consoleOutput = emptyRoom;
+                    if (thisRoom.disSearchable) {
+                        consoleOutput += canBeSearched;
+                    }
+                }
             }
         } else if (action.equals(look)) {
             if (thisRoom.disSearchable) {

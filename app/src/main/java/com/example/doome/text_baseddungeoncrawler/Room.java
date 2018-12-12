@@ -16,7 +16,7 @@ public class Room {
     /**
      * If an enemy is in the room, this is how it will be accessed.
      */
-    public Enemy numberOne = null;
+    public Enemy numberOne = new Enemy();
     /**
      * The boolean that determines whether the user has searched the room.
      */
@@ -27,13 +27,14 @@ public class Room {
      */
     public Room() {
         if (Gameplay.liveRoomCount == 0) {
-            numberOne = null;
+            numberOne.name = "null";
             disSearchable = false;
         } else {
             double enemyIndicator = Math.random();
             double isSearchable = Math.random();
-            if (enemyIndicator < enemyChance) {
-                numberOne = new Enemy();
+            if (enemyIndicator > enemyChance) {
+                numberOne.name = "null";
+                Gameplay.isBattling = true;
             }
             if (isSearchable < searchableChance) {
                 disSearchable = true;

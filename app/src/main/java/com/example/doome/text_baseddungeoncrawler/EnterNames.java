@@ -11,6 +11,8 @@ public class EnterNames extends AppCompatActivity {
 
     EditText NameEnterName;
     EditText NameEnterWeaponName;
+    public static String enterName;
+    public static String enterWeaponName;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -24,8 +26,8 @@ public class EnterNames extends AppCompatActivity {
         progressButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Gameplay.playerName = NameEnterName.getText().toString();
-                Gameplay.playerWeaponName = NameEnterWeaponName.getText().toString();
+                enterName = NameEnterName.getText().toString();
+                enterWeaponName = NameEnterWeaponName.getText().toString();
                 startActivity(new Intent(EnterNames.this, Gameplay.class));
             }
         });
