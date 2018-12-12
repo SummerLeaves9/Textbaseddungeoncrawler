@@ -168,11 +168,11 @@ public class Gameplay extends AppCompatActivity {
     /**
      * The message displayed when the user runs from a battle successfully.
      */
-    public static final String ranAway = "You have ran away successfully. ";
+    public static final String ranAway = "You have ran away successfully. -100 points. ";
     /**
      * The message displayed when the user heals successfully.
      */
-    public static final String healed = "Your health has been fully restored. ";
+    public static final String healed = "Your health has been fully restored! -50 points. ";
     /**
      * The message displayed when the user puts in an invalid command.
      */
