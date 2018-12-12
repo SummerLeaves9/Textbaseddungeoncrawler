@@ -4,7 +4,7 @@ public class Player extends Character {
     /**
      * limit for stat points a player can give themselves
      */
-    public final int statPoints = 30;
+    public static final int statPoints = 30;
 
     public final int randomlyGeneratedStatCutoff = 6;
 
@@ -49,11 +49,11 @@ public class Player extends Character {
                         smallestStatIndex = i;
                     }
                 }
-                if (smallestStatIndex == accuracyIndex) {
+                if (smallestStatIndex == accuracyIndex && accuracyValue < statMax) {
                     accuracyValue++;
-                } else if (smallestStatIndex == strengthIndex) {
+                } else if (smallestStatIndex == strengthIndex && strengthValue < statMax) {
                     strengthValue++;
-                } else if (smallestStatIndex == defenseIndex) {
+                } else if (smallestStatIndex == defenseIndex && defenseValue < statMax) {
                     defenseValue++;
                 } else if (smallestStatIndex == agilityIndex) {
                     agilityValue++;

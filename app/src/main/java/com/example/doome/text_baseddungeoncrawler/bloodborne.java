@@ -51,5 +51,7 @@ public class bloodborne extends AppCompatActivity {
         } else if (Gameplay.roomCount == 45) {
             difficultyChosen.setText("Chosen Difficulty: Hard (45 rooms)");
         }
+        enemiesDefeated.setText("You defeated " + Gameplay.enemiesDefeatedCounter + " enemies.");
+        secretsFound.setText("You found " + Gameplay.secretsFoundCounter + " secrets.");
     }
 }

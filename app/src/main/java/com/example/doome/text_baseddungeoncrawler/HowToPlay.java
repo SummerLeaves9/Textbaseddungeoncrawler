@@ -17,7 +17,7 @@ public class HowToPlay extends AppCompatActivity {
         setContentView(R.layout.activity_how_to_play);
         configureNextButton();
         HowInstructionsOne = (TextView) findViewById(R.id.HowInstructionsOne);
-        HowInstructionsOne.setText("You wake up in a dark room, illuminated only by a torch mounted on the wall. The walls are made of rounded, coarse, gray bricks. To play, you enter text commands to battle monsters and search for secrets. After every action, you will be given a few options for things to do next. ");
+        HowInstructionsOne.setText("You wake up in a dark room, illuminated only by a torch mounted on the wall. The walls are made of rounded, coarse, gray bricks. To play, you enter text commands to battle monsters and search for secrets. After every action, you will be given a few options for things to do next. When exploring, type 'p' for progress to go to the next room, and 'l' for look to search for secrets. When in battle, type 'a' to attack, 'r' to run away to the next room, heal yourself, and spend 100 points, and 'h' to heal and spend 50 points.");
         HowSelectedDifficulty = (TextView) findViewById(R.id.HowSelectedDifficulty);
         HowSelectedDifficulty.setText("Selected Difficulty: " + DifficultySelection.gameRoomCount + " rooms");
     }

@@ -131,7 +131,7 @@ public class Character {
      * The base chance that a player finds a secret upon entering the "look" command, based on their
      * intelligence stat.
      */
-    public static double baseSecretChance = .04;
+    public static double baseSecretChance = .08;
     /**
      * The base additional chance to find a secret upon entering the "look" command based on the
      * intelligence stat.

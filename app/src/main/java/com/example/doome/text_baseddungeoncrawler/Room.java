@@ -4,11 +4,12 @@ public class Room {
     /**
      * chance that this room contains an enemy
      */
-    public double enemyChance = .45;
+    public double enemyChance = .65;
     /**
      * chance that this room is searchable.
+     * nice.
      */
-    public double searchableChance = .49;
+    public double searchableChance = .69;
     /**
      * Boolean that keeps track of whether this room can be searched.
      */

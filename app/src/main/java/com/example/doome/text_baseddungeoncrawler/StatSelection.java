@@ -38,23 +38,64 @@ public class StatSelection extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 if (whichStat == 0) {
-                    statPlayerStrength = Integer.valueOf(enterStatsBar.getText().toString());
-                    enterStatsBar.setHint("Accuracy");
+                    int strengthTry = Integer.valueOf(enterStatsBar.getText().toString());
+                    if (strengthTry <= Player.statMax && strengthTry >= Player.statMin) {
+                        statPlayerStrength = strengthTry;
+                        enterStatsBar.setHint("Accuracy");
+                    } else {
+                        whichStat--;
+                        enterStatsBar.setHint("That value was not between 0 and 10. Please try again.");
+                    }
                 } else if (whichStat == 1) {
-                    statPlayerAccuracy = Integer.valueOf(enterStatsBar.getText().toString());
-                    enterStatsBar.setHint("Agility");
+                    int accuracyTry = Integer.valueOf(enterStatsBar.getText().toString());
+                    if (accuracyTry <= Player.statMax && accuracyTry >= Player.statMin) {
+                        statPlayerAccuracy = accuracyTry;
+                        enterStatsBar.setHint("Defense");
+                    } else {
+                        whichStat--;
+                        enterStatsBar.setHint("That value was not between 0 and 10. Please try again.");
+                    }
                 } else if (whichStat == 2) {
-                    statPlayerDefense = Integer.valueOf(enterStatsBar.getText().toString());
-                    enterStatsBar.setHint("Defense");
+                    int defenseTry = Integer.valueOf(enterStatsBar.getText().toString());
+                    if (defenseTry <= Player.statMax && defenseTry >= Player.statMin) {
+                        statPlayerDefense = defenseTry;
+                        enterStatsBar.setHint("Agility");
+                    } else {
+                        whichStat--;
+                        enterStatsBar.setHint("That value was not between 0 and 10. Please try again.");
+                    }
                 } else if (whichStat == 3) {
-                    statPlayerAgility = Integer.valueOf(enterStatsBar.getText().toString());
-                    enterStatsBar.setHint("Intelligence");
+                    int agilityTry = Integer.valueOf(enterStatsBar.getText().toString());
+                    if (agilityTry <= Player.statMax && agilityTry >= Player.statMin) {
+                        statPlayerAgility = agilityTry;
+                        enterStatsBar.setHint("Intelligence");
+                    } else {
+                        whichStat--;
+                        enterStatsBar.setHint("That value was not between 0 and 10. Please try again.");
+                    }
                 } else if (whichStat == 4) {
-                    statPlayerIntelligence = Integer.valueOf(enterStatsBar.getText().toString());
-                    enterStatsBar.setHint("And finally, Luck");
+                    int intelligenceTry = Integer.valueOf(enterStatsBar.getText().toString());
+                    if (intelligenceTry <= Player.statMax && intelligenceTry >= Player.statMin) {
+                        statPlayerIntelligence = intelligenceTry;
+                        enterStatsBar.setHint("And finally, Luck");
+                    } else {
+                        whichStat--;
+                        enterStatsBar.setHint("That value was not between 0 and 10. Please try again.");
+                    }
                 } else if (whichStat == 5) {
-                    statPlayerLuck = Integer.valueOf(enterStatsBar.getText().toString());
-                    startActivity(new Intent(StatSelection.this, EnterNames.class));
+                    int luckTry = Integer.valueOf(enterStatsBar.getText().toString());
+                    if (luckTry <= Player.statMax && luckTry >= Player.statMin) {
+                        statPlayerLuck = luckTry;
+                    } else {
+                        whichStat--;
+                        enterStatsBar.setHint("That value was not between 0 and 10. Please try again.");
+                    }
+                    if (statPlayerAccuracy + statPlayerAgility + statPlayerDefense + statPlayerIntelligence + statPlayerLuck + statPlayerStrength == Player.statPoints) {
+                        startActivity(new Intent(StatSelection.this, EnterNames.class));
+                    } else {
+                        whichStat = -1;
+                        enterStatsBar.setHint("Your stats did not add up to the right number. Please enter stats which add up to 30.");
+                    }
                 }
                 enterStatsBar.setText("");
                 whichStat++;

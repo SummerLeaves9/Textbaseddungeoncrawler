@@ -13,7 +13,7 @@ public class ShakeoDeBoyo extends AppCompatActivity {
     private SensorManager smh;
 
     private float acelValue;
-    private float acelLast;
+    private float acelLastValue;
     private float shake;
 
     @Override
@@ -25,8 +25,8 @@ public class ShakeoDeBoyo extends AppCompatActivity {
         smh.registerListener(sensorListener, smh.getDefaultSensor(Sensor.TYPE_ACCELEROMETER), SensorManager.SENSOR_DELAY_NORMAL);
 
         acelValue = SensorManager.GRAVITY_EARTH;
-        acelLast = SensorManager.GRAVITY_EARTH;
-        shake = 0.00f;
+        acelLastValue = SensorManager.GRAVITY_EARTH;
+        shake = .00f;
     }
 
     private final SensorEventListener sensorListener = new SensorEventListener() {
@@ -37,12 +37,12 @@ public class ShakeoDeBoyo extends AppCompatActivity {
             float y = sensorEvent.values[1];
             float z = sensorEvent.values[2];
 
-            acelLast = acelValue;
-            acelValue = (float) Math.sqrt((double) (x*x + y*y + z*z));
-            float delta = acelValue - acelLast;
+            acelLastValue = acelValue;
+            acelValue = (float) Math.sqrt(x*x +y*y + z*z);
+            float delta = acelValue - acelLastValue;
             shake = shake * .9f + delta;
 
-            if(shake > 10) {
+            if (shake > 10) {
                 if (Gameplay.isReadyToAttack) {
                     int dealtDamage = Gameplay.thisPlayer.determineHit(Gameplay.thisRoom.numberOne);
                     if (dealtDamage != 0) {
@@ -69,7 +69,6 @@ public class ShakeoDeBoyo extends AppCompatActivity {
                 }
             }
         }
-
         @Override
         public void onAccuracyChanged(Sensor sensor, int accuracy) {
 

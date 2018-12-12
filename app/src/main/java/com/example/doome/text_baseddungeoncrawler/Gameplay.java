@@ -36,6 +36,10 @@ public class Gameplay extends AppCompatActivity {
      */
     public static boolean isRandomized = false;
     /**
+     * Used to show that you can shake to attack now.
+     */
+    public static boolean isReadyToAttack = false;
+    /**
      * The boolean to track when the user is in battle
      */
     public static boolean isBattling = false;
@@ -82,23 +86,23 @@ public class Gameplay extends AppCompatActivity {
     /**
      * The final string to compare the userInput to attack.
      */
-    public static final String attack = "attack";
+    public static final String attack = "a";
     /**
      * The final string to compare the userInput to run.
      */
-    public static final String run = "run";
+    public static final String run = "r";
     /**
      * The final string to compare the userInput to progress.
      */
-    public static final String progress = "progress";
+    public static final String progress = "p";
     /**
      * The final string to compare the userInput to look.
      */
-    public static final String look = "look";
+    public static final String look = "l";
     /**
      * The final string to compare the userInput to heal.
      */
-    public static final String heal = "heal";
+    public static final String heal = "h";
     /**
      * A counter used to show the player how many enemies they've defeated by the end of the game.
      */
@@ -152,47 +156,47 @@ public class Gameplay extends AppCompatActivity {
     /**
      * The message displayed when the user is defeated.
      */
-    public static String darkSouls = "You Died. Final Score: " + thisPlayer.myPoints + "\nPlease close the app and try again.";
+    public static String darkSouls = "You Died. Final Score: " + thisPlayer.myPoints + "\nPress enter to see how you did. ";
     /**
      * The message displayed when the user doesn't have enough points to run or heal.
      */
-    public static final String insufficientPoints = "You do not have enough points to do that.";
+    public static final String insufficientPoints = "You do not have enough points to do that. ";
     /**
      * The message displayed when the user runs from a battle successfully.
      */
-    public static final String ranAway = "You have ran away successfully.";
+    public static final String ranAway = "You have ran away successfully. ";
     /**
      * The message displayed when the user heals successfully.
      */
-    public static final String healed = "Your health has been fully restored.";
+    public static final String healed = "Your health has been fully restored. ";
     /**
      * The message displayed when the user puts in an invalid command.
      */
-    public static final String invalidCommand = "Unlike real life, you can't do literally anything. Please enter a valid command.";
+    public static final String invalidCommand = "Unlike real life, you can't do literally anything. Please enter a valid command. ";
     /**
      * The message displayed when the user cannot search a room.
      */
-    public static final String unsearchable = "You can tell everything about this room with a single glance. No need to search for secrets.";
+    public static final String unsearchable = "You can tell everything about this room with a single glance. No need to search for secrets. ";
     /**
      * The message displayed when the user finds a attack boost secret.
      */
-    public static final String foundAttackUp = "You have found a potion, which increases muscular efficiency. Attack Power +2!";
+    public static final String foundAttackUp = "You have found a potion, which increases muscular efficiency. Attack Power +2! ";
     /**
      * The message displayed when the user finds a defense boost secret.
      */
-    public static final String foundDefenseUp = "You have found some new armor. It's still in good condition! Max HP +3!";
+    public static final String foundDefenseUp = "You have found some new armor. It's still in good condition! Max HP +3! ";
     /**
      * The message displayed when the user finds a point boost secret.
      */
-    public static final String foundPoints = "You have found some gold! Surely this will fetch a nice price. +300 Points!";
+    public static final String foundPoints = "You have found some gold! Surely this will fetch a nice price. +300 Points! ";
     /**
      * The message displayed when the user fails to find a secret.
      */
-    public static final String noSecretFound = "You searched every nook and crany, but were unable to find anything. :( ";
+    public static final String noSecretFound = "You searched every nook and cranny, but were unable to find anything. :( ";
     /**
      * The message displayed when the user has already searched a room.
      */
-    public static final String alreadySearched = "You've already searched this room, seems unproductive to search it again.";
+    public static final String alreadySearched = "You've already searched this room, seems unproductive to search it again. ";
     /**
      * The string which will be used by the UI to display game text.
      * Is changed and redisplayed throughout play.
@@ -201,20 +205,24 @@ public class Gameplay extends AppCompatActivity {
     /**
      * The message displayed when a user progresses and enters battle with an enemy.
      */
-    public static String startBattle = " A " + thisRoom.numberOne.name + " appears in the room! Prepare for battle!";
+    public static String startBattle = " A " + thisRoom.numberOne.name + " appears in the room! Prepare for battle! ";
     /**
      * The add-on message displayed to the user when the room can be searched.
      */
-    public static final String canBeSearched = " This room looks pretty big, so it may be worth looking around.";
+    public static final String canBeSearched = " This room looks pretty big, so it may be worth looking around. ";
     /**
      * The message displayed when the player enters an empty room.
      */
     public static String emptyRoom = "You have entered the next room, room " + liveRoomCount + ".";
+    /**
+     * The message displayed when the player is prompted to shake their device in order to attack.
+     */
+    public static final String pleaseShake = "Shake to attack!";
 
     EditText actionInput;
     static TextView healthDisplay;
     static TextView gameInfo;
-    String displayInfo = new String("Hp:" + thisPlayer.liveHP + "/" + thisPlayer.hp + " Points: " + thisPlayer.myPoints);
+    static String displayInfo = new String("Hp:" + thisPlayer.liveHP + "/" + thisPlayer.hp + " Points: " + thisPlayer.myPoints);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -238,11 +246,12 @@ public class Gameplay extends AppCompatActivity {
         }
         displayHit = "You use " + thisPlayer.weaponName + " and it hits! for ";
         displayMiss = "You use your " + thisPlayer.weaponName + ", but you miss. ";
-        darkSouls = "You Died. Final Score: " + thisPlayer.myPoints + "\nPlease close the app and try again.";
+        darkSouls = "You Died. Final Score: " + thisPlayer.myPoints + "\nPress enter to see how you did. ";
         victoryMessage = "You won! " + thisRoom.numberOne.name +
                 " dropped " + thisRoom.numberOne.pointValue + " points. Now you have " +
                 thisPlayer.myPoints + " points!";
-        consoleOutput = "Welcome, " + thisPlayer.name + "! You are in an empty room, too small to be searched. If it could be searched, you could type, 'look'. To enter the next room, type 'progress'.";
+        consoleOutput = "Welcome, " + thisPlayer.name + "! You are in an empty room, too small to be searched. If it could be searched, you could type, 'l'. To enter the next room, type 'p'.";
+        displayInfo = new String("Hp:" + thisPlayer.liveHP + "/" + thisPlayer.hp + " Points: " + thisPlayer.myPoints);
         configureNextButton();
         actionInput = (EditText) findViewById(R.id.actionInput);
         healthDisplay = (TextView) findViewById(R.id.healthDisplay);
@@ -277,7 +286,7 @@ public class Gameplay extends AppCompatActivity {
 
     /**
      * sets consoleOutput appropriately depending on what the user inputs.
-     * @param action
+     * @param action the passed command from the user to
      */
     public static void changeOutput (String action) {
         if (isBattling) {
@@ -297,22 +306,8 @@ public class Gameplay extends AppCompatActivity {
         if (action.equals(look) || action.equals(progress)) {
             consoleOutput = cantInBattle;
         } else if (action.equals(attack)) {
-            int dealtDamage = thisPlayer.determineHit(thisRoom.numberOne);
-            if (dealtDamage != 0) {
-                consoleOutput = displayHit + dealtDamage + ". ";
-                if (thisRoom.numberOne.liveHP <= 0) {
-                    consoleOutput += victoryMessage;
-                    isBattling = false;
-                    thisPlayer.myPoints += thisRoom.numberOne.pointValue;
-                    enemiesDefeatedCounter++;
-                    if (thisRoom.disSearchable) {
-                        consoleOutput += canBeSearched;
-                    }
-                }
-            } else {
-                consoleOutput = displayMiss;
-            }
-            turnAdvantage = false;
+            isReadyToAttack = true;
+            consoleOutput = pleaseShake;
         } else if (action.equals(run)) {
             if (thisPlayer.myPoints < 100) {
                 consoleOutput = insufficientPoints;
@@ -340,7 +335,7 @@ public class Gameplay extends AppCompatActivity {
         int damageDealt = thisRoom.numberOne.determineHit(thisPlayer);
         if (isBattling) {
             if (damageDealt != 0) {
-                consoleOutput += displayEnemyHit + damageDealt;
+                consoleOutput += displayEnemyHit + damageDealt + ". ";
                 if (thisPlayer.liveHP <= 0) {
                     consoleOutput += darkSouls;
                     isBattling = false;
@@ -357,6 +352,10 @@ public class Gameplay extends AppCompatActivity {
                 thisRoom = new Room();
                 liveRoomCount++;
                 emptyRoom = "You have entered the next room, room " + liveRoomCount + ".";
+                displayEnemyHit = thisRoom.numberOne.name + " uses " +
+                        thisRoom.numberOne.weaponName + " and it hits! for ";
+                displayEnemyMiss = thisRoom.numberOne.name + " uses " +
+                        thisRoom.numberOne.weaponName + ", but they miss. Nice moves!";
                 consoleOutput = emptyRoom;
                 if (!(thisRoom.numberOne.name.equals("null"))) {
                     startBattle = " A " + thisRoom.numberOne.name + " appears in the room! Prepare for battle!";
