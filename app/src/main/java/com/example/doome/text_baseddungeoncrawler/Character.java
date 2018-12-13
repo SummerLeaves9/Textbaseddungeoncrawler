@@ -109,7 +109,7 @@ public class Character {
     /**
      * The base attackPower for all characters
      */
-    public static int baseAttackPower = 3;
+    public static int baseAttackPower = 4;
     /**
      * The base chance to land a critical hit for all characters. Only for characters with luckValue
      * above 0, otherwise their critChance is 0.
