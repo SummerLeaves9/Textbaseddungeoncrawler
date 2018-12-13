@@ -102,6 +102,7 @@ public class Player extends Character {
             luckValue = setLuck;
             name = setName;
             weaponName = setAttackName;
+            setAllStats();
         }
     }
 }

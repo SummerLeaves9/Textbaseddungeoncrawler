@@ -182,7 +182,6 @@ public class Character {
             scaled *= scalarOne;
         }
         hp = (int) Math.round(baseHP + (hpScalar * scaled));
-        System.out.println(hp);
     }
     /**
      * Sets this character's damage dealt per hit based on their strength stat.
@@ -193,7 +192,7 @@ public class Character {
         for (int i = 0; i < strengthValue; i++) {
             scaled *= scalarTwo;
         }
-        attackPower = (int)  Math.round(baseAttackPower * scaled);
+        attackPower = (byte)  Math.round(baseAttackPower * scaled);
     }
     /**
      * Sets this character's chance to entirely dodge an attack, assuming the attacker lands their
@@ -228,7 +227,7 @@ public class Character {
         for (int i = 0; i < accuracyValue; i++) {
             scaled *= scalarThree;
         }
-        hitChance = baseHitChance;
+        hitChance = baseHitChance * scaled;
     }
     /**
      * Sets this character's additional chance to entirely dodge an attack based on their luck stat,
@@ -287,8 +286,8 @@ public class Character {
         double otherDodgeResult = Math.random();
         double thisHitResult = Math.random();
         double thisCritResult = Math.random();
-        if (other.dodgeChance < otherDodgeResult && this.hitChance < thisHitResult) {
-            if (this.critChance < thisCritResult) {
+        if (other.dodgeChance < otherDodgeResult && this.hitChance > thisHitResult) {
+            if (thisCritResult < this.critChance) {
                 other.liveHP -= (int) (this.attackPower * critMultiplier);
                 return (int) (this.attackPower * critMultiplier);
             } else {

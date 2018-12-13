@@ -48,7 +48,7 @@ public class Shake extends AppCompatActivity {
 
             if (shake > 3) {
                 shaken = true;
-                new CountDownTimer(2000, 1000) {
+                new CountDownTimer(2000, 10) {
                     @Override
                     public void onTick(long millisUntilFinished) {
                     }

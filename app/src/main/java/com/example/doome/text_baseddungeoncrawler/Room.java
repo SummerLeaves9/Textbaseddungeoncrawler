@@ -33,7 +33,7 @@ public class Room {
         } else {
             double enemyIndicator = Math.random();
             double isSearchable = Math.random();
-            if (enemyIndicator > enemyChance) {
+            if (enemyIndicator < enemyChance) {
                 numberOne.name = "null";
             } else {
                 Gameplay.isBattling = true;

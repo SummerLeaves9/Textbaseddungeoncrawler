@@ -218,11 +218,15 @@ public class Gameplay extends AppCompatActivity {
     /**
      * The message displayed when the player enters an empty room.
      */
-    public static String emptyRoom = "You have entered the next room, room " + liveRoomCount + ".";
+    public static String emptyRoom = "You have entered the next room, room " + liveRoomCount + ". ";
     /**
      * The message displayed when the player is prompted to shake their device in order to attack.
      */
     public static final String pleaseShake = "Shake to attack!";
+    /**
+     * The message displayed to the user when either they or the enemy lands a critical hit.
+     */
+    public static final String criticalHit = "Critical hit! ";
 
     EditText actionInput;
     static TextView healthDisplay;
@@ -249,7 +253,6 @@ public class Gameplay extends AppCompatActivity {
             thisPlayer = new Player(playerStrength, playerAccuracy, playerDefense, playerAgility,
                     playerIntelligence, playerLuck, playerName, playerWeaponName);
         }
-        thisPlayer.setAllStats();
         displayHit = "You use " + thisPlayer.weaponName + " and it hits! for ";
         displayMiss = "You use your " + thisPlayer.weaponName + ", but you miss. ";
         darkSouls = "You Died. Final Score: " + thisPlayer.myPoints + "\nPress enter to see how you did. ";
@@ -257,7 +260,7 @@ public class Gameplay extends AppCompatActivity {
                 " dropped " + thisRoom.numberOne.pointValue + " points. Now you have " +
                 thisPlayer.myPoints + " points!";
         consoleOutput = "Welcome, " + thisPlayer.name + "! You are in an empty room, too small to be searched. If it could be searched, you could type, 'l'. To enter the next room, type 'p'.";
-        displayInfo = new String("Hp:" + thisPlayer.liveHP + "/" + thisPlayer.hp + " Points: " + thisPlayer.myPoints);
+        displayInfo = new String("Hp: " + thisPlayer.liveHP + "/" + thisPlayer.hp + " Points: " + thisPlayer.myPoints);
         configureNextButton();
         actionInput = (EditText) findViewById(R.id.actionInput);
         healthDisplay = (TextView) findViewById(R.id.healthDisplay);
@@ -265,9 +268,6 @@ public class Gameplay extends AppCompatActivity {
         setGameInfo();
         healthDisplay.setText(displayInfo);
 
-        if (getIntent().getExtras() != null && getIntent().getExtras().getString("action", "").equals("attack")) {
-            attack(this);
-        }
     }
     private void configureNextButton() {
         final Button progressButton = (Button) findViewById(R.id.submitButton);
@@ -317,34 +317,33 @@ public class Gameplay extends AppCompatActivity {
         if (action.equals(look) || action.equals(progress)) {
             consoleOutput = cantInBattle;
         } else if (action.equals(attack)) {
-            isReadyToAttack = true;
-            consoleOutput = pleaseShake;
-            Gameplay.turnAdvantage = true;
-            int dealtDamage = Gameplay.thisPlayer.determineHit(Gameplay.thisRoom.numberOne);
+            int dealtDamage = thisPlayer.determineHit(thisRoom.numberOne);
             if (dealtDamage != 0) {
-                Gameplay.consoleOutput = Gameplay.displayHit + dealtDamage + ". ";
-                if (Gameplay.thisRoom.numberOne.liveHP <= 0) {
-                    Gameplay.thisPlayer.myPoints += Gameplay.thisRoom.numberOne.pointValue;
-                    Gameplay.victoryMessage = "You won! " + Gameplay.thisRoom.numberOne.name +
-                            " dropped " + Gameplay.thisRoom.numberOne.pointValue + " points. Now you have " +
-                            Gameplay.thisPlayer.myPoints + " points!";
-                    Gameplay.consoleOutput += Gameplay.victoryMessage;
-                    Gameplay.isBattling = false;
-                    Gameplay.enemiesDefeatedCounter++;
-                    if (Gameplay.thisRoom.disSearchable) {
-                        Gameplay.consoleOutput += Gameplay.canBeSearched;
+                consoleOutput = displayHit + dealtDamage + ". ";
+                if (dealtDamage > thisPlayer.attackPower) {
+                    consoleOutput += criticalHit;
+                }
+                if (thisRoom.numberOne.liveHP <= 0) {
+                    enemyBattleStatus();
+                    thisPlayer.myPoints += thisRoom.numberOne.pointValue;
+                    victoryMessage = "You won! " + thisRoom.numberOne.name +
+                            " dropped " + thisRoom.numberOne.pointValue + " points. Now you have " +
+                            thisPlayer.myPoints + " points!";
+                    consoleOutput += Gameplay.victoryMessage;
+                    isBattling = false;
+                    enemiesDefeatedCounter++;
+                    if (thisRoom.disSearchable) {
+                        consoleOutput += canBeSearched;
                     }
-                    Gameplay.displayInfo = "Hp:" + Gameplay.thisPlayer.liveHP + "/" + Gameplay.thisPlayer.hp + " Points: " + Gameplay.thisPlayer.myPoints;
-                    Gameplay.turnAdvantage = true;
+                    displayInfo = "Hp: " + thisPlayer.liveHP + "/" + thisPlayer.hp + " Points: " + thisPlayer.myPoints;
                 }
             } else {
-                Gameplay.consoleOutput = Gameplay.displayMiss;
-                Gameplay.turnAdvantage = false;
+                consoleOutput = displayMiss + " " + thisPlayer.hitChance + " ";
             }
-            Gameplay.turnAdvantage = false;
+            turnAdvantage = false;
             startActivity(new Intent(Gameplay.this, Shake.class));
         } else if (action.equals(attackBypass)) {
-            attack(this);
+            attack();
         } else if (action.equals(run)) {
             if (thisPlayer.myPoints < 100) {
                 consoleOutput = insufficientPoints;
@@ -373,9 +372,12 @@ public class Gameplay extends AppCompatActivity {
         if (isBattling) {
             if (damageDealt != 0) {
                 consoleOutput += displayEnemyHit + damageDealt + ". ";
+                if (damageDealt > thisRoom.numberOne.attackPower) {
+                    consoleOutput += criticalHit;
+                }
                 if (thisPlayer.liveHP <= 0) {
-                    consoleOutput += darkSouls;
                     isBattling = false;
+                    consoleOutput += darkSouls;
                 }
             } else {
                 consoleOutput += displayEnemyMiss;
@@ -391,7 +393,7 @@ public class Gameplay extends AppCompatActivity {
                 displayEnemyHit = thisRoom.numberOne.name + " uses " +
                         thisRoom.numberOne.weaponName + " and it hits! for ";
                 displayEnemyMiss = thisRoom.numberOne.name + " uses " +
-                        thisRoom.numberOne.weaponName + ", but they miss. Nice moves!";
+                        thisRoom.numberOne.weaponName + ", but they miss. Nice dodge!";
                 consoleOutput = emptyRoom;
                 if (!(thisRoom.numberOne.name.equals("null"))) {
                     startBattle = " A " + thisRoom.numberOne.name + " appears in the room! Prepare for battle!";
@@ -439,29 +441,29 @@ public class Gameplay extends AppCompatActivity {
     public static void setHealthDisplay() {
         healthDisplay.setText("Hp: " + thisPlayer.liveHP + "/" + thisPlayer.hp + " Points: " + thisPlayer.myPoints);
     }
-    public static void attack(Activity context) {
-        Gameplay.turnAdvantage = true;
-            int dealtDamage = Gameplay.thisPlayer.determineHit(Gameplay.thisRoom.numberOne);
-            if (dealtDamage != 0) {
-                Gameplay.consoleOutput = Gameplay.displayHit + dealtDamage + ". ";
-                if (Gameplay.thisRoom.numberOne.liveHP <= 0) {
-                    Gameplay.thisPlayer.myPoints += Gameplay.thisRoom.numberOne.pointValue;
-                    Gameplay.victoryMessage = "You won! " + Gameplay.thisRoom.numberOne.name +
-                            " dropped " + Gameplay.thisRoom.numberOne.pointValue + " points. Now you have " +
-                            Gameplay.thisPlayer.myPoints + " points!";
-                    Gameplay.consoleOutput += Gameplay.victoryMessage;
-                    Gameplay.isBattling = false;
-                    Gameplay.enemiesDefeatedCounter++;
-                    if (Gameplay.thisRoom.disSearchable) {
-                        Gameplay.consoleOutput += Gameplay.canBeSearched;
-                    }
-                    Gameplay.displayInfo = "Hp:" + Gameplay.thisPlayer.liveHP + "/" + Gameplay.thisPlayer.hp + " Points: " + Gameplay.thisPlayer.myPoints;
-                    Gameplay.turnAdvantage = true;
+    public static void attack() {
+        turnAdvantage = true;
+        int dealtDamage = thisPlayer.determineHit(thisRoom.numberOne);
+        if (dealtDamage != 0) {
+            consoleOutput = displayHit + dealtDamage + ". ";
+            if (thisRoom.numberOne.liveHP <= 0) {
+                thisPlayer.myPoints += thisRoom.numberOne.pointValue;
+                victoryMessage = "You won! " + thisRoom.numberOne.name +
+                        " dropped " + thisRoom.numberOne.pointValue + " points. Now you have " +
+                        thisPlayer.myPoints + " points!";
+                consoleOutput += victoryMessage;
+                isBattling = false;
+                enemiesDefeatedCounter++;
+                if (thisRoom.disSearchable) {
+                    consoleOutput += Gameplay.canBeSearched;
                 }
-            } else {
-                Gameplay.consoleOutput = Gameplay.displayMiss;
-                Gameplay.turnAdvantage = false;
+                displayInfo = "Hp:" + thisPlayer.liveHP + "/" + thisPlayer.hp + " Points: " + thisPlayer.myPoints;
+                turnAdvantage = true;
             }
+        } else {
+            Gameplay.consoleOutput = Gameplay.displayMiss;
+            Gameplay.turnAdvantage = false;
+        }
         Gameplay.turnAdvantage = false;
 
     }
