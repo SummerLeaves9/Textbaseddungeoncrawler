@@ -214,7 +214,7 @@ public class Gameplay extends AppCompatActivity {
     /**
      * The add-on message displayed to the user when the room can be searched.
      */
-    public static final String canBeSearched = " This room looks pretty big, so it may be worth looking around. ";
+    public static final String canBeSearched = " This room is expansive, so it may be worth looking around. ";
     /**
      * The message displayed when the player enters an empty room.
      */
@@ -317,31 +317,8 @@ public class Gameplay extends AppCompatActivity {
         if (action.equals(look) || action.equals(progress)) {
             consoleOutput = cantInBattle;
         } else if (action.equals(attack)) {
-            int dealtDamage = thisPlayer.determineHit(thisRoom.numberOne);
-            if (dealtDamage != 0) {
-                consoleOutput = displayHit + dealtDamage + ". ";
-                if (dealtDamage > thisPlayer.attackPower) {
-                    consoleOutput += criticalHit;
-                }
-                if (thisRoom.numberOne.liveHP <= 0) {
-                    enemyBattleStatus();
-                    thisPlayer.myPoints += thisRoom.numberOne.pointValue;
-                    victoryMessage = "You won! " + thisRoom.numberOne.name +
-                            " dropped " + thisRoom.numberOne.pointValue + " points. Now you have " +
-                            thisPlayer.myPoints + " points!";
-                    consoleOutput += Gameplay.victoryMessage;
-                    isBattling = false;
-                    enemiesDefeatedCounter++;
-                    if (thisRoom.disSearchable) {
-                        consoleOutput += canBeSearched;
-                    }
-                    displayInfo = "Hp: " + thisPlayer.liveHP + "/" + thisPlayer.hp + " Points: " + thisPlayer.myPoints;
-                }
-            } else {
-                consoleOutput = displayMiss + " " + thisPlayer.hitChance + " ";
-            }
-            turnAdvantage = false;
             startActivity(new Intent(Gameplay.this, Shake.class));
+            attack();
         } else if (action.equals(attackBypass)) {
             attack();
         } else if (action.equals(run)) {
@@ -442,29 +419,31 @@ public class Gameplay extends AppCompatActivity {
         healthDisplay.setText("Hp: " + thisPlayer.liveHP + "/" + thisPlayer.hp + " Points: " + thisPlayer.myPoints);
     }
     public static void attack() {
-        turnAdvantage = true;
         int dealtDamage = thisPlayer.determineHit(thisRoom.numberOne);
         if (dealtDamage != 0) {
             consoleOutput = displayHit + dealtDamage + ". ";
+            if (dealtDamage > thisPlayer.attackPower) {
+                consoleOutput += criticalHit;
+            }
             if (thisRoom.numberOne.liveHP <= 0) {
                 thisPlayer.myPoints += thisRoom.numberOne.pointValue;
                 victoryMessage = "You won! " + thisRoom.numberOne.name +
                         " dropped " + thisRoom.numberOne.pointValue + " points. Now you have " +
                         thisPlayer.myPoints + " points!";
-                consoleOutput += victoryMessage;
+                consoleOutput += Gameplay.victoryMessage;
                 isBattling = false;
                 enemiesDefeatedCounter++;
                 if (thisRoom.disSearchable) {
-                    consoleOutput += Gameplay.canBeSearched;
+                    consoleOutput += canBeSearched;
                 }
-                displayInfo = "Hp:" + thisPlayer.liveHP + "/" + thisPlayer.hp + " Points: " + thisPlayer.myPoints;
+                displayInfo = "Hp: " + thisPlayer.liveHP + "/" + thisPlayer.hp + " Points: " + thisPlayer.myPoints;
                 turnAdvantage = true;
+            } else {
+                turnAdvantage = false;
             }
         } else {
-            Gameplay.consoleOutput = Gameplay.displayMiss;
-            Gameplay.turnAdvantage = false;
+            consoleOutput = displayMiss;
+            turnAdvantage = false;
         }
-        Gameplay.turnAdvantage = false;
-
     }
 }
