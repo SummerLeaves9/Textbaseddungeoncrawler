@@ -177,7 +177,7 @@ public class Gameplay extends AppCompatActivity {
     /**
      * The message displayed when the user puts in an invalid command.
      */
-    public static final String invalidCommand = "Unlike real life, you can't do literally anything. Please enter a valid command. ";
+    public static final String invalidCommand = "Unlike real life, you can't do anything you want. Please enter an appropriate command. ";
     /**
      * The message displayed when the user cannot search a room.
      */
@@ -189,7 +189,7 @@ public class Gameplay extends AppCompatActivity {
     /**
      * The message displayed when the user finds a defense boost secret.
      */
-    public static final String foundDefenseUp = "You found some new armor. It's still in good condition! Max HP +3! ";
+    public static final String foundDefenseUp = "You found some armor. Stylish! Max HP +3! ";
     /**
      * The message displayed when the user finds a point boost secret.
      */
@@ -201,7 +201,7 @@ public class Gameplay extends AppCompatActivity {
     /**
      * The message displayed when the user has already searched a room.
      */
-    public static final String alreadySearched = "You've already searched this room, seems unproductive to search it again. ";
+    public static final String alreadySearched = "You've already searched this room: it seems unproductive to search it again. ";
     /**
      * The string which will be used by the UI to display game text.
      * Is changed and redisplayed throughout play.
@@ -210,7 +210,7 @@ public class Gameplay extends AppCompatActivity {
     /**
      * The message displayed when a user progresses and enters battle with an enemy.
      */
-    public static String startBattle = " A " + thisRoom.numberOne.name + " appears in the room! Prepare for battle! ";
+    public static String startBattle = " A " + thisRoom.numberOne.name + " appears in this room! Prepare for battle! ";
     /**
      * The add-on message displayed to the user when the room can be searched.
      */
