@@ -22,7 +22,7 @@ public class GameOverScreen extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_finished_game);
+        setContentView(R.layout.activity_bloodborne);
         score = (TextView) findViewById(R.id.score);
         playerName1 = (TextView) findViewById(R.id.playerName1);
         playerWeaponName1 = (TextView) findViewById(R.id.playerWeaponName1);

@@ -173,7 +173,7 @@ public class Gameplay extends AppCompatActivity {
     /**
      * The message displayed when the user heals successfully.
      */
-    public static final String healed = "Your health has been fully restored! -50 points. ";
+    public static final String healed = "You drink some soy milk. Your health has been fully restored! -50 points. ";
     /**
      * The message displayed when the user puts in an invalid command.
      */
@@ -193,11 +193,11 @@ public class Gameplay extends AppCompatActivity {
     /**
      * The message displayed when the user finds a point boost secret.
      */
-    public static final String foundPoints = "You found some gold! +300 Points! ";
+    public static final String foundPoints = "You found some soy milk. Nutritious! +300 Points! ";
     /**
      * The message displayed when the user fails to find a secret.
      */
-    public static final String noSecretFound = "You searched every nook and cranny, but were unable to find anything. :( ";
+    public static final String noSecretFound = "You searched every nook and cranny, but were unable to find anything :( There's nothing else to do in this room. ";
     /**
      * The message displayed when the user has already searched a room.
      */
@@ -214,19 +214,19 @@ public class Gameplay extends AppCompatActivity {
     /**
      * The add-on message displayed to the user when the room can be searched.
      */
-    public static final String canBeSearched = " This room is expansive, so it may be worth looking around. ";
+    public static final String canBeSearched = " You find a hidden opening in the wall here! What could it be? ";
     /**
      * The message displayed when the player enters an empty room.
      */
     public static String emptyRoom = "You have entered the next room, room " + liveRoomCount + ". ";
     /**
-     * The message displayed when the player is prompted to shake their device in order to attack.
-     */
-    public static final String pleaseShake = "Shake to attack!";
-    /**
      * The message displayed to the user when either they or the enemy lands a critical hit.
      */
     public static final String criticalHit = "Critical hit! ";
+    /**
+     * the message added on to the end when the player looks for and finds a secret
+     */
+    public static final String nothingElse = "It seems there is nothing else in this room. ";
 
     EditText actionInput;
     static TextView healthDisplay;
@@ -389,14 +389,14 @@ public class Gameplay extends AppCompatActivity {
                     if (foundSecret == 0) {
                         consoleOutput = noSecretFound;
                     } else if (foundSecret == 1) {
-                        consoleOutput = foundAttackUp;
+                        consoleOutput = foundAttackUp + nothingElse;
                         thisPlayer.attackPower += 2;
                     } else if (foundSecret == 2) {
-                        consoleOutput = foundDefenseUp;
+                        consoleOutput = foundDefenseUp + nothingElse;
                         thisPlayer.hp += 3;
                         thisPlayer.liveHP += 3;
                     } else if (foundSecret == 3) {
-                        consoleOutput = foundPoints;
+                        consoleOutput = foundPoints + nothingElse;
                         thisPlayer.myPoints += 300;
                     }
                     thisRoom.roomSearched = true;

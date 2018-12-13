@@ -79,9 +79,7 @@
             android:id="@+id/displayIntelligence"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="TextView"
-            android:textColor="@android:color/black"
-            android:textSize="18sp" />
+            android:text="TextView" />
 
         <TextView
             android:id="@+id/displayLuck"
@@ -114,5 +112,6 @@
             android:text="TextView"
             android:textColor="@android:color/black"
             android:textSize="18sp" />
+
     </LinearLayout>
 </ScrollView>
