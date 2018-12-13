@@ -46,7 +46,7 @@ public class Shake extends AppCompatActivity {
             float delta = acelValue - acelLastValue;
             shake = shake * .9f + delta;
 
-            if (shake > 4) {
+            if (shake > 3) {
                 shaken = true;
                 new CountDownTimer(2000, 1000) {
                     @Override
