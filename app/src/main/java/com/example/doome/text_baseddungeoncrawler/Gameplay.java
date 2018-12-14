@@ -201,7 +201,7 @@ public class Gameplay extends AppCompatActivity {
     /**
      * The message displayed when the user has already searched a room.
      */
-    public static final String alreadySearched = "You've already searched this room: it seems unproductive to search it again. ";
+    public static final String alreadySearched = "You've already searched this room: it would be unproductive to search it again. ";
     /**
      * The string which will be used by the UI to display game text.
      * Is changed and redisplayed throughout play.
@@ -405,8 +405,17 @@ public class Gameplay extends AppCompatActivity {
                 } else {
                     consoleOutput = alreadySearched;
                 }
-            } else {
+            }  else {
                 consoleOutput = unsearchable;
+            }
+        } else if (action.equals(heal)) {
+            if (thisPlayer.myPoints < 50) {
+                consoleOutput = insufficientPoints;
+            } else {
+                thisPlayer.myPoints -= 50;
+                consoleOutput = healed;
+                thisPlayer.liveHP = thisPlayer.hp;
+                turnAdvantage = false;
             }
         } else {
             consoleOutput = invalidCommand;
