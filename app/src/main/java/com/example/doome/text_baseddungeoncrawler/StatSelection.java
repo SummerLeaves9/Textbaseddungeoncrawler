@@ -101,13 +101,5 @@ public class StatSelection extends AppCompatActivity {
                 whichStat++;
             }
         });
-        Button progressButton3 = (Button) findViewById(R.id.StatStatRandomizer);
-        progressButton3.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                statsAreRandomized = true;
-                startActivity(new Intent(StatSelection.this, EnterNames.class));
-            }
-        });
     }
 }

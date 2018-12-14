@@ -42,11 +42,5 @@
             android:inputType="number"
             android:text="Enter" />
 
-        <Button
-            android:id="@+id/StatStatRandomizer"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Randomize my stats!" />
-
     </LinearLayout>
 </ScrollView>
