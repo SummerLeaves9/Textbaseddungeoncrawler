@@ -1,6 +1,5 @@
 package com.example.doome.text_baseddungeoncrawler;
 
-import android.app.Activity;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -173,7 +172,7 @@ public class Gameplay extends AppCompatActivity {
     /**
      * The message displayed when the user heals successfully.
      */
-    public static final String healed = "You drink some soy milk. Your health has been fully restored! -50 points. ";
+    public static final String healed = "You drink some soy milk. You recovered 12 HP! -50 points. ";
     /**
      * The message displayed when the user puts in an invalid command.
      */
@@ -185,11 +184,11 @@ public class Gameplay extends AppCompatActivity {
     /**
      * The message displayed when the user finds a attack boost secret.
      */
-    public static final String foundAttackUp = "You found a pinkish-purple potion which increases muscular efficiency. Attack Power +2! ";
+    public static final String foundAttackUp = "You found a pinkish-purple potion which increases muscular efficiency. Attack Power +1! ";
     /**
      * The message displayed when the user finds a defense boost secret.
      */
-    public static final String foundDefenseUp = "You found some armor. Stylish! Max HP +3! ";
+    public static final String foundDefenseUp = "You found some armor. Stylish! Max HP +2! ";
     /**
      * The message displayed when the user finds a point boost secret.
      */
@@ -197,7 +196,7 @@ public class Gameplay extends AppCompatActivity {
     /**
      * The message displayed when the user fails to find a secret.
      */
-    public static final String noSecretFound = "You searched every nook and cranny, but were unable to find anything :( There's nothing else to do in this room. ";
+    public static final String noSecretFound = "You searched every nook and cranny, but were unable to find anything... There's nothing else to do in this room. ";
     /**
      * The message displayed when the user has already searched a room.
      */
@@ -267,7 +266,6 @@ public class Gameplay extends AppCompatActivity {
         gameInfo = (TextView) findViewById(R.id.gameInfo);
         setGameInfo();
         healthDisplay.setText(displayInfo);
-
     }
     private void configureNextButton() {
         final Button progressButton = (Button) findViewById(R.id.submitButton);
@@ -276,7 +274,7 @@ public class Gameplay extends AppCompatActivity {
             public void onClick(View view) {
                 userInput = actionInput.getText().toString();
                 actionInput.setText("");
-                if (liveRoomCount == roomCount) {
+                if (liveRoomCount == roomCount && !isBattling) {
                     progressButton.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
@@ -332,14 +330,7 @@ public class Gameplay extends AppCompatActivity {
                 movementStatus(progress);
             }
         } else if (action.equals(heal)) {
-            if (thisPlayer.myPoints < 50) {
-                consoleOutput = insufficientPoints;
-            } else {
-                thisPlayer.myPoints -= 50;
-                consoleOutput = healed;
-                thisPlayer.liveHP = thisPlayer.hp;
-                turnAdvantage = false;
-            }
+            heal();
         } else {
             consoleOutput = invalidCommand;
         }
@@ -390,11 +381,11 @@ public class Gameplay extends AppCompatActivity {
                         consoleOutput = noSecretFound;
                     } else if (foundSecret == 1) {
                         consoleOutput = foundAttackUp + nothingElse;
-                        thisPlayer.attackPower += 2;
+                        thisPlayer.attackPower++;
                     } else if (foundSecret == 2) {
                         consoleOutput = foundDefenseUp + nothingElse;
-                        thisPlayer.hp += 3;
-                        thisPlayer.liveHP += 3;
+                        thisPlayer.hp += 2;
+                        thisPlayer.liveHP += 2;
                     } else if (foundSecret == 3) {
                         consoleOutput = foundPoints + nothingElse;
                         thisPlayer.myPoints += 300;
@@ -409,14 +400,7 @@ public class Gameplay extends AppCompatActivity {
                 consoleOutput = unsearchable;
             }
         } else if (action.equals(heal)) {
-            if (thisPlayer.myPoints < 50) {
-                consoleOutput = insufficientPoints;
-            } else {
-                thisPlayer.myPoints -= 50;
-                consoleOutput = healed;
-                thisPlayer.liveHP = thisPlayer.hp;
-                turnAdvantage = false;
-            }
+            heal();
         } else {
             consoleOutput = invalidCommand;
         }
@@ -452,6 +436,16 @@ public class Gameplay extends AppCompatActivity {
             }
         } else {
             consoleOutput = displayMiss;
+            turnAdvantage = false;
+        }
+    }
+    public static void heal() {
+        if (thisPlayer.myPoints < 50) {
+            consoleOutput = insufficientPoints;
+        } else {
+            thisPlayer.myPoints -= 50;
+            consoleOutput = healed;
+            thisPlayer.liveHP += 12;
             turnAdvantage = false;
         }
     }
