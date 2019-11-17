@@ -199,6 +199,7 @@ public class Gameplay extends AppCompatActivity {
         Button progressButton = (Button) findViewById(R.id.submitButton);
         Button attackButton = (Button) findViewById(R.id.attackButton);
         Button spellButton = (Button) findViewById(R.id.spellButton);
+        Button defendButton = (Button) findViewById(R.id.defendButton);
         progressButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
