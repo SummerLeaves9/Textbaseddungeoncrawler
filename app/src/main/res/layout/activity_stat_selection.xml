@@ -14,10 +14,10 @@
         tools:layout_editor_absoluteY="0dp">
 
         <TextView
-            android:id="@+id/textView9"
+            android:id="@+id/StatSelect"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Now, enter your stats! Make sure to press enter after each number. No stat can be below 0 or above 10. Additionally, the sum of all your stat points must be 30."
+            android:text="Select stats. Points remaining:"
             android:textColor="@android:color/black"
             android:textSize="20sp" />
 
@@ -25,22 +25,95 @@
             android:id="@+id/StatBackButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Back to how to play" />
+            android:text="Back to Difficulty Selection" />
 
-        <EditText
-            android:id="@+id/enterStatsBar"
+        <TextView
+            android:id="@+id/StatIndicator"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="first, Strength"
-            android:inputType="number"
-            android:textSize="14sp" />
+            android:textSize="30sp" />
 
         <Button
-            android:id="@+id/StatStatEnterButton"
+            android:id="@+id/EnterZero"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:inputType="number"
-            android:text="Enter" />
+            android:text="0" />
+
+        <TableLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" >
+
+                <Button
+                    android:id="@+id/EnterOne"
+                    android:layout_width="60dp"
+                    android:layout_height="wrap_content"
+                    android:text="1" />
+
+                <Button
+                    android:id="@+id/EnterTwo"
+                    android:layout_width="60dp"
+                    android:layout_height="wrap_content"
+                    android:text="2" />
+
+                <Button
+                    android:id="@+id/EnterThree"
+                    android:layout_width="60dp"
+                    android:layout_height="wrap_content"
+                    android:text="3" />
+
+                <Button
+                    android:id="@+id/EnterFour"
+                    android:layout_width="60dp"
+                    android:layout_height="wrap_content"
+                    android:text="4" />
+
+                <Button
+                    android:id="@+id/EnterFive"
+                    android:layout_width="60dp"
+                    android:layout_height="wrap_content"
+                    android:text="5" />
+            </TableRow>
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" >
+
+                <Button
+                    android:id="@+id/EnterSix"
+                    android:layout_width="60dp"
+                    android:layout_height="wrap_content"
+                    android:text="6" />
+
+                <Button
+                    android:id="@+id/EnterSeven"
+                    android:layout_width="60dp"
+                    android:layout_height="wrap_content"
+                    android:text="7" />
+
+                <Button
+                    android:id="@+id/EnterEight"
+                    android:layout_width="60dp"
+                    android:layout_height="wrap_content"
+                    android:text="8" />
+
+                <Button
+                    android:id="@+id/EnterNine"
+                    android:layout_width="60dp"
+                    android:layout_height="wrap_content"
+                    android:text="9" />
+
+                <Button
+                    android:id="@+id/EnterTen"
+                    android:layout_width="60dp"
+                    android:layout_height="wrap_content"
+                    android:text="10" />
+            </TableRow>
+
+        </TableLayout>
 
     </LinearLayout>
 </ScrollView>

@@ -4,90 +4,72 @@ public class Character {
     /**
      * Number of stat points this character has for Accuracy.
      */
-    public int accuracyValue;
-    /**
-     * Index of accuracyValue used for accessing the value when it's in an array.
-     */
-    public int accuracyIndex = 0;
+    public byte accuracyValue;
     /**
      * Number of stat points this character has for Strength.
      */
-    public int strengthValue;
-    /**
-     * Index of strengthValue used for accessing the value when it's in an array.
-     */
-    public int strengthIndex = 1;
+    public byte strengthValue;
     /**
      * Number of stat points this character has for Defense.
      */
-    public int defenseValue;
-    /**
-     * Index of defenseValue used for accessing the value when it's in an array.
-     */
-    public int defenseIndex = 2;
+    public byte defenseValue;
     /**
      * Number of stat points this character has for Agility.
      */
-    public int agilityValue;
-    /**
-     * Index of agilityValue used for accessing the value when it's in an array.
-     */
-    public int agilityIndex = 3;
+    public byte agilityValue;
     /**
      * Number of stat points this character has for Intelligence.
      */
-    public int intelligenceValue;
+    public byte intelligenceValue;
     /**
-     * Index of intelligenceValue used for accessing the value when it's in an array.
+     * Number of stat points this character has for Magic.
      */
-    public int intelligenceIndex = 4;
+    public byte magicValue;
     /**
      * Number of stat points this character has for Luck.
      */
-    public int luckValue;
-    /**
-     * Index of luckValue used for accessing the value when it's in an array.
-     */
-    public int luckIndex = 5;
+    public byte luckValue;
     /**
      * Number of hitpoints for this character: directly influenced by defense stat.
      */
     public int hp;
     /**
      * The dynamic value for this character's health. This is initially set to hp, but is lowered
-     * and raised throughout the run of play.
+     * and raised throughout the course of the game.
      */
     public int liveHP;
     /**
-     * The amount of damage this character will deal per hit, based on strengthValue.
+     * The amount of damage this character will deal per hit, directly influenced by strengthValue.
      */
     public int attackPower;
     /**
-     * The actual chance this character has of dodging an attack entirely, based on agility stat.
+     * The actual chance this character has of dodging an attack entirely, directly influenced by
+     * agility stat.
      */
     public double dodgeChance;
     /**
-     * The actual chance that this character has of hitting their attack, based on accuracy stat.
+     * The actual chance this character has of hitting their attack, directly influenced by
+     * accuracy stat.
      */
     public double hitChance;
     /**
-     * The chance that this character has of finding a secret upon entering a "look" command, based
-     * on intelligence stat.
+     * The chance that this character has of finding a secret upon entering a "look" command
+     * directly influenced by intelligence stat.
      */
     public double secretChance;
     /**
-     * The chance this character has of landing a critical hit upon hitting their attack, based on
-     * luck stat.
+     * The chance this character has of landing a critical hit upon hitting their attack
+     * directly influenced by luck stat.
      */
     public double critChance;
     /**
-     * The additional chance that this character has of dodging an attack entirely, based on luck
-     * stat, and is to be added to dodgeChance.
+     * The additional chance that this character has of dodging an attack entirely, directly
+     * influenced by luck stat, and is to be added to dodgeChance.
      */
     public double luckDodgeChance;
     /**
      * The additional chance that this character has of finding a secret upon using the "look"
-     * command, based on luck stat, and is to be added to secretChance.
+     * command, directly influenced by luck stat, and is to be added to secretChance.
      */
     public double luckSecretChance;
     /**
@@ -181,10 +163,13 @@ public class Character {
         for (int i = 0; i < defenseValue; i++) {
             scaled *= scalarOne;
         }
-        hp = (int) Math.round(baseHP + (hpScalar * scaled));
+        hp = (byte) Math.round(baseHP + (hpScalar * scaled));
+        if (defenseValue == 0) {
+            hp -= hpScalar;
+        }
     }
     /**
-     * Sets this character's damage dealt per hit based on their strength stat.
+     * Sets this character's damage dealt upon hit based on their strength stat.
      * Helper function for setAllStats.
      */
     public void setAttackPower() {
@@ -230,57 +215,8 @@ public class Character {
         hitChance = baseHitChance * scaled;
     }
     /**
-     * Sets this character's additional chance to entirely dodge an attack based on their luck stat,
-     * which is to be added to total dodgeChance.
-     * Helper function for setAllStats
-     */
-    public void setLuckDodgeChance() {
-        if (luckValue > 0) {
-            double scaled = 1;
-            for (int i = 0; i < luckValue; i++) {
-                scaled *= scalarOne;
-            }
-            luckDodgeChance = (baseLuckDodgeChance * scaled);
-        } else {
-            luckDodgeChance = baseAllLuckChance;
-        }
-    }
-
-    /**
-     * Sets this character's chance to land a critical hit upon landing a normal hit based on their
-     * luck stat.
-     * sets critChance to 0 if this character's luckValue is 0.
-     * Helper function for setAllStats.
-     */
-    public void setCritChance() {
-        if (luckValue > 0) {
-            double scaled = 1;
-            for (int i = 0; i < luckValue; i++) {
-                scaled *= scalarOne;
-            }
-            critChance = scaled * baseCritChance;
-        } else {
-            critChance = baseAllLuckChance;
-        }
-    }
-    /**
-     * Sets this character's additional chance to find a secret based on their luck stat.
-     * Helper function for setAllStats.
-     */
-    public void setLuckSecretChance() {
-        if (luckValue > 0) {
-            double scaled = 1;
-            for (int i = 0; i < luckValue; i++) {
-                scaled *= scalarOne;
-            }
-            luckSecretChance = baseLuckSecretChance * scaled;
-        } else {
-            luckSecretChance = baseAllLuckChance;
-        }
-    }
-    /**
-     * Uses the stats of both characters to determine if this character landed a hit on other
-     * @param other the character that is being attacked
+     * Uses the stats of both characters to determine if this character landed a hit on the other.
+     * @param other the character that is being attacked.
      */
     public int determineHit(Character other) {
         double otherDodgeResult = Math.random();
@@ -288,32 +224,15 @@ public class Character {
         double thisCritResult = Math.random();
         if (other.dodgeChance < otherDodgeResult && this.hitChance > thisHitResult) {
             if (thisCritResult < this.critChance) {
-                other.liveHP -= (int) (this.attackPower * critMultiplier);
-                return (int) (this.attackPower * critMultiplier);
+                other.liveHP -= (byte) (this.attackPower * critMultiplier);
+                return (byte) (this.attackPower * critMultiplier);
             } else {
                 other.liveHP -= this.attackPower;
+                int i = 1;
                 return this.attackPower;
             }
         }
         return 0;
-    }
-    /**
-     * Determines whether a secret was found or not.
-     */
-    public int foundSecret() {
-        double foundSecret = Math.random();
-        double secretType = Math.random();
-        if (foundSecret < secretChance) {
-            if (secretType < 0.33) {
-                return 1;
-            } else if (secretType < 0.66) {
-                return 2;
-            } else {
-                return 3;
-            }
-        } else {
-            return 0;
-        }
     }
 
     /**
@@ -321,11 +240,8 @@ public class Character {
      * break due to a lack of a needed variable being set.
      */
     public void setAllStats() {
-        setLuckDodgeChance();
         setDodgeChance();
-        setLuckSecretChance();
         setSecretChance();
-        setCritChance();
         setHp();
         liveHP = hp;
         setHitChance();

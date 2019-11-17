@@ -17,29 +17,64 @@
             android:layout_height="50dp"
             android:ems="10"
             android:gravity="center_horizontal"
-            android:text="   Select game length!"
+            android:text="Select Preferred Difficulty."
             android:textColor="@android:color/black"
             android:textSize="24sp" />
+
+        <TextView
+            android:id="@+id/textView3"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="40 stat points, Strong variants of enemies are less common, secrets are more fruitful."
+            android:textSize="18sp" />
 
         <Button
             android:id="@+id/EasyButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Easy (15 Rooms)"
+            android:text="Easy"
+            android:textSize="18sp" />
+
+        <TextView
+            android:id="@+id/textView4"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Standard difficulty: 35 stat points"
             android:textSize="18sp" />
 
         <Button
             android:id="@+id/NormalButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Normal (30 Rooms)"
+            android:text="Normal"
+            android:textSize="18sp" />
+
+        <TextView
+            android:id="@+id/textView5"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="30 stat points, Strong enemy variants are more common, secrets are less fruitful."
             android:textSize="18sp" />
 
         <Button
             android:id="@+id/HardButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Hard (45 Rooms)"
+            android:text="Hard"
+            android:textSize="18sp" />
+
+        <TextView
+            android:id="@+id/textView6"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="No secrets. Almost always Strong enemy variants, and mini bosses."
+            android:textSize="18sp" />
+
+        <Button
+            android:id="@+id/UberButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Uber!"
             android:textSize="18sp" />
     </LinearLayout>
 </RelativeLayout>

@@ -14,7 +14,7 @@
         tools:layout_editor_absoluteY="162dp">
 
         <TextView
-            android:id="@+id/healthDisplay"
+            android:id="@+id/hud"
             android:layout_width="match_parent"
             android:layout_height="30dp"
             android:gravity="center_horizontal"
@@ -53,5 +53,29 @@
             android:gravity="center_horizontal"
             android:text="Enter"
             android:textSize="24sp" />
+
+        <TableLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" >
+
+                <Button
+                    android:id="@+id/attackButton"
+                    android:layout_width="150dp"
+                    android:layout_height="wrap_content"
+                    android:text="Attack" />
+
+                <Button
+                    android:id="@+id/spellButton"
+                    android:layout_width="150dp"
+                    android:layout_height="wrap_content"
+                    android:text="Spells" />
+            </TableRow>
+
+        </TableLayout>
+
     </LinearLayout>
 </ScrollView>

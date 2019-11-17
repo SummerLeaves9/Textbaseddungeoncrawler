@@ -16,9 +16,10 @@
             android:id="@+id/textView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Escape the Dungeon!"
+            android:text="   Soy Quest!"
             android:textColor="@android:color/black"
-            android:textSize="60sp" />
+            android:textSize="60sp"
+            android:textStyle="bold" />
 
         <Button
             android:id="@+id/startButton"

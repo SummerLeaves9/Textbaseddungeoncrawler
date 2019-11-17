@@ -33,12 +33,6 @@
             android:name=".Gameplay"
             android:screenOrientation="portrait"/>
         <activity
-            android:name=".HowToPlay"
-            android:screenOrientation="portrait"/>
-        <activity
-            android:name=".HowToPlayTwo"
-            android:screenOrientation="portrait"/>
-        <activity
             android:name=".EnterNames"
             android:screenOrientation="portrait"/>
         <activity

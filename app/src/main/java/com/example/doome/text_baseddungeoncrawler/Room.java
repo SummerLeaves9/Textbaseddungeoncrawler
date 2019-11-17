@@ -7,9 +7,22 @@ public class Room {
     public double enemyChance = .65;
     /**
      * chance that this room is searchable.
-     * nice.
+     * nice
      */
     public double searchableChance = .69;
+    /**
+     * On easy difficulty, chance that an enemy is a strong variant.
+     */
+    public double strongChanceEasy = .1;
+    /**
+     * On normal difficulty, chance that an enemy is a strong variant.
+     */
+    public double strongChanceNormal = .27;
+    /**
+     * On hard difficulty, chance that an enemy is a strong variant.
+     */
+    public double strongChanceHard = .5;
+
     /**
      * Boolean that keeps track of whether this room can be searched.
      */

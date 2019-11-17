@@ -4,105 +4,101 @@ public class Player extends Character {
     /**
      * limit for stat points a player can give themselves
      */
-    public static final int statPoints = 30;
-
-    public final int randomlyGeneratedStatCutoff = 6;
+    public double negativeSecretChance;
 
     public int myPoints = 100;
 
-    /**
-     * The purpose of this empty constructor is for the case where the player decides
-     * to trust an algorithm to determine their stats.
-     */
-    public Player(String setName, String setWeaponName) {
+    public Player(final byte setStrength, final byte setAccuracy, final byte setDefense,
+                  final byte setAgility, final byte setIntelligence, final byte setMagic, final byte setLuck,
+                  final String setName, final String setAttackName) {
+        strengthValue = setStrength;
+        accuracyValue = setAccuracy;
+        defenseValue = setDefense;
+        agilityValue = setAgility;
+        intelligenceValue = setIntelligence;
+        magicValue = setMagic;
+        luckValue = setLuck;
         name = setName;
-        weaponName = setWeaponName;
-        //Randomly determines the stats of a player if they choose to do so.
-        int statPointsUsed = 0;
-        int strengthRandom = (int) (statMax * Math.random());
-        strengthValue = strengthRandom;
-        statPointsUsed += strengthRandom;
-        int accuracyRandom = (int) (statMax * Math.random());
-        accuracyValue = accuracyRandom;
-        statPointsUsed += accuracyRandom;
-        int defenseRandom = (int) (statMax * Math.random());
-        defenseValue = defenseRandom;
-        statPointsUsed += defenseRandom;
-        int agilityRandom = (int) (statMax * Math.random());
-        agilityValue = agilityRandom;
-        statPointsUsed += agilityRandom;
-        int intelligenceRandom = (int) (statMax * Math.random());
-        intelligenceValue = intelligenceRandom;
-        statPointsUsed += intelligenceRandom;
-        int luckRandom = (int) (statMax * Math.random());
-        luckValue = luckRandom;
-        statPointsUsed += luckRandom;
-        int[] allStats = {accuracyValue, strengthValue, defenseValue,
-                agilityValue, intelligenceValue, luckValue};
-        if (statPointsUsed < 30) {
-            int minOfStats = statMax;
-            int smallestStatIndex = 0;
-            for (; statPointsUsed < statPoints; statPointsUsed++) {
-                for (int i = 0; i < allStats.length; i++) {
-                    if (allStats[i] < minOfStats) {
-                        minOfStats = allStats[i];
-                        smallestStatIndex = i;
-                    }
-                }
-                if (smallestStatIndex == accuracyIndex && accuracyValue < statMax) {
-                    accuracyValue++;
-                } else if (smallestStatIndex == strengthIndex && strengthValue < statMax) {
-                    strengthValue++;
-                } else if (smallestStatIndex == defenseIndex && defenseValue < statMax) {
-                    defenseValue++;
-                } else if (smallestStatIndex == agilityIndex) {
-                    agilityValue++;
-                } else if (smallestStatIndex == intelligenceIndex) {
-                    intelligenceValue++;
-                } else {
-                    luckValue++;
-                }
+        weaponName = setAttackName;
+        setAllStats();
+    }
+    /**
+     * Determines whether a secret was found or not.
+     */
+    public int foundSecret() {
+        double foundSecret = Math.random();
+        double secretType = Math.random();
+        if (foundSecret < secretChance) {
+            if (secretType < 0.333) {
+                return 1;
+            } else if (secretType < 0.666) {
+                return 2;
+            } else {
+                return 3;
             }
-        } else if (statPointsUsed > 30) {
-            int maxOfStats = statMin;
-            int biggestStatIndex = 0;
-            for (; statPointsUsed > statPoints; statPointsUsed--) {
-                for (int i = 0; i < allStats.length; i++) {
-                    if (allStats[i] > maxOfStats) {
-                        maxOfStats = allStats[i];
-                        biggestStatIndex = i;
-                    }
-                }
-                if (biggestStatIndex == accuracyIndex) {
-                    accuracyValue--;
-                } else if (biggestStatIndex == strengthIndex) {
-                    strengthValue--;
-                } else if (biggestStatIndex == defenseIndex) {
-                    defenseValue--;
-                } else if (biggestStatIndex == agilityIndex) {
-                    agilityValue--;
-                } else if (biggestStatIndex == intelligenceIndex) {
-                    intelligenceValue--;
-                } else {
-                    luckValue--;
-                }
-            }
+        } else {
+            return 0;
         }
     }
-    public Player(final int setStrength, final int setAccuracy, final int setDefense,
-                  final int setAgility, final int setIntelligence, final int setLuck,
-                  final String setName, final String setAttackName) {
-        if (setAccuracy + setAgility + setStrength + setDefense + setIntelligence + setLuck
-                == statPoints) {
-            strengthValue = setStrength;
-            accuracyValue = setAccuracy;
-            defenseValue = setDefense;
-            agilityValue = setAgility;
-            intelligenceValue = setIntelligence;
-            luckValue = setLuck;
-            name = setName;
-            weaponName = setAttackName;
-            setAllStats();
+    /**
+     * Sets this character's additional chance to entirely dodge an attack based on their luck stat,
+     * which is to be added to total dodgeChance.
+     * Helper function for setAllStats
+     */
+    public void setLuckDodgeChance() {
+        if (luckValue > 0) {
+            double scaled = 1;
+            for (int i = 0; i < luckValue; i++) {
+                scaled *= scalarOne;
+            }
+            luckDodgeChance = (baseLuckDodgeChance * scaled);
+        } else {
+            luckDodgeChance = baseAllLuckChance;
         }
+    }
+
+    /**
+     * Sets this character's chance to land a critical hit upon landing a normal hit based on their
+     * luck stat.
+     * sets critChance to 0 if this character's luckValue is 0.
+     * Helper function for setAllStats.
+     */
+    public void setCritChance() {
+        if (luckValue > 0) {
+            double scaled = 1;
+            for (int i = 0; i < luckValue; i++) {
+                scaled *= scalarOne;
+            }
+            critChance = scaled * baseCritChance;
+        } else {
+            critChance = baseAllLuckChance;
+        }
+    }
+    /**
+     * Sets this character's additional chance to find a secret based on their luck stat, which is
+     * to be added to secretChance.
+     * Helper function for setAllStats.
+     */
+    public void setLuckSecretChance() {
+        if (luckValue > 0) {
+            double scaled = 1;
+            for (int i = 0; i < luckValue; i++) {
+                scaled *= scalarOne;
+            }
+            luckSecretChance = baseLuckSecretChance * scaled;
+        } else {
+            luckSecretChance = baseAllLuckChance;
+        }
+    }
+    public void setAllStats() {
+        setLuckDodgeChance();
+        setDodgeChance();
+        setLuckSecretChance();
+        setSecretChance();
+        setCritChance();
+        setHp();
+        liveHP = hp;
+        setHitChance();
+        setAttackPower();
     }
 }

@@ -35,21 +35,23 @@ public class GameOverScreen extends AppCompatActivity {
         difficultyChosen = (TextView) findViewById(R.id.difficultyChosen);
         enemiesDefeated = (TextView) findViewById(R.id.enemiesDefeated);
         secretsFound = (TextView) findViewById(R.id.secretsFound);
-        score.setText("Final score: " + Gameplay.thisPlayer.myPoints);
-        playerName1.setText("Your name: " + Gameplay.thisPlayer.name);
-        playerWeaponName1.setText("Your weapon: " + Gameplay.thisPlayer.weaponName);
-        displayStrength.setText("Your Strength: " + Gameplay.thisPlayer.strengthValue);
-        displayAccuracy.setText("Your Accuracy: " + Gameplay.thisPlayer.accuracyValue);
-        displayDefense.setText("Your Defense: " + Gameplay.thisPlayer.defenseValue);
-        displayAgility.setText("Your Agility: " + Gameplay.thisPlayer.agilityValue);
-        displayIntelligence.setText("Your Intelligence: " + Gameplay.thisPlayer.intelligenceValue);
-        displayLuck.setText("Your Luck: " + Gameplay.thisPlayer.luckValue);
-        if (Gameplay.roomCount == 15) {
-            difficultyChosen.setText("Chosen Difficulty: Easy (15 rooms)");
-        } else if (Gameplay.roomCount == 30) {
-            difficultyChosen.setText("Chosen Difficulty: Normal (30 rooms)");
-        } else if (Gameplay.roomCount == 45) {
-            difficultyChosen.setText("Chosen Difficulty: Hard (45 rooms)");
+        score.setText("Final score: " + EnterNames.thisPlayer.myPoints);
+        playerName1.setText("Your name: " + EnterNames.thisPlayer.name);
+        playerWeaponName1.setText("Your weapon: " + EnterNames.thisPlayer.weaponName);
+        displayStrength.setText("Your Strength: " + EnterNames.thisPlayer.strengthValue);
+        displayAccuracy.setText("Your Accuracy: " + EnterNames.thisPlayer.accuracyValue);
+        displayDefense.setText("Your Defense: " + EnterNames.thisPlayer.defenseValue);
+        displayAgility.setText("Your Agility: " + EnterNames.thisPlayer.agilityValue);
+        displayIntelligence.setText("Your Intelligence: " + EnterNames.thisPlayer.intelligenceValue);
+        displayLuck.setText("Your Luck: " + EnterNames.thisPlayer.luckValue);
+        if (DifficultySelection.selectedDifficulty == DifficultySelection.easy) {
+            difficultyChosen.setText("Chosen Difficulty: Easy");
+        } else if (DifficultySelection.selectedDifficulty == DifficultySelection.normal) {
+            difficultyChosen.setText("Chosen Difficulty: Normal");
+        } else if (DifficultySelection.selectedDifficulty == DifficultySelection.hard) {
+            difficultyChosen.setText("Chosen Difficulty: Hard");
+        } else {
+            difficultyChosen.setText("Chosen Difficulty: Uber");
         }
         enemiesDefeated.setText("You defeated " + Gameplay.enemiesDefeatedCounter + " enemies.");
         secretsFound.setText("You found " + Gameplay.secretsFoundCounter + " secrets.");

@@ -12,77 +12,20 @@ public class Gameplay extends AppCompatActivity {
     /**
      * This variable keeps count of how many rooms have been traversed.
      */
-    public static int liveRoomCount = 0;
+    public static byte liveRoomCount = 0;
     /**
      * The amount of rooms which will be used for this game.
      * Set by the user's selection between 15, 30, or 45.
      */
-    public static int roomCount;
-    /**
-     * The amount of rooms if the player selects "easy".
-     */
-    public static final int easyRoomCount = 15;
-    /**
-     * The amount of rooms if the player selects "normal".
-     */
-    public static final int normalRoomCount = 30;
-    /**
-     * The amount of rooms if the player selects "hard".
-     */
-    public static final int hardRoomCount = 45;
-    /**
-     * Used to detect whether the player has chosen to randomize their stats.
-     * Set to true if yes.
-     */
-    public static boolean isRandomized = false;
-    /**
-     * Used to show that you can shake to attack now.
-     */
-    public static boolean isReadyToAttack = false;
+    public byte roomCount = 0;
     /**
      * The boolean to track when the user is in battle
      */
     public static boolean isBattling = false;
     /**
-     * The int that stores the player's strength stat before the player is initialized.
-     */
-    public static int playerStrength;
-    /**
-     * The int that stores the player's accuracy stat before the player is initialized.
-     */
-    public static int playerAccuracy;
-    /**
-     * The int that stores the player's defense stat before the player is initialized.
-     */
-    public static int playerDefense;
-    /**
-     * The int that stores the player's agility stat before the player is initialized.
-     */
-    public static int playerAgility;
-    /**
-     * The int that stores the player's intelligence stat before the player is initialized.
-     */
-    public static int playerIntelligence;
-    /**
-     * The int that stores the player's luck stat before the player is initialized.
-     */
-    public static int playerLuck;
-    /**
      * The boolean that determines if the user has used their turn.
      */
     public static boolean turnAdvantage = true;
-    /**
-     * The String that stores the player's name before the player is initalized.
-     */
-    public static String playerName;
-    /**
-     * The String that stores the player's weapon name before the player is initalized.
-     */
-    public static String playerWeaponName;
-    /**
-     * The boolean that determines when the user leaves a room.
-     */
-    public boolean hasProgressed = false;
     /**
      * The final string to compare the userInput to attack.
      */
@@ -116,10 +59,6 @@ public class Gameplay extends AppCompatActivity {
      */
     public static int secretsFoundCounter = 0;
     /**
-     * The player.
-     */
-    public static Player thisPlayer = new Player("name", "weaponName");
-    /**
      * The room the player is currently in.
      */
     public static Room thisRoom = new Room();
@@ -135,11 +74,11 @@ public class Gameplay extends AppCompatActivity {
     /**
      * The message displayed to the user when they attack a monster.
      */
-    public static String displayHit = "You use " + thisPlayer.weaponName + " and it hits! for ";
+    public static String displayHit = "You use " + EnterNames.thisPlayer.weaponName + " and it hits! for ";
     /**
      * The message displayed to the user when they attempt to attack, but miss
      */
-    public static String displayMiss = "You use your " + thisPlayer.weaponName + ", but you miss. ";
+    public static String displayMiss = "You use your " + EnterNames.thisPlayer.weaponName + ", but you miss. ";
     /**
      * The message displayed when an enemy's attack hits the player.
      */
@@ -151,16 +90,20 @@ public class Gameplay extends AppCompatActivity {
     public static String displayEnemyMiss = thisRoom.numberOne.name + "uses " +
             thisRoom.numberOne.weaponName + ", but they miss.";
     /**
+     *
+     */
+    public static String selectedDifficulty1 = DifficultySelection.selectedDifficulty;
+    /**
      * The message displayed to the user when they win and end a battle.
      * To be added onto an attack meesage, as this must be displayed before the battle could end.
      */
     public static String victoryMessage = "You won! " + thisRoom.numberOne.name +
             " dropped " + thisRoom.numberOne.pointValue + " points. Now you have " +
-            thisPlayer.myPoints + " points!";
+            EnterNames.thisPlayer.myPoints + " points!";
     /**
      * The message displayed when the user is defeated.
      */
-    public static String darkSouls = "You Died. Final Score: " + thisPlayer.myPoints + "\nPress enter to see how you did. ";
+    public static String darkSouls = "You Died. Final Score: " + EnterNames.thisPlayer.myPoints + "\nPress enter to see how you did. ";
     /**
      * The message displayed when the user doesn't have enough points to run or heal.
      */
@@ -228,61 +171,43 @@ public class Gameplay extends AppCompatActivity {
     public static final String nothingElse = "It seems there is nothing else in this room. ";
 
     EditText actionInput;
-    static TextView healthDisplay;
+    static TextView hud;
     static TextView gameInfo;
-    static String displayInfo = new String("Hp:" + thisPlayer.liveHP + "/" + thisPlayer.hp + " Points: " + thisPlayer.myPoints);
+    static String displayInfo = new String("Hp:" + EnterNames.thisPlayer.liveHP + "/" + EnterNames.thisPlayer.hp + " Points: " + EnterNames.thisPlayer.myPoints);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_gameplay);
-        roomCount = DifficultySelection.gameRoomCount;
-        playerName = EnterNames.enterName;
-        playerWeaponName = EnterNames.enterWeaponName;
-        playerStrength = StatSelection.statPlayerStrength;
-        playerAccuracy = StatSelection.statPlayerAccuracy;
-        playerDefense = StatSelection.statPlayerDefense;
-        playerAgility = StatSelection.statPlayerAgility;
-        playerIntelligence = StatSelection.statPlayerIntelligence;
-        playerLuck = StatSelection.statPlayerLuck;
-        isRandomized = StatSelection.statsAreRandomized;
-        if (isRandomized) {
-            thisPlayer = new Player(playerName, playerWeaponName);
-        } else {
-            thisPlayer = new Player(playerStrength, playerAccuracy, playerDefense, playerAgility,
-                    playerIntelligence, playerLuck, playerName, playerWeaponName);
-        }
-        displayHit = "You use " + thisPlayer.weaponName + " and it hits! for ";
-        displayMiss = "You use your " + thisPlayer.weaponName + ", but you miss. ";
-        darkSouls = "You Died. Final Score: " + thisPlayer.myPoints + "\nPress enter to see how you did. ";
+        setContentView(R.layout.activity_combat);
+        setRoomCount();
+        displayHit = "You use " + EnterNames.thisPlayer.weaponName + " and it hits! for ";
+        displayMiss = "You use your " + EnterNames.thisPlayer.weaponName + ", but you miss. ";
+        darkSouls = "You Died. Final Score: " + EnterNames.thisPlayer.myPoints + "\nPress enter to see how you did. ";
         victoryMessage = "You won! " + thisRoom.numberOne.name +
                 " dropped " + thisRoom.numberOne.pointValue + " points. Now you have " +
-                thisPlayer.myPoints + " points!";
-        consoleOutput = "Welcome, " + thisPlayer.name + "! You are in an empty room, too small to be searched. If it could be searched, you could type, 'l'. To enter the next room, type 'p'.";
-        displayInfo = new String("Hp: " + thisPlayer.liveHP + "/" + thisPlayer.hp + " Points: " + thisPlayer.myPoints);
+                EnterNames.thisPlayer.myPoints + " points!";
+        consoleOutput = "Welcome, " + EnterNames.thisPlayer.name + "! You are in an empty room, too small to be searched. If it could be searched, you could type, 'l'. To enter the next room, type 'p'.";
+        displayInfo = new String("Hp: " + EnterNames.thisPlayer.liveHP + "/" + EnterNames.thisPlayer.hp + " Points: " + EnterNames.thisPlayer.myPoints);
         configureNextButton();
         actionInput = (EditText) findViewById(R.id.actionInput);
-        healthDisplay = (TextView) findViewById(R.id.healthDisplay);
+        hud = (TextView) findViewById(R.id.hud);
         gameInfo = (TextView) findViewById(R.id.gameInfo);
         setGameInfo();
-        healthDisplay.setText(displayInfo);
+        hud.setText(displayInfo);
     }
     private void configureNextButton() {
-        final Button progressButton = (Button) findViewById(R.id.submitButton);
+        Button progressButton = (Button) findViewById(R.id.submitButton);
+        Button attackButton = (Button) findViewById(R.id.attackButton);
+        Button spellButton = (Button) findViewById(R.id.spellButton);
         progressButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 userInput = actionInput.getText().toString();
                 actionInput.setText("");
                 if (liveRoomCount == roomCount && !isBattling) {
-                    progressButton.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View view) {
-                            startActivity(new Intent(Gameplay.this, FinishedGame.class));
-                        }
-                    });
+                    startActivity(new Intent(Gameplay.this, FinishedGame.class));
                 }
-                if (thisPlayer.liveHP <= 0) {
+                if (EnterNames.thisPlayer.liveHP <= 0) {
                     startActivity(new Intent(Gameplay.this, GameOverScreen.class));
                 }
                 changeOutput(userInput);
@@ -309,7 +234,7 @@ public class Gameplay extends AppCompatActivity {
             turnAdvantage = true;
         }
         setGameInfo();
-        setHealthDisplay();
+        setHud();
     }
     public void myBattleStatus (String action) {
         if (action.equals(look) || action.equals(progress)) {
@@ -320,13 +245,13 @@ public class Gameplay extends AppCompatActivity {
         } else if (action.equals(attackBypass)) {
             attack();
         } else if (action.equals(run)) {
-            if (thisPlayer.myPoints < 100) {
+            if (EnterNames.thisPlayer.myPoints < 100) {
                 consoleOutput = insufficientPoints;
             } else {
-                thisPlayer.myPoints -= 100;
+                EnterNames.thisPlayer.myPoints -= 100;
                 consoleOutput = ranAway;
                 isBattling = false;
-                thisPlayer.liveHP = thisPlayer.hp;
+                EnterNames.thisPlayer.liveHP = EnterNames.thisPlayer.hp;
                 movementStatus(progress);
             }
         } else if (action.equals(heal)) {
@@ -336,14 +261,15 @@ public class Gameplay extends AppCompatActivity {
         }
     }
     public static void enemyBattleStatus() {
-        int damageDealt = thisRoom.numberOne.determineHit(thisPlayer);
+        int damageDealt = thisRoom.numberOne.determineHit(EnterNames.thisPlayer);
         if (isBattling) {
             if (damageDealt != 0) {
                 consoleOutput += displayEnemyHit + damageDealt + ". ";
                 if (damageDealt > thisRoom.numberOne.attackPower) {
                     consoleOutput += criticalHit;
                 }
-                if (thisPlayer.liveHP <= 0) {
+                if (EnterNames.thisPlayer.liveHP <= 0) {
+                    EnterNames.thisPlayer.liveHP = 0;
                     isBattling = false;
                     consoleOutput += darkSouls;
                 }
@@ -352,7 +278,7 @@ public class Gameplay extends AppCompatActivity {
             }
         }
     }
-    public static void movementStatus(String action) {
+    public void movementStatus(String action) {
         if (action.equals(progress)) {
             if (liveRoomCount < roomCount) {
                 thisRoom = new Room();
@@ -376,23 +302,23 @@ public class Gameplay extends AppCompatActivity {
         } else if (action.equals(look)) {
             if (thisRoom.disSearchable) {
                 if (!thisRoom.roomSearched) {
-                    int foundSecret = thisPlayer.foundSecret();
+                    int foundSecret = EnterNames.thisPlayer.foundSecret();
                     if (foundSecret == 0) {
                         consoleOutput = noSecretFound;
                     } else if (foundSecret == 1) {
                         consoleOutput = foundAttackUp + nothingElse;
-                        thisPlayer.attackPower++;
+                        EnterNames.thisPlayer.attackPower++;
                     } else if (foundSecret == 2) {
                         consoleOutput = foundDefenseUp + nothingElse;
-                        thisPlayer.hp += 2;
-                        thisPlayer.liveHP += 2;
+                        EnterNames.thisPlayer.hp += 2;
+                        EnterNames.thisPlayer.liveHP += 2;
                     } else if (foundSecret == 3) {
                         consoleOutput = foundPoints + nothingElse;
-                        thisPlayer.myPoints += 300;
+                        EnterNames.thisPlayer.myPoints += 300;
                     }
                     thisRoom.roomSearched = true;
                     secretsFoundCounter++;
-                    setHealthDisplay();
+                    setHud();
                 } else {
                     consoleOutput = alreadySearched;
                 }
@@ -408,28 +334,28 @@ public class Gameplay extends AppCompatActivity {
     public static void setGameInfo() {
         gameInfo.setText(consoleOutput);
     }
-    public static void setHealthDisplay() {
-        healthDisplay.setText("Hp: " + thisPlayer.liveHP + "/" + thisPlayer.hp + " Points: " + thisPlayer.myPoints);
+    public static void setHud() {
+        hud.setText("Hp: " + EnterNames.thisPlayer.liveHP + "/" + EnterNames.thisPlayer.hp + " Points: " + EnterNames.thisPlayer.myPoints);
     }
     public static void attack() {
-        int dealtDamage = thisPlayer.determineHit(thisRoom.numberOne);
+        int dealtDamage = EnterNames.thisPlayer.determineHit(thisRoom.numberOne);
         if (dealtDamage != 0) {
             consoleOutput = displayHit + dealtDamage + ". ";
-            if (dealtDamage > thisPlayer.attackPower) {
+            if (dealtDamage > EnterNames.thisPlayer.attackPower) {
                 consoleOutput += criticalHit;
             }
             if (thisRoom.numberOne.liveHP <= 0) {
-                thisPlayer.myPoints += thisRoom.numberOne.pointValue;
+                EnterNames.thisPlayer.myPoints += thisRoom.numberOne.pointValue;
                 victoryMessage = "You won! " + thisRoom.numberOne.name +
                         " dropped " + thisRoom.numberOne.pointValue + " points. Now you have " +
-                        thisPlayer.myPoints + " points!";
+                        EnterNames.thisPlayer.myPoints + " points!";
                 consoleOutput += Gameplay.victoryMessage;
                 isBattling = false;
                 enemiesDefeatedCounter++;
                 if (thisRoom.disSearchable) {
                     consoleOutput += canBeSearched;
                 }
-                displayInfo = "Hp: " + thisPlayer.liveHP + "/" + thisPlayer.hp + " Points: " + thisPlayer.myPoints;
+                displayInfo = "Hp: " + EnterNames.thisPlayer.liveHP + "/" + EnterNames.thisPlayer.hp + " Points: " + EnterNames.thisPlayer.myPoints;
                 turnAdvantage = true;
             } else {
                 turnAdvantage = false;
@@ -440,13 +366,22 @@ public class Gameplay extends AppCompatActivity {
         }
     }
     public static void heal() {
-        if (thisPlayer.myPoints < 50) {
+        if (EnterNames.thisPlayer.myPoints < 50) {
             consoleOutput = insufficientPoints;
         } else {
-            thisPlayer.myPoints -= 50;
+            EnterNames.thisPlayer.myPoints -= 50;
             consoleOutput = healed;
-            thisPlayer.liveHP += 12;
+            if (EnterNames.thisPlayer.liveHP <= EnterNames.thisPlayer.hp - 12) {
+                EnterNames.thisPlayer.liveHP += 12;
+            } else {
+                EnterNames.thisPlayer.liveHP = EnterNames.thisPlayer.hp;
+            }
             turnAdvantage = false;
         }
+    }
+    public void setRoomCount() {
+        byte variableRoomCount = (byte) Math.round(10 * Math.random());
+        byte baseRoomCount = (byte) 15;
+        roomCount = (byte) (baseRoomCount + variableRoomCount);
     }
 }
