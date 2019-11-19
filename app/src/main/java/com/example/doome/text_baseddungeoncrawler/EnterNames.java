@@ -62,6 +62,7 @@ public class EnterNames extends AppCompatActivity {
     }
     private void configureNextButton() {
         Button progressButton = (Button) findViewById(R.id.NameSubmitButton);
+        Button backToStatsButton = (Button) findViewById(R.id.enterNamesBackButton);
         progressButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -71,6 +72,12 @@ public class EnterNames extends AppCompatActivity {
                         playerDefense, playerAgility, playerIntelligence, playerMagic,
                         playerLuck, playerName, playerWeaponName);
                 startActivity(new Intent(EnterNames.this, Gameplay.class));
+            }
+        });
+        backToStatsButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(EnterNames.this, StatSelection.class));
             }
         });
     }
