@@ -32,16 +32,25 @@ public class Character {
     /**
      * Number of hitpoints for this character: directly influenced by defense stat.
      */
-    public int hp;
+    public byte hp;
     /**
      * The dynamic value for this character's health. This is initially set to hp, but is lowered
      * and raised throughout the course of the game.
      */
-    public int liveHP;
+    public byte liveHP;
+    /**
+     * Number of magic points for this character: directly influenced by Magic stat.
+     */
+    public byte mp;
+    /**
+     * The dynamic value for this character's magic points. This is initially set to mp, but is
+     * lowered and raised throughout the course of the game.
+     */
+    public byte liveMP;
     /**
      * The amount of damage this character will deal per hit, directly influenced by strengthValue.
      */
-    public int attackPower;
+    public byte attackPower;
     /**
      * The actual chance this character has of dodging an attack entirely, directly influenced by
      * agility stat.
@@ -180,6 +189,13 @@ public class Character {
         attackPower = (byte)  Math.round(baseAttackPower * scaled);
     }
     /**
+     * Sets this character's magic points based on their magic stat.
+     * Helper function for setAllStats.
+     */
+    public void setMP() {
+        mp = (byte) (10 + (5 * magicValue));
+    }
+    /**
      * Sets this character's chance to entirely dodge an attack, assuming the attacker lands their
      * hit
      * Helper function for setAllStats.
@@ -244,6 +260,8 @@ public class Character {
         setSecretChance();
         setHp();
         liveHP = hp;
+        setMP();
+        liveMP = mp;
         setHitChance();
         setAttackPower();
     }
