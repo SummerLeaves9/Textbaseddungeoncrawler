@@ -42,94 +42,104 @@ public class StatSelection extends AppCompatActivity {
         goBackButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                whichStat = 0;
+                EnterNames.playerStrength = 0;
+                EnterNames.playerAccuracy = 0;
+                EnterNames.playerDefense = 0;
+                EnterNames.playerAgility = 0;
+                EnterNames.playerIntelligence = 0;
+                EnterNames.playerMagic = 0;
+                EnterNames.playerLuck = 0;
                 startActivity(new Intent(StatSelection.this, DifficultySelection.class));
             }
         });
         zero.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                setStatIndicator();
                 setPlayerStat((byte) 0);
             }
         });
         one.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                setStatIndicator();
                 setPlayerStat((byte) 1);
             }
         });
         two.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                setStatIndicator();
                 setPlayerStat((byte) 2);
             }
         });
         three.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                setStatIndicator();
                 setPlayerStat((byte) 3);
             }
         });
         four.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                setStatIndicator();
                 setPlayerStat((byte) 4);
             }
         });
         five.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                setStatIndicator();
                 setPlayerStat((byte) 5);
             }
         });
         six.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                setStatIndicator();
                 setPlayerStat((byte) 6);
             }
         });
         seven.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                setStatIndicator();
                 setPlayerStat((byte) 7);
             }
         });
         eight.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                setStatIndicator();
                 setPlayerStat((byte) 8);
             }
         });
         nine.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                setStatIndicator();
                 setPlayerStat((byte) 9);
             }
         });
         ten.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                setStatIndicator();
                 setPlayerStat((byte) 10);
             }
         });
     }
-    public void setStatIndicator() {
-        if (whichStat == 0) {StatIndicator.setText("Accuracy");}
-        else if (whichStat == 1) {StatIndicator.setText("Defense");}
-        else if (whichStat == 2) {StatIndicator.setText("Agility");}
-        else if (whichStat == 3) {StatIndicator.setText("Intelligence");}
-        else if (whichStat == 4) {StatIndicator.setText("Magic");}
-        else if (whichStat == 5) {StatIndicator.setText("Luck");}
+    public void setStatIndicator(boolean valid) {
+        if (valid == true) {
+            if (whichStat == 0) {
+                StatIndicator.setText("Accuracy");
+            } else if (whichStat == 1) {
+                StatIndicator.setText("Defense");
+            } else if (whichStat == 2) {
+                StatIndicator.setText("Agility");
+            } else if (whichStat == 3) {
+                StatIndicator.setText("Intelligence");
+            } else if (whichStat == 4) {
+                StatIndicator.setText("Magic");
+            } else if (whichStat == 5) {
+                StatIndicator.setText("Luck");
+            }
+        }
+        else {
+            StatSelect.setText("You don't have enough points to set this stat so high." +
+                    " Points remaining: " + String.valueOf(thisStatPoints));
+        }
     }
     public void setPlayerStat(byte value) {
         if (whichStat == 0) {EnterNames.playerStrength = value;}
@@ -142,8 +152,14 @@ public class StatSelection extends AppCompatActivity {
             EnterNames.playerLuck = value;
             startActivity(new Intent(StatSelection.this, EnterNames.class));
         }
-        thisStatPoints -= value;
-        StatSelect.setText("Select stats. Points remaining: " + String.valueOf(thisStatPoints));
-        whichStat++;
+        if (thisStatPoints - value < 0) {
+            setStatIndicator(false);
+        }
+        else {
+            setStatIndicator(true);
+            thisStatPoints -= value;
+            StatSelect.setText("Select stats. Points remaining: " + String.valueOf(thisStatPoints));
+            whichStat++;
+        }
     }
 }
