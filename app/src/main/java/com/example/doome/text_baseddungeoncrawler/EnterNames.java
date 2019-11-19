@@ -77,6 +77,18 @@ public class EnterNames extends AppCompatActivity {
         backToStatsButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                StatSelection.whichStat = 0;
+                StatSelection.thisLiveStatPoints = StatSelection.thisStatPoints;
+                StatSelection.StatSelect.setText("Select stats. Points remaining: " + String.valueOf(StatSelection.thisStatPoints));
+                StatSelection.StatIndicator.setText("Strength");
+                playerStrength = 0;
+                playerAccuracy = 0;
+                playerDefense = 0;
+                playerAgility = 0;
+                playerIntelligence = 0;
+                playerMagic = 0;
+                playerLuck = 0;
+
                 startActivity(new Intent(EnterNames.this, StatSelection.class));
             }
         });
