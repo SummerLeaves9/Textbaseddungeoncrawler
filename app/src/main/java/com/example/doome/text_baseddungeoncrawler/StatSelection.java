@@ -12,6 +12,7 @@ public class StatSelection extends AppCompatActivity {
 
     public static byte whichStat = 0;
     public static byte thisStatPoints;
+    public static byte thisLiveStatPoints;
     static TextView StatSelect;
     static TextView StatIndicator;
     @Override
@@ -22,6 +23,7 @@ public class StatSelection extends AppCompatActivity {
         StatSelect = findViewById(R.id.StatSelect);
         StatIndicator = findViewById(R.id.StatIndicator);
         StatIndicator.setText("Strength");
+        thisLiveStatPoints = DifficultySelection.getStatPointCount();
         thisStatPoints = DifficultySelection.getStatPointCount();
         StatSelect.setText("Select stats. Points remaining: " + String.valueOf(thisStatPoints));
     }
@@ -138,7 +140,7 @@ public class StatSelection extends AppCompatActivity {
         }
         else {
             StatSelect.setText("You don't have enough points to set this stat so high." +
-                    " Points remaining: " + String.valueOf(thisStatPoints));
+                    " Points remaining: " + String.valueOf(thisLiveStatPoints));
         }
     }
     public void setPlayerStat(byte value) {
@@ -152,13 +154,13 @@ public class StatSelection extends AppCompatActivity {
             EnterNames.playerLuck = value;
             startActivity(new Intent(StatSelection.this, EnterNames.class));
         }
-        if (thisStatPoints - value < 0) {
+        if (thisLiveStatPoints - value < 0) {
             setStatIndicator(false);
         }
         else {
             setStatIndicator(true);
-            thisStatPoints -= value;
-            StatSelect.setText("Select stats. Points remaining: " + String.valueOf(thisStatPoints));
+            thisLiveStatPoints -= value;
+            StatSelect.setText("Select stats. Points remaining: " + String.valueOf(thisLiveStatPoints));
             whichStat++;
         }
     }

@@ -135,11 +135,11 @@ public class Gameplay extends AppCompatActivity {
     /**
      * The message displayed when the user finds a point boost secret.
      */
-    public static final String foundPoints = "You found some soy milk. Nutritious! +300 Points! ";
+    public static final String foundPoints = "You found a secret stash of soy milk. Nutritious! +300 Points! ";
     /**
      * The message displayed when the user fails to find a secret.
      */
-    public static final String noSecretFound = "You searched every nook and cranny, but were unable to find anything... There's nothing else to do in this room. ";
+    public static final String noSecretFound = "You looked everywhere, but were unable to find anything... ";
     /**
      * The message displayed when the user has already searched a room.
      */
@@ -213,6 +213,18 @@ public class Gameplay extends AppCompatActivity {
                 }
                 changeOutput(userInput);
                 setGameInfo();
+            }
+        });
+        attackButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                changeOutput("ab");
+            }
+        });
+        spellButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(Gameplay.this, SpellSelection.class));
             }
         });
     }
