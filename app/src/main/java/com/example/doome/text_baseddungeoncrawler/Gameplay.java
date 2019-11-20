@@ -193,7 +193,7 @@ public class Gameplay extends AppCompatActivity {
         victoryMessage = "You won! " + thisRoom.numberOne.name +
                 " dropped " + thisRoom.numberOne.pointValue + " points. Now you have " +
                 EnterNames.thisPlayer.myPoints + " points!";
-        consoleOutput = "Welcome, " + EnterNames.thisPlayer.name + "! You are in an empty room, too small to be searched. If it could be searched, you could look. To enter the next room, press Progress.";
+        consoleOutput = "Welcome, " + EnterNames.thisPlayer.name + "! You are in an empty room, too small to be searched. If it could be searched, you could Look. To enter the next room, press Progress.";
         configureNextButton();
         hud = (TextView) findViewById(R.id.hud);
         gameInfo = (TextView) findViewById(R.id.gameInfo);

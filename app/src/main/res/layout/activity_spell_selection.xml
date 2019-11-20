@@ -36,7 +36,7 @@
             android:textSize="18dp" />
 
         <TextView
-            android:id="@+id/textView9"
+            android:id="@+id/spellTwoDesc"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="(No spell equipped)"
@@ -50,7 +50,7 @@
             android:textSize="18sp" />
 
         <TextView
-            android:id="@+id/textView10"
+            android:id="@+id/spellThreeDesc"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="(No spell equipped)"
@@ -64,7 +64,7 @@
             android:textSize="18sp" />
 
         <TextView
-            android:id="@+id/textView11"
+            android:id="@+id/spellFourDesc"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="(No spell equipped)"
@@ -78,7 +78,7 @@
             android:textSize="18sp" />
 
         <TextView
-            android:id="@+id/textView12"
+            android:id="@+id/spellFiveDesc"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="(No spell equipped)"
@@ -89,6 +89,13 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Spell 5"
+            android:textSize="18sp" />
+
+        <Button
+            android:id="@+id/cancelButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@android:string/cancel"
             android:textSize="18sp" />
 
     </LinearLayout>
