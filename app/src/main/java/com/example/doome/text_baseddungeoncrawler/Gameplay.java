@@ -117,9 +117,13 @@ public class Gameplay extends AppCompatActivity {
      */
     public static final String healed = "You drink some soy milk. You recovered 12 HP! -50 points. ";
     /**
-     * The message displayed when the user puts in an invalid command.
+     * The message displayed when the user tries to attack nothing.
      */
-    public static final String invalidCommand = "Unlike real life, you can't do anything you want. Please enter an appropriate command. ";
+    public static final String attackEmptyRoom = "You swing wildly, and you hit! Oh wait, that was just the floor. No one is here with you, but they'd be quite concerned if they were. ";
+    /**
+     * The message displayed when the player tries to run from nothing.
+     */
+    public static final String runEmptyRoom = "You go to run, but look around for the enemy to avoid and find nothing. You realize your folly and return where you were standing. ";
     /**
      * The message displayed when the user cannot search a room.
      */
@@ -169,11 +173,14 @@ public class Gameplay extends AppCompatActivity {
      * the message added on to the end when the player looks for and finds a secret
      */
     public static final String nothingElse = "It seems there is nothing else in this room. ";
+    /**
+     * the message displayed when the player tries to do something that is unhelpful.
+     */
+    public static final String invalidCommand = "You can't do that right now.";
 
     EditText actionInput;
     static TextView hud;
     static TextView gameInfo;
-    static String displayInfo = new String("Hp:" + EnterNames.thisPlayer.liveHP + "/" + EnterNames.thisPlayer.hp + " Points: " + EnterNames.thisPlayer.myPoints);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -186,45 +193,60 @@ public class Gameplay extends AppCompatActivity {
         victoryMessage = "You won! " + thisRoom.numberOne.name +
                 " dropped " + thisRoom.numberOne.pointValue + " points. Now you have " +
                 EnterNames.thisPlayer.myPoints + " points!";
-        consoleOutput = "Welcome, " + EnterNames.thisPlayer.name + "! You are in an empty room, too small to be searched. If it could be searched, you could type, 'l'. To enter the next room, type 'p'.";
-        displayInfo = new String("Hp: " + EnterNames.thisPlayer.liveHP + "/" + EnterNames.thisPlayer.hp + " Points: " + EnterNames.thisPlayer.myPoints);
+        consoleOutput = "Welcome, " + EnterNames.thisPlayer.name + "! You are in an empty room, too small to be searched. If it could be searched, you could Look. To enter the next room, press Progress.";
         configureNextButton();
-        actionInput = (EditText) findViewById(R.id.actionInput);
         hud = (TextView) findViewById(R.id.hud);
         gameInfo = (TextView) findViewById(R.id.gameInfo);
         setGameInfo();
-        hud.setText(displayInfo);
+        setHud();
     }
     private void configureNextButton() {
-        Button progressButton = (Button) findViewById(R.id.submitButton);
+        Button progressButton = (Button) findViewById(R.id.progressButton);
         Button attackButton = (Button) findViewById(R.id.attackButton);
         Button spellButton = (Button) findViewById(R.id.spellButton);
-        Button defendButton = (Button) findViewById(R.id.defendButton);
+        Button lookButton = (Button) findViewById(R.id.lookButton);
+        Button healButton = (Button) findViewById(R.id.healButton);
+        Button runButton = (Button) findViewById(R.id.runButton);
         progressButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                userInput = actionInput.getText().toString();
-                actionInput.setText("");
                 if (liveRoomCount == roomCount && !isBattling) {
                     startActivity(new Intent(Gameplay.this, FinishedGame.class));
                 }
                 if (EnterNames.thisPlayer.liveHP <= 0) {
                     startActivity(new Intent(Gameplay.this, GameOverScreen.class));
                 }
-                changeOutput(userInput);
-                setGameInfo();
+                changeOutput("p");
             }
         });
         attackButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                changeOutput("ab");
+                changeOutput("a");
             }
         });
         spellButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 startActivity(new Intent(Gameplay.this, SpellSelection.class));
+            }
+        });
+        lookButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                changeOutput("l");
+            }
+        });
+        healButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                changeOutput("h");
+            }
+        });
+        runButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                changeOutput("r");
             }
         });
     }
@@ -253,9 +275,6 @@ public class Gameplay extends AppCompatActivity {
         if (action.equals(look) || action.equals(progress)) {
             consoleOutput = cantInBattle;
         } else if (action.equals(attack)) {
-            startActivity(new Intent(Gameplay.this, Shake.class));
-            attack();
-        } else if (action.equals(attackBypass)) {
             attack();
         } else if (action.equals(run)) {
             if (EnterNames.thisPlayer.myPoints < 100) {
@@ -340,6 +359,10 @@ public class Gameplay extends AppCompatActivity {
             }
         } else if (action.equals(heal)) {
             heal();
+        } else if (action.equals(attack)){
+            consoleOutput = attackEmptyRoom;
+        } else if (action.equals(run)) {
+            consoleOutput = runEmptyRoom;
         } else {
             consoleOutput = invalidCommand;
         }
@@ -348,7 +371,8 @@ public class Gameplay extends AppCompatActivity {
         gameInfo.setText(consoleOutput);
     }
     public static void setHud() {
-        hud.setText("Hp: " + EnterNames.thisPlayer.liveHP + "/" + EnterNames.thisPlayer.hp + " Points: " + EnterNames.thisPlayer.myPoints);
+        hud.setText("HP: " + EnterNames.thisPlayer.liveHP + "/" + EnterNames.thisPlayer.hp +
+                " MP: " + EnterNames.thisPlayer.liveMP + "/" + EnterNames.thisPlayer.mp + " Points: " + EnterNames.thisPlayer.myPoints);
     }
     public static void attack() {
         int dealtDamage = EnterNames.thisPlayer.determineHit(thisRoom.numberOne);
@@ -368,7 +392,6 @@ public class Gameplay extends AppCompatActivity {
                 if (thisRoom.disSearchable) {
                     consoleOutput += canBeSearched;
                 }
-                displayInfo = "Hp: " + EnterNames.thisPlayer.liveHP + "/" + EnterNames.thisPlayer.hp + " Points: " + EnterNames.thisPlayer.myPoints;
                 turnAdvantage = true;
             } else {
                 turnAdvantage = false;

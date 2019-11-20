@@ -1,9 +1,7 @@
 package com.example.doome.text_baseddungeoncrawler;
 
 public class Player extends Character {
-    /**
-     * limit for stat points a player can give themselves
-     */
+
     public double negativeSecretChance;
 
     public int myPoints = 100;
@@ -98,6 +96,8 @@ public class Player extends Character {
         setCritChance();
         setHp();
         liveHP = hp;
+        setMP();
+        liveMP = mp;
         setHitChance();
         setAttackPower();
     }

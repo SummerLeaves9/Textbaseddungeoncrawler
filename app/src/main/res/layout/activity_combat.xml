@@ -35,25 +35,6 @@
             android:layout_height="wrap_content"
             android:text="------------------------------------------------------------------------------------" />
 
-        <EditText
-            android:id="@+id/actionInput"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:ems="10"
-            android:gravity="top"
-            android:hint="(type something)"
-            android:inputType="text"
-            android:textSize="18sp" />
-
-        <Button
-            android:id="@+id/submitButton"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="bottom"
-            android:gravity="center_horizontal"
-            android:text="Enter"
-            android:textSize="24sp" />
-
         <TableLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
@@ -64,15 +45,21 @@
 
                 <Button
                     android:id="@+id/attackButton"
-                    android:layout_width="150dp"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="Attack" />
 
                 <Button
                     android:id="@+id/spellButton"
-                    android:layout_width="150dp"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="Spells" />
+
+                <Button
+                    android:id="@+id/healButton"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Heal" />
             </TableRow>
 
             <TableRow
@@ -80,10 +67,22 @@
                 android:layout_height="match_parent">
 
                 <Button
-                    android:id="@+id/defendButton"
-                    android:layout_width="wrap_content"
+                    android:id="@+id/runButton"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Defend" />
+                    android:text="run" />
+
+                <Button
+                    android:id="@+id/progressButton"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="progress" />
+
+                <Button
+                    android:id="@+id/lookButton"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="look" />
             </TableRow>
 
         </TableLayout>
