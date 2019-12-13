@@ -5,46 +5,83 @@ public class Spell {
     public static byte spellIndex;
     public static String spellName;
 
-    public void basicHeal(Character c) {
-        spellName = "Basic Heal";
-        byte tobeHealed = c.hp;
-        tobeHealed *= (byte) .35;
+    public Spell() {}
+
+    public Spell(byte index) {
+        spellIndex = index;
+        if (index == 1) {
+            spellName = "Basic Heal";
+        } else if (index == 2) {
+            spellName = "Strong Heal";
+        } else if (index == 3) {
+            spellName = "Ultimate Block";
+        } else if (index == 4) {
+            spellName = "Sphericon";
+        } else if (index == 5) {
+            spellName = "Sphericon Charge";
+        } else if (index == 6) {
+            spellName = "Sphericon Supercharge";
+        } else if (index == 7) {
+            spellName = "Lucky Marksman";
+        } else if (index == 8) {
+            spellName = "Blinding Light";
+        } else if (index == 9) {
+            spellName = "Fireball";
+        } else if (index == 10) {
+            spellName = "Poison";
+        }
     }
 
-    public void strongHeal() {
-        spellName = "Strong Heal";
+    public void basicHeal(Character c) {
+        byte tobeHealed = c.hp;
+        tobeHealed *= (byte) .35;
+        c.liveHP += tobeHealed;
+    }
+
+    public void strongHeal(Character c) {
+        byte tobeHealed = c.hp;
+        tobeHealed *= (byte) .65;
+        c.liveHP += tobeHealed;
     }
 
     public void ultimateBlock() {
-        spellName = "Ultimate Block";
+
     }
 
     public void sphericon() {
-        spellName = "Sphericon";
+
     }
 
     public void sphericonCharge() {
-        spellName = "Sphericon Charge";
+
     }
 
     public void sphericonSuperCharge() {
-        spellName = "Sphericon Supercharge";
+
     }
 
     public void luckyMarksman() {
-        spellName = "Lucky Marksman";
+
     }
 
     public void blindingLight() {
-        spellName = "Blinding Light";
+
     }
 
     public void fireball() {
-        spellName = "Fireball";
+
     }
 
     public void poison() {
-        spellName = "Poison";
+
+    }
+
+    public void determineSpell(byte index) {
+
+    }
+
+    public void cast() {
+
     }
 
 }

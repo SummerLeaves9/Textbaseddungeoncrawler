@@ -19,6 +19,15 @@ public class Player extends Character {
         name = setName;
         weaponName = setAttackName;
         setAllStats();
+        if (magicValue > 0) {
+            spells[1] = new Spell((byte) 1);
+        }if (magicValue > 3) {
+            spells[2] = new Spell((byte) 2);
+        }if (magicValue > 5) {
+            spells[3] = new Spell((byte) 3);
+        } if (magicValue > 8) {
+            spells[4] = new Spell((byte) 4);
+        }
     }
     /**
      * Determines whether a secret was found or not.

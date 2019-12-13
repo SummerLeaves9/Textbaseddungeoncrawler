@@ -92,7 +92,7 @@ public class Character {
     /**
      * The array of spells available to this character.
      */
-    public Spell[] spells;
+    public Spell[] spells = {new Spell(), new Spell(), new Spell(), new Spell(), new Spell()};
     /**
      * If this character lands a critical hit, their damage output is multiplied by this value.
      */
@@ -253,6 +253,12 @@ public class Character {
             }
         }
         return 0;
+    }
+    /**
+     * Casts a certain spell
+     */
+    public void castSpell(byte index) {
+
     }
 
     /**
