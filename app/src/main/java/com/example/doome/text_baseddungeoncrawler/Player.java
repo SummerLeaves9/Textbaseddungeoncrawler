@@ -3,6 +3,16 @@ package com.example.doome.text_baseddungeoncrawler;
 public class Player extends Character {
 
     public double negativeSecretChance;
+    private boolean canBasicHeal = false;
+    private boolean canStrongHeal = false;
+    private boolean canUltimateBlock = false;
+    private boolean canSphericon = false;
+    private boolean canSphericonCharge = false;
+    private boolean canSphericonSuperCharge = false;
+    private boolean canLuckyMarksman = false;
+    private boolean canBlindingLight = false;
+    private boolean canFireball = false;
+    private boolean canPoison = false;
 
     public int myPoints = 100;
 
@@ -20,13 +30,15 @@ public class Player extends Character {
         weaponName = setAttackName;
         setAllStats();
         if (magicValue > 0) {
-            spells[0] = new Spell((byte) 1);
+            canBasicHeal = true;
+            canFireball = true;
         } if (magicValue > 3) {
-            spells[1] = new Spell((byte) 2);
+            canPoison = true;
         } if (magicValue > 5) {
-            spells[2] = new Spell((byte) 3);
+            canStrongHeal = true;
         } if (magicValue > 8) {
-            spells[3] = new Spell((byte) 4);
+            canSphericon = true;
+            canSphericonCharge = true;
         }
     }
     /**
@@ -110,103 +122,115 @@ public class Player extends Character {
         setHitChance();
         setAttackPower();
     }
-    public static class Spell {
 
-        public static byte spellIndex;
-        public static String spellName;
+    /**
+     * The following methods are unlockable spells available to a player in battle only if their
+     * magic stat is high enough, or if they find Spell Scrolls on their quest.
+     */
 
-        public Spell(byte index) {
-            spellIndex = index;
-            if (index == 1) {
-                spellName = "Basic Heal";
-            } else if (index == 2) {
-                spellName = "Strong Heal";
-            } else if (index == 3) {
-                spellName = "Ultimate Block";
-            } else if (index == 4) {
-                spellName = "Sphericon";
-            } else if (index == 5) {
-                spellName = "Sphericon Charge";
-            } else if (index == 6) {
-                spellName = "Sphericon Supercharge";
-            } else if (index == 7) {
-                spellName = "Lucky Marksman";
-            } else if (index == 8) {
-                spellName = "Blinding Light";
-            } else if (index == 9) {
-                spellName = "Fireball";
-            } else if (index == 10) {
-                spellName = "Poison";
-            }
-        }
+    /**
+     * Basic Heal: MA
+     * Restores 35 percent of the player's health
+     */
 
-        public static void basicHeal(Character c) {
-            byte tobeHealed = c.hp;
-            tobeHealed *= (byte) .35;
-            c.liveHP += tobeHealed;
-        }
+    public void basicHeal() {
+        byte tobeHealed = this.hp;
+        tobeHealed *= (byte) .35;
+        this.liveHP += tobeHealed;
+    }
 
-        public static void strongHeal(Character c) {
-            byte tobeHealed = c.hp;
-            tobeHealed *= (byte) .65;
-            c.liveHP += tobeHealed;
-        }
+    /**
+     * Strong Heal: MA
+     * Restores 65 percent of the player's health.
+     */
 
-        public void ultimateBlock() {
+    public void strongHeal() {
+        byte tobeHealed = this.hp;
+        tobeHealed *= (byte) .65;
+        this.liveHP += tobeHealed;
+    }
 
-        }
+    /**
+     * Ultimate Block: MA
+     * Makes the player invincible this turn.
+     */
 
-        public void sphericon() {
-
-        }
-
-        public void sphericonCharge() {
-
-        }
-
-        public void sphericonSuperCharge() {
-
-        }
-
-        public void luckyMarksman() {
-
-        }
-
-        public void blindingLight() {
-
-        }
-
-        public void fireball() {
-
-        }
-
-        public void poison() {
-
-        }
-
-        public void cast() {
-            if(spellIndex == 1) {
-                basicHeal(EnterNames.thisPlayer);
-            } else if (spellIndex == 2) {
-                strongHeal(EnterNames.thisPlayer);
-            } else if (spellIndex == 3) {
-                ultimateBlock();
-            } else if (spellIndex == 4) {
-                sphericon();
-            } else if (spellIndex == 5) {
-                sphericonCharge();
-            } else if (spellIndex == 6) {
-                sphericonSuperCharge();
-            } else if (spellIndex == 7) {
-                luckyMarksman();
-            } else if (spellIndex == 8) {
-                blindingLight();
-            } else if (spellIndex == 9) {
-                fireball();
-            } else {
-                poison();
-            }
-        }
+    public static void ultimateBlock() {
 
     }
+
+    /**
+     * Sphericon: M
+     * Summons a lil guy to fight for you. To make it deal damage, charge it with
+     * either Sphericon Charge or Sphericon Supercharge. The more you charge it, the more damage
+     * it will do. It will attack the first turn you don't give it charge.
+     */
+
+    public static void sphericon() {
+
+    }
+
+    /**
+     * Sphericon Charge: M
+     * Charges a sphericon for one unit.
+     */
+
+    public static void sphericonCharge() {
+
+    }
+
+    /**
+     * Sphericon Supercharge: MA
+     * Charges a sphericon for three units.
+     */
+
+    public static void sphericonSuperCharge() {
+
+    }
+
+    /**
+     * Lucky Marksman: M
+     * When cast, the following conditions apply to the player's next attack turn:
+     * If this player lands their attack, they are healed half of the amount they deal
+     * If this player does not hit their attack, AND the enemy hits theirs, the player takes double
+     * damage
+     */
+    public void luckyMarksman() {
+
+    }
+
+    /**
+     * Blinding Light: M
+     * When cast,
+     * 80 percent chance that your enemy's accuracy is decreased by 3 this turn
+     * 20 percent chance of doing nothing
+     */
+
+    public void blindingLight(Character c) {
+
+    }
+
+    /**
+     * Fireball: MA
+     * Cast a flaming projectile with these properties:
+     * Depending on the player's magic stat, deals 1.5-2 times normal damage
+     * Is -2 accuate compared to your normal attack
+     */
+
+    public void fireball(Character c) {
+
+    }
+
+    /**
+     * Poison: M
+     * 60 percent chance of lowering your enemy's max health by 20 percent for 3 turns. After the
+     * third turn, they will also be healed the number of hp their max hp was lowered by.
+     * 40 percent chance of dealing 1 damage.
+     */
+
+    public void poison(Character c) {
+
+    }
+
 }
+
