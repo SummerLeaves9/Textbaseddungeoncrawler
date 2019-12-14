@@ -19,6 +19,15 @@ public class Player extends Character {
         name = setName;
         weaponName = setAttackName;
         setAllStats();
+        if (magicValue > 0) {
+            spells[0] = new Spell((byte) 1);
+        } if (magicValue > 3) {
+            spells[1] = new Spell((byte) 2);
+        } if (magicValue > 5) {
+            spells[2] = new Spell((byte) 3);
+        } if (magicValue > 8) {
+            spells[3] = new Spell((byte) 4);
+        }
     }
     /**
      * Determines whether a secret was found or not.
@@ -100,5 +109,104 @@ public class Player extends Character {
         liveMP = mp;
         setHitChance();
         setAttackPower();
+    }
+    public static class Spell {
+
+        public static byte spellIndex;
+        public static String spellName;
+
+        public Spell(byte index) {
+            spellIndex = index;
+            if (index == 1) {
+                spellName = "Basic Heal";
+            } else if (index == 2) {
+                spellName = "Strong Heal";
+            } else if (index == 3) {
+                spellName = "Ultimate Block";
+            } else if (index == 4) {
+                spellName = "Sphericon";
+            } else if (index == 5) {
+                spellName = "Sphericon Charge";
+            } else if (index == 6) {
+                spellName = "Sphericon Supercharge";
+            } else if (index == 7) {
+                spellName = "Lucky Marksman";
+            } else if (index == 8) {
+                spellName = "Blinding Light";
+            } else if (index == 9) {
+                spellName = "Fireball";
+            } else if (index == 10) {
+                spellName = "Poison";
+            }
+        }
+
+        public static void basicHeal(Character c) {
+            byte tobeHealed = c.hp;
+            tobeHealed *= (byte) .35;
+            c.liveHP += tobeHealed;
+        }
+
+        public static void strongHeal(Character c) {
+            byte tobeHealed = c.hp;
+            tobeHealed *= (byte) .65;
+            c.liveHP += tobeHealed;
+        }
+
+        public void ultimateBlock() {
+
+        }
+
+        public void sphericon() {
+
+        }
+
+        public void sphericonCharge() {
+
+        }
+
+        public void sphericonSuperCharge() {
+
+        }
+
+        public void luckyMarksman() {
+
+        }
+
+        public void blindingLight() {
+
+        }
+
+        public void fireball() {
+
+        }
+
+        public void poison() {
+
+        }
+
+        public void cast() {
+            if(spellIndex == 1) {
+                basicHeal(EnterNames.thisPlayer);
+            } else if (spellIndex == 2) {
+                strongHeal(EnterNames.thisPlayer);
+            } else if (spellIndex == 3) {
+                ultimateBlock();
+            } else if (spellIndex == 4) {
+                sphericon();
+            } else if (spellIndex == 5) {
+                sphericonCharge();
+            } else if (spellIndex == 6) {
+                sphericonSuperCharge();
+            } else if (spellIndex == 7) {
+                luckyMarksman();
+            } else if (spellIndex == 8) {
+                blindingLight();
+            } else if (spellIndex == 9) {
+                fireball();
+            } else {
+                poison();
+            }
+        }
+
     }
 }

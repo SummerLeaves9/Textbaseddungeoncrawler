@@ -23,17 +23,21 @@ public class Gameplay extends AppCompatActivity {
      */
     public static boolean isBattling = false;
     /**
-     * The boolean that determines if the user has used their turn.
+     * The boolean that determines if the user has used their attack turn.
      */
-    public static boolean turnAdvantage = true;
+    public static boolean attackTurnAdvantage = true;
+    /**
+     * The boolean that determines if the user has used their magic turn.
+     */
+    public static boolean magicTurnAdvantage = true;
+    /**
+     * The boolean that determines whether the user has enabled ultimate block this turn.
+     */
+    public static boolean hasBlocked = false;
     /**
      * The final string to compare the userInput to attack.
      */
     public static final String attack = "a";
-    /**
-     * The final string used to bypass the shake to attack
-     */
-    public static final String attackBypass = "ab";
     /**
      * The final string to compare the userInput to run.
      */
@@ -257,16 +261,16 @@ public class Gameplay extends AppCompatActivity {
      */
     public void changeOutput (String action) {
         if (isBattling) {
-            if (turnAdvantage) {
+            if (attackTurnAdvantage) {
                 myBattleStatus(action);
             }
-            if (!turnAdvantage) {
+            if (!attackTurnAdvantage) {
                 enemyBattleStatus();
-                turnAdvantage = true;
+                attackTurnAdvantage = true;
             }
         } else {
             movementStatus(action);
-            turnAdvantage = true;
+            attackTurnAdvantage = true;
         }
         setGameInfo();
         setHud();
@@ -386,19 +390,19 @@ public class Gameplay extends AppCompatActivity {
                 victoryMessage = "You won! " + thisRoom.numberOne.name +
                         " dropped " + thisRoom.numberOne.pointValue + " points. Now you have " +
                         EnterNames.thisPlayer.myPoints + " points!";
-                consoleOutput += Gameplay.victoryMessage;
+                consoleOutput += victoryMessage;
                 isBattling = false;
                 enemiesDefeatedCounter++;
                 if (thisRoom.disSearchable) {
                     consoleOutput += canBeSearched;
                 }
-                turnAdvantage = true;
+                attackTurnAdvantage = true;
             } else {
-                turnAdvantage = false;
+                attackTurnAdvantage = false;
             }
         } else {
             consoleOutput = displayMiss;
-            turnAdvantage = false;
+            attackTurnAdvantage = false;
         }
     }
     public static void heal() {
@@ -412,7 +416,7 @@ public class Gameplay extends AppCompatActivity {
             } else {
                 EnterNames.thisPlayer.liveHP = EnterNames.thisPlayer.hp;
             }
-            turnAdvantage = false;
+            attackTurnAdvantage = false;
         }
     }
     public void setRoomCount() {

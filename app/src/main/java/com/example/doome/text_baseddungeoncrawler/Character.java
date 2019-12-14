@@ -90,6 +90,10 @@ public class Character {
      */
     public String weaponName;
     /**
+     * The array of spells available to this character.
+     */
+    public Spell[] spells = {new Spell(), new Spell(), new Spell(), new Spell(), new Spell()};
+    /**
      * If this character lands a critical hit, their damage output is multiplied by this value.
      */
     public static double critMultiplier = 1.8;
@@ -249,6 +253,12 @@ public class Character {
             }
         }
         return 0;
+    }
+    /**
+     * Casts a certain spell
+     */
+    public void castSpell(byte index) {
+
     }
 
     /**
