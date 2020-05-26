@@ -67,11 +67,6 @@ public class Gameplay extends AppCompatActivity {
      */
     public static Room thisRoom = new Room();
     /**
-     * The String which will store the user's desired action.
-     * Is changed throughout play.
-     */
-    public static String userInput;
-    /**
      * The message displayed to the user upon trying an illegal action while in battle.
      */
     public static String cantInBattle = "You tried to, but the enemy insisted you stay!";
@@ -143,7 +138,7 @@ public class Gameplay extends AppCompatActivity {
     /**
      * The message displayed when the user finds a point boost secret.
      */
-    public static final String foundPoints = "You found a secret stash of soy milk. Nutritious! +300 Points! ";
+    public static final String foundNewSpell = "You found an ancient book... read it? ";
     /**
      * The message displayed when the user fails to find a secret.
      */
@@ -182,7 +177,6 @@ public class Gameplay extends AppCompatActivity {
      */
     public static final String invalidCommand = "You can't do that right now.";
 
-    EditText actionInput;
     static TextView hud;
     static TextView gameInfo;
 
@@ -349,7 +343,7 @@ public class Gameplay extends AppCompatActivity {
                         EnterNames.thisPlayer.hp += 2;
                         EnterNames.thisPlayer.liveHP += 2;
                     } else if (foundSecret == 3) {
-                        consoleOutput = foundPoints + nothingElse;
+                        consoleOutput = foundNewSpell + nothingElse;
                         EnterNames.thisPlayer.myPoints += 300;
                     }
                     thisRoom.roomSearched = true;
@@ -399,6 +393,7 @@ public class Gameplay extends AppCompatActivity {
                 attackTurnAdvantage = true;
             } else {
                 attackTurnAdvantage = false;
+                magicTurnAdvantage = false;
             }
         } else {
             consoleOutput = displayMiss;

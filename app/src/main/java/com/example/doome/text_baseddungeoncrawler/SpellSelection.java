@@ -9,10 +9,23 @@ import android.content.Intent;
 
 public class SpellSelection extends AppCompatActivity {
 
+    //public static byte magicStat;
+
+    static TextView spellOneDesc;
+    static TextView spellTwoDesc;
+    static TextView spellThreeDesc;
+    static TextView spellFourDesc;
+    static TextView spellFiveDesc;
+
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_spell_selection);
+        spellOneDesc = (TextView) findViewById(R.id.spellOneDesc);
+        spellTwoDesc = (TextView) findViewById(R.id.spellTwoDesc);
+        spellThreeDesc = (TextView) findViewById(R.id.spellThreeDesc);
+        spellFourDesc = (TextView) findViewById(R.id.spellFourDesc);
+        spellFiveDesc = (TextView) findViewById(R.id.spellFiveDesc);
         configureNextButton();
     }
     private void configureNextButton() {

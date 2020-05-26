@@ -67,7 +67,7 @@ public class Enemy extends Character{
             this.pointValue = 90;
         } else if (type == enemyType.Goblin) {
             name = "Goblin";
-            weaponName = "punch";
+            weaponName = "knife slash";
             this.accuracyValue = 4;
             this.defenseValue = 3;
             this.strengthValue = 2;

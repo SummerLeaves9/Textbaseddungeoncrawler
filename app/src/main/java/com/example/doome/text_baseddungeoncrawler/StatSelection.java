@@ -149,7 +149,10 @@ public class StatSelection extends AppCompatActivity {
         else if (whichStat == 2) {EnterNames.playerDefense = value;}
         else if (whichStat == 3) {EnterNames.playerAgility = value;}
         else if (whichStat == 4) {EnterNames.playerIntelligence = value;}
-        else if (whichStat == 5) {EnterNames.playerMagic = value;}
+        else if (whichStat == 5) {
+            EnterNames.playerMagic = value;
+            //SpellSelection.magicStat = value;
+        }
         else {
             EnterNames.playerLuck = value;
             startActivity(new Intent(StatSelection.this, EnterNames.class));

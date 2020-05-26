@@ -20,6 +20,8 @@ public class DifficultySelection extends AppCompatActivity {
 
     public static final double hardNegativeSecretChance = .3;
 
+    public static final double uberNegativeSecretChance = .35;
+
     public static double finalNegativeSecretChance;
 
     public static byte statPointCount;
@@ -50,6 +52,7 @@ public class DifficultySelection extends AppCompatActivity {
                 statPointCount = easyStatPoints;
                 selectedDifficulty = easy;
                 finalNegativeSecretChance = easyNegativeSecretChance;
+                Player.negativeSecretChance = finalNegativeSecretChance;
                 startActivity(new Intent(DifficultySelection.this, StatSelection.class));
             }
         });
@@ -59,6 +62,7 @@ public class DifficultySelection extends AppCompatActivity {
                 statPointCount = normalStatPoints;
                 selectedDifficulty = normal;
                 finalNegativeSecretChance = normalNegativeSecretChance;
+                Player.negativeSecretChance = finalNegativeSecretChance;
                 startActivity(new Intent(DifficultySelection.this, StatSelection.class));
             }
         });
@@ -68,6 +72,7 @@ public class DifficultySelection extends AppCompatActivity {
                 statPointCount = hardAndUberStatPoints;
                 selectedDifficulty = hard;
                 finalNegativeSecretChance = hardNegativeSecretChance;
+                Player.negativeSecretChance = finalNegativeSecretChance;
                 startActivity(new Intent(DifficultySelection.this, StatSelection.class));
             }
         });
@@ -76,6 +81,8 @@ public class DifficultySelection extends AppCompatActivity {
             public void onClick(View v4) {
                 statPointCount = hardAndUberStatPoints;
                 selectedDifficulty = uber;
+                finalNegativeSecretChance = uberNegativeSecretChance;
+                Player.negativeSecretChance = finalNegativeSecretChance;
                 startActivity(new Intent(DifficultySelection.this, StatSelection.class));
             }
         });
