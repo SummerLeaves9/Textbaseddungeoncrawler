@@ -89,6 +89,35 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Spell 5"
+            android:textSize="18sp"
+            android:typeface="normal" />
+
+        <TextView
+            android:id="@+id/spellSixDesc"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="(No spell equipped)"
+            android:textSize="18sp" />
+
+        <Button
+            android:id="@+id/activateSpellSix"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Spell 6"
+            android:textSize="18sp" />
+
+        <TextView
+            android:id="@+id/spellSevenDesc"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="(No spell equipped)"
+            android:textSize="18sp" />
+
+        <Button
+            android:id="@+id/activateSpellSeven"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Spell 7"
             android:textSize="18sp" />
 
         <Button

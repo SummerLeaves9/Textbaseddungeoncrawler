@@ -208,12 +208,6 @@ public class Gameplay extends AppCompatActivity {
         progressButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (liveRoomCount == roomCount && !isBattling) {
-                    startActivity(new Intent(Gameplay.this, FinishedGame.class));
-                }
-                if (EnterNames.thisPlayer.liveHP <= 0) {
-                    startActivity(new Intent(Gameplay.this, GameOverScreen.class));
-                }
                 changeOutput("p");
             }
         });
@@ -310,6 +304,19 @@ public class Gameplay extends AppCompatActivity {
     }
     public void movementStatus(String action) {
         if (action.equals(progress)) {
+            if (liveRoomCount == roomCount && !isBattling) {
+                startActivity(new Intent(Gameplay.this, FinishedGame.class));
+            }
+            if (EnterNames.thisPlayer.liveHP <= 0) {
+                startActivity(new Intent(Gameplay.this, GameOverScreen.class));
+            }
+            //TEST: replaces the player's first spell with Sphericon charge after they press
+            // progress for the very first time. This if statement with condition (liveRoomCount
+            // == 0) should be removed after spells are working.
+            if (liveRoomCount == 0) {
+                EnterNames.thisPlayer.spells[0] = Player.allSpells[4][0];
+                SpellSelection.updateSpell((byte) 0, (byte) 4);
+            }
             if (liveRoomCount < roomCount) {
                 thisRoom = new Room();
                 liveRoomCount++;
@@ -317,7 +324,7 @@ public class Gameplay extends AppCompatActivity {
                 displayEnemyHit = thisRoom.numberOne.name + " uses " +
                         thisRoom.numberOne.weaponName + " and it hits! for ";
                 displayEnemyMiss = thisRoom.numberOne.name + " uses " +
-                        thisRoom.numberOne.weaponName + ", but they miss. Nice dodge!";
+                        thisRoom.numberOne.weaponName + ", but you dodge it.";
                 consoleOutput = emptyRoom;
                 if (!(thisRoom.numberOne.name.equals("null"))) {
                     startBattle = " A " + thisRoom.numberOne.name + " appears in the room! Prepare for battle!";

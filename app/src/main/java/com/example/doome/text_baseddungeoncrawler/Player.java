@@ -1,12 +1,33 @@
 package com.example.doome.text_baseddungeoncrawler;
 
+//import java.util.Pair;
+
 public class Player extends Character {
 
     public static double negativeSecretChance;
 
     public int myPoints = 100;
 
-    public byte[] spells = {0, 0, 0, 0, 0, 0, 0};
+    public String[] spells = {"None", "None", "None", "None", "None", "None", "None"};
+
+    public static final String[][] allSpells = {
+            {"Basic Heal", "MA, Cost: 5 MP. Restores some health"},
+            {"Strong Heal", "MA, Cost: 15 MP. Restores a lot of health"},
+            {"Ultimate Block", "MA, Cost: 20 MP. Ensures you won't take damage this turn."},
+            {"Sphericon","M, Cost: 7 MP. Summons a lil' guy to fight for you, but only by " +
+                    "charging it."},
+            {"Sphericon Charge","M, Cost: 3 MP. Charges your Sphericon for 1 unit."},
+            {"Sphericon Supercharge","MA, Cost: 12 MP. Charges your Sphericon for 3 units."},
+            {"Lucky Marksman","M, Cost: 6 MP. You are healed half your your party's damage output" +
+                    " this turn. But if you miss, you take double what your enemies deal."},
+            {"Blinding Light","M, Cost: 3 MP. 80 percent chance to reduce your enemy's accuracy " +
+                    "by 3 this turn."},
+            {"Fireball","MA, Cost: 6 MP. Cast a flaming projectile whose strength is proportional" +
+                    " to your magic stat (from 1.5-2.5 times your base attack power). Less " +
+                    "accurate than your direct attack"},
+            {"Poison","M, Cost: 7 MP. Deals 15 percent of your enemy's max health for 3 turns, " +
+                    "but the enemy is healed 45 percent after 3 turns."},
+            };
 
     public Player(final byte setStrength, final byte setAccuracy, final byte setDefense,
                   final byte setAgility, final byte setIntelligence, final byte setMagic, final byte setLuck,
@@ -22,32 +43,40 @@ public class Player extends Character {
         weaponName = setAttackName;
         setAllStats();
         if (magicValue > 0) {
-            spells[0] = 1;
-            //SpellSelection.spellOneDesc.setText("Basic Heal: MA. Restores some health");
+            spells[0] = allSpells[0][0];
         } if (magicValue > 3) {
-            spells[1] = 9;
-            //SpellSelection.spellTwoDesc.setText("Fireball: MA. Does more damage than your regular attack, but slightly less accurate");
+            spells[1] = allSpells[8][0];
         } if (magicValue > 5) {
-            spells[2] = 8;
-            //SpellSelection.spellThreeDesc.setText("Blinding Light: M. 80 percent chance to reduce enemy accuracy this turn");
+            spells[2] = allSpells[7][0];
         } if (magicValue > 8) {
-            spells[0] = 2;
-            //SpellSelection.spellOneDesc.setText("Strong Heal: MA. Restores a lot of health");
+            spells[0] = allSpells[1][0];
         }
     }
     /**
      * Determines whether a secret was found or not.
+     * Returns the type of secret if found, or 0 if no secret was found.
      */
     public int foundSecret() {
         double foundSecret = Math.random();
-        double secretType = Math.random();
+        double isNegativeSecret = Math.random();
         if (foundSecret < secretChance) {
-            if (secretType < 0.333) {
-                return 1;
-            } else if (secretType < 0.666) {
-                return 2;
+            double secretType = Math.random();
+            if (isNegativeSecret > negativeSecretChance) {
+                if (secretType < 0.333) {
+                    return 1;
+                } else if (secretType < 0.666) {
+                    return 2;
+                } else {
+                    return 3;
+                }
             } else {
-                return 3;
+                if (secretType < 0.333) {
+                    return 4;
+                } else if (secretType < 0.666) {
+                    return 5;
+                } else {
+                    return 6;
+                }
             }
         } else {
             return 0;
@@ -236,15 +265,5 @@ public class Player extends Character {
 
     }
 
-    /**
-     * Cast spell
-     * Maps each number in the array to a spell.
-     */
-
-    public void castSpell(byte spell, Character c) {
-        if (spell == 1){
-
-        }
-    }
 }
 
