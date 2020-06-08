@@ -11,22 +11,22 @@ public class Room {
      */
     public double searchableChance = .69;
     /**
-     * On easy difficulty, chance that an enemy is a strong variant.
+     * Chance that this room is an oasis
      */
-    public double strongChanceEasy = .1;
+    public double oasisChance = .07;
     /**
-     * On normal difficulty, chance that an enemy is a strong variant.
+     * Boolean to keep track of whether an oasis has occurred this game
      */
-    public double strongChanceNormal = .27;
-    /**
-     * On hard difficulty, chance that an enemy is a strong variant.
-     */
-    public double strongChanceHard = .5;
+    public static boolean oasisUsed = false;
 
     /**
      * Boolean that keeps track of whether this room can be searched.
      */
     public boolean disSearchable = false;
+    /**
+     * Boolean that keeps track of whether this room has an enemy in it.
+     */
+    public boolean hasEnemy;
     /**
      * If an enemy is in the room, this is how it will be accessed.
      */
@@ -41,15 +41,15 @@ public class Room {
      */
     public Room() {
         if (Gameplay.liveRoomCount == 0) {
-            numberOne.name = "null";
+            hasEnemy = false;
             disSearchable = false;
         } else {
             double enemyIndicator = Math.random();
             double isSearchable = Math.random();
-            double isStrong = Math.random();
             if (enemyIndicator > enemyChance) {
-                numberOne.name = "null";
+                hasEnemy = false;
             } else {
+                hasEnemy = true;
                 Gameplay.isBattling = true;
             }
             if (isSearchable < searchableChance) {

@@ -9,16 +9,13 @@ import android.content.Intent;
 
 public class SpellSelection extends AppCompatActivity {
 
-    //public static byte magicStat;
-
     static TextView spellOneDesc;
-    static TextView spellTwoDesc;
-    static TextView spellThreeDesc;
-    static TextView spellFourDesc;
-    static TextView spellFiveDesc;
-    static TextView spellSixDesc;
-    static TextView spellSevenDesc;
-
+    TextView spellTwoDesc;
+    TextView spellThreeDesc;
+    TextView spellFourDesc;
+    TextView spellFiveDesc;
+    TextView spellSixDesc;
+    TextView spellSevenDesc;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -32,13 +29,13 @@ public class SpellSelection extends AppCompatActivity {
         spellSevenDesc = (TextView) findViewById(R.id.spellSevenDesc);
         configureNextButton();
         if (EnterNames.playerMagic >= 0) {
-            SpellSelection.spellOneDesc.setText(Player.allSpells[0][1]);
+            spellOneDesc.setText(EnterNames.thisPlayer.spells[0].description);
         } if (EnterNames.playerMagic > 3) {
-            SpellSelection.spellTwoDesc.setText("Fireball: MA. Does more damage than your regular attack, but slightly less accurate");
+            spellTwoDesc.setText(EnterNames.thisPlayer.spells[1].description);
         } if (EnterNames.playerMagic > 5) {
-            SpellSelection.spellThreeDesc.setText("Blinding Light: M. 80 percent chance to reduce enemy accuracy this turn");
+            spellThreeDesc.setText(EnterNames.thisPlayer.spells[2].description);
         } if (EnterNames.playerMagic > 8) {
-            SpellSelection.spellOneDesc.setText("Strong Heal: MA. Restores a lot of health");
+            spellOneDesc.setText(EnterNames.thisPlayer.spells[0].description);
         }
     }
     private void configureNextButton() {
@@ -56,65 +53,70 @@ public class SpellSelection extends AppCompatActivity {
                 finish();
             }
         });
-        //This is where the functions of the spells are going to be used when the user presses one of them.
+        //This is where the functions of the spells are used when the user presses
+        //the corresponding button.
         spellOne.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                trulyCastSpell((byte) 0, Gameplay.thisRoom.numberOne);
+                Gameplay.updateCastSuccess((byte) 0);
+                Gameplay.trulyCastSpell((byte) 0);
                 finish();
             }
         });
         spellTwo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                trulyCastSpell((byte) 1, Gameplay.thisRoom.numberOne);
+                Gameplay.updateCastSuccess((byte) 1);
+                Gameplay.trulyCastSpell((byte) 1);
                 finish();
             }
         });
         spellThree.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                trulyCastSpell((byte) 2, Gameplay.thisRoom.numberOne);
+                Gameplay.updateCastSuccess((byte) 2);
+                Gameplay.trulyCastSpell((byte) 2);
                 finish();
             }
         });
         spellFour.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                trulyCastSpell((byte) 3, Gameplay.thisRoom.numberOne);
+                Gameplay.updateCastSuccess((byte) 3);
+                Gameplay.trulyCastSpell((byte) 3);
                 finish();
             }
         });
         spellFive.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                trulyCastSpell((byte) 4, Gameplay.thisRoom.numberOne);
+                Gameplay.updateCastSuccess((byte) 4);
+                Gameplay.trulyCastSpell((byte) 4);
                 finish();
             }
         });
         spellSix.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                trulyCastSpell((byte) 5, Gameplay.thisRoom.numberOne);
+                Gameplay.updateCastSuccess((byte) 5);
+                Gameplay.trulyCastSpell((byte) 5);
                 finish();
             }
         });
         spellSeven.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                trulyCastSpell((byte) 6, Gameplay.thisRoom.numberOne);
+                Gameplay.updateCastSuccess((byte) 6);
+                Gameplay.trulyCastSpell((byte) 6);
                 finish();
             }
         });
     }
 
-    private static void trulyCastSpell(byte index, Character c) {
-
-    }
-
     public static void updateSpell(byte slot, byte spellNum) {
+        EnterNames.thisPlayer.spells[slot] = new Spell(spellNum);
         if (slot == 0) {
-
+            spellOneDesc.setText(EnterNames.thisPlayer.spells[slot].description);
         }
     }
 }

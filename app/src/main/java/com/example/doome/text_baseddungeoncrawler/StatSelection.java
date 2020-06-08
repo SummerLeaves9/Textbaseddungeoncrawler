@@ -13,8 +13,8 @@ public class StatSelection extends AppCompatActivity {
     public static byte whichStat = 0;
     public static byte thisStatPoints;
     public static byte thisLiveStatPoints;
-    static TextView StatSelect;
-    static TextView StatIndicator;
+    TextView StatSelect;
+    TextView StatIndicator;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

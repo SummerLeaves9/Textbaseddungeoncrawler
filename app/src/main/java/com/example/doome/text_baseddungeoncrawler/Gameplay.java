@@ -35,6 +35,19 @@ public class Gameplay extends AppCompatActivity {
      */
     public static boolean hasBlocked = false;
     /**
+     * The boolean that stores whether the player has an active Sphericon on the battlefield
+     */
+    public static boolean hasSphericon = false;
+    /**
+     * The int that stores how many Sphericon charges are loaded up
+     */
+    public static int sphericonCharge = 0;
+    /**
+     * For spells that have effects over one or more turns, this counter keeps track of turns when
+     * the effect is active. If the counter reaches 0, the effect ends.
+     */
+    public static byte effectCounter = 0;
+    /**
      * The final string to compare the userInput to attack.
      */
     public static final String attack = "a";
@@ -91,7 +104,7 @@ public class Gameplay extends AppCompatActivity {
     /**
      *
      */
-    public static String selectedDifficulty1 = DifficultySelection.selectedDifficulty;
+    public static char selectedDifficulty1 = DifficultySelection.selectedDifficulty;
     /**
      * The message displayed to the user when they win and end a battle.
      * To be added onto an attack meesage, as this must be displayed before the battle could end.
@@ -140,6 +153,10 @@ public class Gameplay extends AppCompatActivity {
      */
     public static final String foundNewSpell = "You found an ancient book... read it? ";
     /**
+     * The message for the first kind of bad secret
+     */
+    //public static final String
+    /**
      * The message displayed when the user fails to find a secret.
      */
     public static final String noSecretFound = "You looked everywhere, but were unable to find anything... ";
@@ -156,6 +173,10 @@ public class Gameplay extends AppCompatActivity {
      * The message displayed when a user progresses and enters battle with an enemy.
      */
     public static String startBattle = " A " + thisRoom.numberOne.name + " appears in this room! Prepare for battle! ";
+    /**
+     * The message displayed when the player enters battle with a miniboss.
+     */
+    public static String strongStartBattle = " A miniboss appears, it's a " + thisRoom.numberOne.name + "! Prepare for battle! ";
     /**
      * The add-on message displayed to the user when the room can be searched.
      */
@@ -176,14 +197,31 @@ public class Gameplay extends AppCompatActivity {
      * the message displayed when the player tries to do something that is unhelpful.
      */
     public static final String invalidCommand = "You can't do that right now.";
+    /**
+     * the message displayed when you try to use a spell, but you have already used your magic turn.
+     */
+    public static final String noMagicTurn = "You have already used your magic turn! ";
+    /**
+     * The message displayed when you try to use a spell, but you have no magic points
+     */
+    public static final String notEnoughMP = "You don't have enough MP to cast that spell!";
+    /**
+     * The message displayed when you try to go to the spell selection screen, but you have no MP
+     */
+    public static final String noMP = "You have no MP!";
+    /**
+     * the message displayed when you successfully cast a spell
+     */
+    public static String castSuccess = "You cast...a spell? ";
 
-    static TextView hud;
-    static TextView gameInfo;
+    TextView hud;
+    TextView gameInfo;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_combat);
+
         setRoomCount();
         displayHit = "You use " + EnterNames.thisPlayer.weaponName + " and it hits! for ";
         displayMiss = "You use your " + EnterNames.thisPlayer.weaponName + ", but you miss. ";
@@ -220,7 +258,15 @@ public class Gameplay extends AppCompatActivity {
         spellButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(Gameplay.this, SpellSelection.class));
+                if (!magicTurnAdvantage) {
+                    consoleOutput = noMagicTurn;
+                    setGameInfo();
+                } else if (EnterNames.thisPlayer.liveMP == 0) {
+                    consoleOutput = noMP;
+                    setGameInfo();
+                } else {
+                    startActivity(new Intent(Gameplay.this, SpellSelection.class));
+                }
             }
         });
         lookButton.setOnClickListener(new View.OnClickListener() {
@@ -255,10 +301,12 @@ public class Gameplay extends AppCompatActivity {
             if (!attackTurnAdvantage) {
                 enemyBattleStatus();
                 attackTurnAdvantage = true;
+                magicTurnAdvantage = true;
             }
         } else {
             movementStatus(action);
             attackTurnAdvantage = true;
+            magicTurnAdvantage = true;
         }
         setGameInfo();
         setHud();
@@ -310,13 +358,6 @@ public class Gameplay extends AppCompatActivity {
             if (EnterNames.thisPlayer.liveHP <= 0) {
                 startActivity(new Intent(Gameplay.this, GameOverScreen.class));
             }
-            //TEST: replaces the player's first spell with Sphericon charge after they press
-            // progress for the very first time. This if statement with condition (liveRoomCount
-            // == 0) should be removed after spells are working.
-            if (liveRoomCount == 0) {
-                EnterNames.thisPlayer.spells[0] = Player.allSpells[4][0];
-                SpellSelection.updateSpell((byte) 0, (byte) 4);
-            }
             if (liveRoomCount < roomCount) {
                 thisRoom = new Room();
                 liveRoomCount++;
@@ -326,9 +367,14 @@ public class Gameplay extends AppCompatActivity {
                 displayEnemyMiss = thisRoom.numberOne.name + " uses " +
                         thisRoom.numberOne.weaponName + ", but you dodge it.";
                 consoleOutput = emptyRoom;
-                if (!(thisRoom.numberOne.name.equals("null"))) {
-                    startBattle = " A " + thisRoom.numberOne.name + " appears in the room! Prepare for battle!";
-                    consoleOutput += startBattle;
+                if (thisRoom.hasEnemy) {
+                    if (thisRoom.numberOne.isStrong) {
+                        startBattle = " A " + thisRoom.numberOne.name + " appears in the room! Prepare for battle!";
+                        consoleOutput += startBattle;
+                    } else {
+                        strongStartBattle = " A miniboss appears, it's a " + thisRoom.numberOne.name + "! Prepare for battle!";
+                        consoleOutput += strongStartBattle;
+                    }
                 } else {
                     consoleOutput = emptyRoom;
                     if (thisRoom.disSearchable) {
@@ -352,6 +398,12 @@ public class Gameplay extends AppCompatActivity {
                     } else if (foundSecret == 3) {
                         consoleOutput = foundNewSpell + nothingElse;
                         EnterNames.thisPlayer.myPoints += 300;
+                    } else if (foundSecret == 4) {
+                        //consoleOutput =
+                    } else if (foundSecret == 5) {
+
+                    } else {
+
                     }
                     thisRoom.roomSearched = true;
                     secretsFoundCounter++;
@@ -372,10 +424,10 @@ public class Gameplay extends AppCompatActivity {
             consoleOutput = invalidCommand;
         }
     }
-    public static void setGameInfo() {
+    public void setGameInfo() {
         gameInfo.setText(consoleOutput);
     }
-    public static void setHud() {
+    public void setHud() {
         hud.setText("HP: " + EnterNames.thisPlayer.liveHP + "/" + EnterNames.thisPlayer.hp +
                 " MP: " + EnterNames.thisPlayer.liveMP + "/" + EnterNames.thisPlayer.mp + " Points: " + EnterNames.thisPlayer.myPoints);
     }
@@ -425,5 +477,18 @@ public class Gameplay extends AppCompatActivity {
         byte variableRoomCount = (byte) Math.round(10 * Math.random());
         byte baseRoomCount = (byte) 15;
         roomCount = (byte) (baseRoomCount + variableRoomCount);
+    }
+    public static void updateCastSuccess(byte spellIndex) {
+        castSuccess = "You cast " + EnterNames.thisPlayer.spells[spellIndex].name + "! ";
+    }
+    public static void trulyCastSpell(byte spellIndex) {
+        if (EnterNames.thisPlayer.spells[spellIndex].mpCost > EnterNames.thisPlayer.liveMP) {
+            consoleOutput = notEnoughMP;
+        } else {
+            EnterNames.thisPlayer.spells[spellIndex].spellCast(EnterNames.thisPlayer, thisRoom.numberOne);
+            consoleOutput = castSuccess;
+            magicTurnAdvantage = false;
+        }
+        //this.changeOutput("s");
     }
 }

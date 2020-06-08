@@ -71,6 +71,8 @@ public class EnterNames extends AppCompatActivity {
                 thisPlayer = new Player(playerStrength, playerAccuracy,
                         playerDefense, playerAgility, playerIntelligence, playerMagic,
                         playerLuck, playerName, playerWeaponName);
+
+
                 startActivity(new Intent(EnterNames.this, Gameplay.class));
             }
         });
@@ -79,8 +81,8 @@ public class EnterNames extends AppCompatActivity {
             public void onClick(View view) {
                 StatSelection.whichStat = 0;
                 StatSelection.thisLiveStatPoints = StatSelection.thisStatPoints;
-                StatSelection.StatSelect.setText("Select stats. Points remaining: " + String.valueOf(StatSelection.thisStatPoints));
-                StatSelection.StatIndicator.setText("Strength");
+                //StatSelection.StatSelect.setText("Select stats. Points remaining: " + String.valueOf(StatSelection.thisStatPoints));
+                //StatSelection.StatIndicator.setText("Strength");
                 playerStrength = 0;
                 playerAccuracy = 0;
                 playerDefense = 0;

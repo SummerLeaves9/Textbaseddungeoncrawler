@@ -25,7 +25,7 @@
             android:id="@+id/textView3"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="40 stat points, Strong variants of enemies are less common, secrets are more fruitful."
+            android:text="40 stat points, Minibosses are rare, secrets are forgiving."
             android:textSize="18sp" />
 
         <Button
@@ -39,7 +39,7 @@
             android:id="@+id/textView4"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Standard difficulty: 35 stat points"
+            android:text="35 stat points, standard difficulty"
             android:textSize="18sp" />
 
         <Button
@@ -53,7 +53,7 @@
             android:id="@+id/textView5"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="30 stat points, Strong enemy variants are more common, secrets are less fruitful."
+            android:text="30 stat points, Minibosses are less rare, secrets are less safe."
             android:textSize="18sp" />
 
         <Button
@@ -67,7 +67,7 @@
             android:id="@+id/textView6"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="No secrets. Almost always Strong enemy variants, and mini bosses."
+            android:text="30 stat points, Secrets are a gamble. Minibosses are common."
             android:textSize="18sp" />
 
         <Button

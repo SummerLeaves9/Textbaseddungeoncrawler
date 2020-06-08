@@ -92,42 +92,42 @@ public class Character {
     /**
      * If this character lands a critical hit, their damage output is multiplied by this value.
      */
-    public static double critMultiplier = 1.8;
+    public static final double critMultiplier = 1.8;
     /**
      * The base hp for all characters
      */
-    public static int baseHP = 10;
+    public static final int baseHP = 10;
     /**
      * The base attackPower for all characters
      */
-    public static int baseAttackPower = 4;
+    public static final int baseAttackPower = 4;
     /**
      * The base chance to land a critical hit for all characters. Only for characters with luckValue
      * above 0, otherwise their critChance is 0.
      */
-    public static double baseCritChance = .07;
+    public static final double baseCritChance = .07;
     /**
      * The base hitChance for all characters
      */
-    public static double baseHitChance = .5;
+    public static final double baseHitChance = .5;
     /**
      * The base dodge chance for all characters
      */
-    public static double baseDodgeChance = .06;
+    public static final double baseDodgeChance = .06;
     /**
      * The base additional dodge chance granted by your luck value for all characters
      */
-    public static double baseLuckDodgeChance = .02;
+    public static final double baseLuckDodgeChance = .02;
     /**
      * The base chance that a player finds a secret upon entering the "look" command, based on their
      * intelligence stat.
      */
-    public static double baseSecretChance = .08;
+    public static final double baseSecretChance = .08;
     /**
      * The base additional chance to find a secret upon entering the "look" command based on the
      * intelligence stat.
      */
-    public static double baseLuckSecretChance = .02;
+    public static final double baseLuckSecretChance = .02;
     /**
      * The base luck for all characters. Set to 0 by default in case this character's
      * luckValue is 0, which can happen if this character is an enemy, or the player invests
@@ -244,18 +244,12 @@ public class Character {
                 return (byte) (this.attackPower * critMultiplier);
             } else {
                 other.liveHP -= this.attackPower;
-                int i = 1;
                 return this.attackPower;
             }
         }
         return 0;
     }
-    /**
-     * Casts a certain spell
-     */
-    public void castSpell(byte index) {
 
-    }
 
     /**
      * Sets all stats for this character in the correct order so that none of the helper functions

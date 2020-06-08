@@ -12,29 +12,37 @@ public class DifficultySelection extends AppCompatActivity {
 
     public static final double easyNegativeSecretChance = .1;
 
+    public static final double easyStrongEnemyChance = .15;
+
     public static final byte normalStatPoints = 35;
 
     public static final double normalNegativeSecretChance = .23;
+
+    public static final double normalStrongEnemyChance = .23;
 
     public static final byte hardAndUberStatPoints = 30;
 
     public static final double hardNegativeSecretChance = .3;
 
+    public static final double hardStrongEnemyChance = .35;
+
     public static final double uberNegativeSecretChance = .35;
+
+    public static final double uberStrongEnemyChance = .65;
 
     public static double finalNegativeSecretChance;
 
     public static byte statPointCount;
 
-    public static final String easy = "Easy";
+    public static final char easy = 'E';
 
-    public static final String normal = "Normal";
+    public static final char normal = 'N';
 
-    public static final String hard = "Hard";
+    public static final char hard = 'H';
 
-    public static final String uber = "Uber";
+    public static final char uber = 'U';
 
-    public static String selectedDifficulty;
+    public static char selectedDifficulty;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -52,7 +60,7 @@ public class DifficultySelection extends AppCompatActivity {
                 statPointCount = easyStatPoints;
                 selectedDifficulty = easy;
                 finalNegativeSecretChance = easyNegativeSecretChance;
-                Player.negativeSecretChance = finalNegativeSecretChance;
+                Enemy.strongChance = easyStrongEnemyChance;
                 startActivity(new Intent(DifficultySelection.this, StatSelection.class));
             }
         });
@@ -62,7 +70,7 @@ public class DifficultySelection extends AppCompatActivity {
                 statPointCount = normalStatPoints;
                 selectedDifficulty = normal;
                 finalNegativeSecretChance = normalNegativeSecretChance;
-                Player.negativeSecretChance = finalNegativeSecretChance;
+                Enemy.strongChance = normalStrongEnemyChance;
                 startActivity(new Intent(DifficultySelection.this, StatSelection.class));
             }
         });
@@ -72,7 +80,7 @@ public class DifficultySelection extends AppCompatActivity {
                 statPointCount = hardAndUberStatPoints;
                 selectedDifficulty = hard;
                 finalNegativeSecretChance = hardNegativeSecretChance;
-                Player.negativeSecretChance = finalNegativeSecretChance;
+                Enemy.strongChance = hardStrongEnemyChance;
                 startActivity(new Intent(DifficultySelection.this, StatSelection.class));
             }
         });
@@ -82,15 +90,17 @@ public class DifficultySelection extends AppCompatActivity {
                 statPointCount = hardAndUberStatPoints;
                 selectedDifficulty = uber;
                 finalNegativeSecretChance = uberNegativeSecretChance;
-                Player.negativeSecretChance = finalNegativeSecretChance;
+                Enemy.strongChance = uberStrongEnemyChance;
                 startActivity(new Intent(DifficultySelection.this, StatSelection.class));
             }
         });
     }
-    public static String getSelectedDifficulty() {
+    public static char getSelectedDifficulty() {
         return selectedDifficulty;
     }
+
     public static byte getStatPointCount() {
         return statPointCount;
     }
+    public static double getFinalNegativeSecretChance() { return finalNegativeSecretChance; }
 }
