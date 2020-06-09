@@ -14,6 +14,8 @@ public class TitleScreen extends AppCompatActivity {
 
     private TextView mTextMessage;
 
+    public static Player tempPlayer = new Player((byte) 5,(byte) 5, (byte) 5,(byte) 5,(byte) 5,(byte) 5,(byte) 5,"x", "xx");
+
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
 

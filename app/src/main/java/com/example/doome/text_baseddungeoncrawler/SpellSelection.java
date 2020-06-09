@@ -58,7 +58,6 @@ public class SpellSelection extends AppCompatActivity {
         spellOne.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Gameplay.updateCastSuccess((byte) 0);
                 Gameplay.trulyCastSpell((byte) 0);
                 finish();
             }
@@ -66,7 +65,6 @@ public class SpellSelection extends AppCompatActivity {
         spellTwo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Gameplay.updateCastSuccess((byte) 1);
                 Gameplay.trulyCastSpell((byte) 1);
                 finish();
             }
@@ -74,7 +72,6 @@ public class SpellSelection extends AppCompatActivity {
         spellThree.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Gameplay.updateCastSuccess((byte) 2);
                 Gameplay.trulyCastSpell((byte) 2);
                 finish();
             }
@@ -82,7 +79,6 @@ public class SpellSelection extends AppCompatActivity {
         spellFour.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Gameplay.updateCastSuccess((byte) 3);
                 Gameplay.trulyCastSpell((byte) 3);
                 finish();
             }
@@ -90,7 +86,6 @@ public class SpellSelection extends AppCompatActivity {
         spellFive.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Gameplay.updateCastSuccess((byte) 4);
                 Gameplay.trulyCastSpell((byte) 4);
                 finish();
             }
@@ -98,7 +93,6 @@ public class SpellSelection extends AppCompatActivity {
         spellSix.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Gameplay.updateCastSuccess((byte) 5);
                 Gameplay.trulyCastSpell((byte) 5);
                 finish();
             }
@@ -106,14 +100,13 @@ public class SpellSelection extends AppCompatActivity {
         spellSeven.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Gameplay.updateCastSuccess((byte) 6);
                 Gameplay.trulyCastSpell((byte) 6);
                 finish();
             }
         });
     }
 
-    public static void updateSpell(byte slot, byte spellNum) {
+    public void updateSpell(byte slot, byte spellNum) {
         EnterNames.thisPlayer.spells[slot] = new Spell(spellNum);
         if (slot == 0) {
             spellOneDesc.setText(EnterNames.thisPlayer.spells[slot].description);

@@ -39,15 +39,6 @@ public class Character {
      */
     public byte liveHP;
     /**
-     * Number of magic points for this character: directly influenced by Magic stat.
-     */
-    public byte mp;
-    /**
-     * The dynamic value for this character's magic points. This is initially set to mp, but is
-     * lowered and raised throughout the course of the game.
-     */
-    public byte liveMP;
-    /**
      * The amount of damage this character will deal per hit, directly influenced by strengthValue.
      */
     public byte attackPower;
@@ -71,16 +62,7 @@ public class Character {
      * directly influenced by luck stat.
      */
     public double critChance;
-    /**
-     * The additional chance that this character has of dodging an attack entirely, directly
-     * influenced by luck stat, and is to be added to dodgeChance.
-     */
-    public double luckDodgeChance;
-    /**
-     * The additional chance that this character has of finding a secret upon using the "look"
-     * command, directly influenced by luck stat, and is to be added to secretChance.
-     */
-    public double luckSecretChance;
+
     /**
      * The name for this character!
      */
@@ -149,7 +131,7 @@ public class Character {
      * The least generous value to scale base calculable stats depending on a character's stats
      * Used in calculating hitChance
      */
-    public final static double scalarThree = 1.065;
+    public final static double scalarThree = 1.07;
     /**
      * The value to multiply scalarOne by, then add to the base hp to get the final hp value
      */
@@ -189,13 +171,6 @@ public class Character {
         attackPower = (byte)  Math.round(baseAttackPower * scaled);
     }
     /**
-     * Sets this character's magic points based on their magic stat.
-     * Helper function for setAllStats.
-     */
-    public void setMP() {
-        mp = (byte) (10 + (5 * magicValue));
-    }
-    /**
      * Sets this character's chance to entirely dodge an attack, assuming the attacker lands their
      * hit
      * Helper function for setAllStats.
@@ -205,7 +180,7 @@ public class Character {
         for (int i = 0; i < agilityValue; i++) {
             scaled *= scalarOne;
         }
-        dodgeChance = luckDodgeChance + (baseDodgeChance * scaled);
+        dodgeChance = (baseDodgeChance * scaled);
     }
     /**
      * Sets this character's chance of finding a secret upon using the "look" command, based on
@@ -217,7 +192,7 @@ public class Character {
         for (int i = 0; i < intelligenceValue; i++) {
             scaled *= scalarOne;
         }
-        secretChance = luckSecretChance + (baseSecretChance * scaled);
+        secretChance = (baseSecretChance * scaled);
     }
     /**
      * Sets this character's chance of landing their attack, based on their accuracy stat.
@@ -260,8 +235,6 @@ public class Character {
         setSecretChance();
         setHp();
         liveHP = hp;
-        setMP();
-        liveMP = mp;
         setHitChance();
         setAttackPower();
     }

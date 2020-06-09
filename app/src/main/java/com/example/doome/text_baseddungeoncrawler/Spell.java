@@ -2,7 +2,7 @@ package com.example.doome.text_baseddungeoncrawler;
 
 public class Spell {
 
-    public Player thisPlayer = EnterNames.thisPlayer;
+    public static Player thisPlayer = TitleScreen.tempPlayer;
 
     public byte id;
 
@@ -12,35 +12,87 @@ public class Spell {
 
     public String description;
 
-    public static final String[][] allSpells = {
-            {"Basic Heal", "MA, Cost: 5 MP. Restores some health"},
-            {"Strong Heal", "MA, Cost: 10 MP. Restores a lot of health"},
-            {"Ultimate Block", "MA, Cost: 20 MP. Ensures you won't take damage this turn."},
+    public String extraCastSuccessMessage;
+
+    public String spellFailMessage;
+
+    public boolean castFail = false;
+
+    public boolean isCombatSpell;
+
+    public boolean isExplorationSpell;
+
+    public final String[][] allSpells = {
+            {"Basic Heal", "MA, Cost: 5 MP. Restores some health", ""},
+            {"Strong Heal", "MA, Cost: 10 MP. Restores a lot of health", ""},
+            {"Ultimate Block", "MA, Cost: 20 MP. Ensures you won't take damage this turn.",
+                    " You are completely protected from damage this turn. "},
             {"Sphericon","M, Cost: 7 MP. Summons a lil' guy to fight for you, but only by " +
-                    "charging it."},
-            {"Sphericon Charge","M, Cost: 3 MP. Charges your Sphericon for 1 unit."},
-            {"Sphericon Supercharge","MA, Cost: 8 MP. Charges your Sphericon for 3 units."},
+                    "charging it.", " He's here, laaaaaads!! "},
+            {"Sphericon Charge","M, Cost: 3 MP. Charges your Sphericon for 1 unit.",
+                    ""},
+            {"Sphericon Supercharge","MA, Cost: 8 MP. Charges your Sphericon for 3 units.",
+                    ""},
             {"Lucky Marksman","M, Cost: 6 MP. You are healed half your your party's damage output" +
-                    " this turn. But if you miss, you take double what your enemies deal."},
+                    " this turn. But if you miss, you take double what your enemies deal.",
+                    " Effect is active for this turn. "},
             {"Blinding Light","M, Cost: 3 MP. 80 percent chance to reduce your enemy's accuracy " +
-                    "by 3 this turn."},
+                    "by 3 this turn.", "", ""},
             {"Fireball","MA, Cost: 6 MP. Cast a flaming projectile whose strength is proportional" +
                     " to your magic stat (from 1.5-2.5 times your base attack power). Less " +
-                    "accurate than your direct attack"},
+                    "accurate than your direct attack", "", " The " +
+                    "fireball misses... "},
             {"Poison","M, Cost: 7 MP. Deals 15 percent of your enemy's max health for 3 turns, " +
-                    "but the enemy is healed 45 percent after 3 turns."},
+                    "but the enemy is healed 45 percent after 3 turns.", "", " The " +
+                    "purple fumes come and go, dealing only 1 damage. "},
     };
 
     public static final byte[] allMPCosts = {5, 10, 20, 7, 3, 8, 6, 3, 6, 7};
 
+    public static final boolean [][] allSpellTypes = {
+            {true, true},
+            {true, true},
+            {true, false},
+            {true, false},
+            {true, false},
+            {true, false},
+            {true, false},
+            {true, false},
+            {true, true},
+            {true, false},
+    };
+
+    /**
+     * All-purpose constructor.
+     * @param setId
+     */
+
     public Spell(byte setId) {
         id = setId;
+        if (id == 127) {
+            name = "empty spell";
+            return;
+        }
         mpCost = allMPCosts[setId];
         name = allSpells[setId][0];
         description = allSpells[setId][1];
+        extraCastSuccessMessage = allSpells[setId][2];
+        if (id < 10 && id > 6) {
+            spellFailMessage = allSpells[setId][3];
+        }
+        isCombatSpell = allSpellTypes[setId][0];
+        isExplorationSpell = allSpellTypes[setId][1];
     }
 
-    public void spellCast(Character p, Character e) {
+    /**
+     * Method called externally when the desired effect of a spell should be executed.
+     * @param p the player being affected
+     * @param e the enemy being affected (not always used)
+     */
+    public void spellCast(Player p, Character e) {
+        if (id == 127) {
+            return;
+        }
         if (id == 0) {
             basicHeal(p);
         } else if (id == 1) {
@@ -65,15 +117,78 @@ public class Spell {
     }
 
     /**
+     * Method called externally for when a spell is cast, and the console output needs to be updated
+     * accordingly.
+     */
+    public String getExtraText() {
+        if (id == 127) {
+            return "";
+        }
+        if (castFail) {
+            updateSpellFailMessage();
+            return spellFailMessage;
+        }
+        updateExtraCastSuccessMessage();
+        return extraCastSuccessMessage;
+    }
+    /**
+     * Properly updates dynamic values used in spellFailMessage
+     */
+    private void updateSpellFailMessage() {
+        if (id != 7) {
+            return;
+        } else {
+            spellFailMessage = " The " + Gameplay.thisRoom.numberOne.name + " was unaffected. ";
+        }
+    }
+    /**
+     * Properly updates dynamic values used in extraCastSuccessMessage
+     */
+    private void updateExtraCastSuccessMessage() {
+        if (id == 127 || id == 2 || id == 3 || id == 6) {
+            return;
+        }
+        if (id == 0) {
+            //basicHeal(p);
+            extraCastSuccessMessage = " You recover " + ((byte) (thisPlayer.liveHP * .35)) + " HP. ";
+        } else if (id == 1) {
+            //strongHeal(p);
+            extraCastSuccessMessage = " You recover " + ((byte) (thisPlayer.liveHP * .65)) + " HP. ";
+        } else if (id == 4) {
+            //sphericonCharge(p);
+            extraCastSuccessMessage = " Total units: " + Gameplay.sphericonCharge + ". ";
+        } else if (id == 5) {
+            //sphericonSuperCharge(p);
+            extraCastSuccessMessage = " Total units: " + Gameplay.sphericonCharge + ". ";
+        } else if (id == 7) {
+            //blindingLight(p, e);
+            extraCastSuccessMessage = " The " + Gameplay.thisRoom.numberOne.name + " was successfully blinded! ";
+        } else if (id == 8) {
+            //fireball(p, e);
+            extraCastSuccessMessage = " The fireball hits for " +
+                    (byte) (thisPlayer.attackPower * (1.5 + (.1 * thisPlayer.magicValue))) +
+                    " damage. ";
+        } else {
+            //poison(p, e);
+            extraCastSuccessMessage = " The " +
+                    Gameplay.thisRoom.numberOne.name + " was successfully poisoned! ";
+        }
+    }
+    /**
      * Basic Heal: MA
      * Spell 1
      * Restores 35 percent of the player's health
      */
 
-    private void basicHeal(Character p) {
+    private void basicHeal(Player p) {
         double tobeHealed = p.hp;
         tobeHealed *= .35;
-        p.liveHP += (byte) tobeHealed;
+        tobeHealed = (byte) tobeHealed;
+        if ((p.liveHP + tobeHealed) > p.hp) {
+            p.liveHP = p.hp;
+        } else {
+            p.liveHP += tobeHealed;
+        }
         p.liveMP -= 5;
         Gameplay.attackTurnAdvantage = false;
     }
@@ -84,10 +199,15 @@ public class Spell {
      * Restores 65 percent of the player's health.
      */
 
-    private void strongHeal(Character p) {
+    private void strongHeal(Player p) {
         double tobeHealed = p.hp;
         tobeHealed *= .65;
-        p.liveHP += (byte) tobeHealed;
+        tobeHealed = (byte) tobeHealed;
+        if ((p.liveHP + tobeHealed) > p.hp) {
+            p.liveHP = p.hp;
+        } else {
+            p.liveHP += tobeHealed;
+        }
         p.liveMP -= 10;
         Gameplay.attackTurnAdvantage = false;
     }
@@ -98,7 +218,7 @@ public class Spell {
      * Makes the player invincible this turn.
      */
 
-    private static void ultimateBlock(Character p, Character e) {
+    private static void ultimateBlock(Player p, Character e) {
         Gameplay.hasBlocked = true;
         p.liveHP -= 20;
         Gameplay.attackTurnAdvantage = false;
@@ -112,7 +232,7 @@ public class Spell {
      * it will do. It will attack the first turn you don't give it charge.
      */
 
-    private static void sphericon(Character p) {
+    private static void sphericon(Player p) {
         Gameplay.hasSphericon = true;
         p.liveMP -= 7;
     }
@@ -123,7 +243,7 @@ public class Spell {
      * Charges a sphericon for one unit.
      */
 
-    private static void sphericonCharge(Character p) {
+    private static void sphericonCharge(Player p) {
         Gameplay.sphericonCharge++;
         p.liveMP -= 3;
     }
@@ -134,7 +254,7 @@ public class Spell {
      * Charges a sphericon for three units.
      */
 
-    private static void sphericonSuperCharge(Character p) {
+    private static void sphericonSuperCharge(Player p) {
         Gameplay.sphericonCharge += 3;
         p.liveMP -= 8;
         Gameplay.attackTurnAdvantage = false;
@@ -148,7 +268,7 @@ public class Spell {
      * If this player does not hit their attack, AND the enemy hits theirs, the player takes double
      * damage
      */
-    private void luckyMarksman(Character p) {
+    private void luckyMarksman(Player p) {
 
         p.liveMP -= 6;
     }
@@ -161,7 +281,7 @@ public class Spell {
      * 20 percent chance of doing nothing
      */
 
-    private void blindingLight(Character p, Character e) {
+    private void blindingLight(Player p, Character e) {
 
         p.liveMP -= 3;
     }
@@ -174,11 +294,11 @@ public class Spell {
      * Is -2 accurate compared to your normal attack
      */
 
-    private void fireball(Character p, Character e) {
+    private void fireball(Player p, Character e) {
         int fireballAttackPower = (int) (p.attackPower * (1.5 + (.1 * p.magicValue)));
         double otherDodgeResult = Math.random();
         double thisHitResult = Math.random();
-        double thisCritResult = Math.random();
+
         //temporarily decreases player accuracy for casting the fireball
         byte initAcc = p.accuracyValue;
         if (initAcc < 2) {
@@ -190,24 +310,17 @@ public class Spell {
         //determines hit
         int dealtDamage = 0;
         if (e.dodgeChance < otherDodgeResult && p.hitChance > thisHitResult) {
-            if (thisCritResult < p.critChance) {
-                dealtDamage = (byte) (p.attackPower * Character.critMultiplier);
-            } else {
-                dealtDamage = fireballAttackPower;
-            }
+            dealtDamage = fireballAttackPower;
             e.liveHP -= dealtDamage;
         }
         //Updates appropriate strings/output in Gameplay class
         if (dealtDamage != 0) {
-            Gameplay.consoleOutput += Gameplay.displayHit + dealtDamage + ". ";
-            if (dealtDamage > fireballAttackPower) {
-                Gameplay.consoleOutput += Gameplay.criticalHit;
-            }
+            castFail = false;
             if (e.liveHP <= 0) {
-                EnterNames.thisPlayer.myPoints += Gameplay.thisRoom.numberOne.pointValue;
+                thisPlayer.myPoints += Gameplay.thisRoom.numberOne.pointValue;
                 Gameplay.victoryMessage = "You won! " + e.name +
                         " dropped " + Gameplay.thisRoom.numberOne.pointValue + " points. Now you have " +
-                        EnterNames.thisPlayer.myPoints + " points!";
+                        thisPlayer.myPoints + " points!";
                 Gameplay.consoleOutput += Gameplay.victoryMessage;
                 Gameplay.isBattling = false;
                 Gameplay.enemiesDefeatedCounter++;
@@ -220,7 +333,8 @@ public class Spell {
                 Gameplay.magicTurnAdvantage = false;
             }
         } else {
-            Gameplay.consoleOutput = Gameplay.displayMiss;
+            castFail = true;
+            Gameplay.consoleOutput += Gameplay.displayMiss;
             Gameplay.attackTurnAdvantage = false;
         }
         //increases player accuracy back to original level
@@ -237,7 +351,7 @@ public class Spell {
      * 40 percent chance of dealing 1 damage.
      */
 
-    private void poison(Character p, Character e) {
+    private void poison(Player p, Character e) {
 
         p.liveMP -= 7;
     }

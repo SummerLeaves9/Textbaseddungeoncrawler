@@ -4,11 +4,15 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.TextView;
 import android.content.Intent;
 
 public class Gameplay extends AppCompatActivity {
+    /**
+     * Boolean to keep track of whether this class has been initiated. If so, the onCreate method
+     * only serves to update the game based on a player's spell usage
+     */
+    public static boolean hasBeenInitiated = false;
     /**
      * This variable keeps count of how many rooms have been traversed.
      */
@@ -67,6 +71,10 @@ public class Gameplay extends AppCompatActivity {
      * The final string to compare the userInput to heal.
      */
     public static final String heal = "h";
+    /**
+     * The final string to compare the userInput to spell casting.
+     */
+    public static final String spell = "s";
     /**
      * A counter used to show the player how many enemies they've defeated by the end of the game.
      */
@@ -168,7 +176,7 @@ public class Gameplay extends AppCompatActivity {
      * The string which will be used by the UI to display game text.
      * Is changed and redisplayed throughout play.
      */
-    public static String consoleOutput;
+    public static String consoleOutput = "";
     /**
      * The message displayed when a user progresses and enters battle with an enemy.
      */
@@ -198,9 +206,17 @@ public class Gameplay extends AppCompatActivity {
      */
     public static final String invalidCommand = "You can't do that right now.";
     /**
+     * the message below gameInfo that tells you that you have used your magic turn
+     */
+    public static final String yesMagicTurn = "Magic Turn: Yes ";
+    /**
+     * the message below gameInfo that tells you that you have NOT used your magic turn
+     */
+    public static final String noMagicTurn = "Magic Turn: No ";
+    /**
      * the message displayed when you try to use a spell, but you have already used your magic turn.
      */
-    public static final String noMagicTurn = "You have already used your magic turn! ";
+    public static final String doNotHaveMagicTurn = "You have already used your magic turn! ";
     /**
      * The message displayed when you try to use a spell, but you have no magic points
      */
@@ -215,24 +231,33 @@ public class Gameplay extends AppCompatActivity {
     public static String castSuccess = "You cast...a spell? ";
 
     TextView hud;
+    TextView hud2;
+    TextView hud3;
     TextView gameInfo;
+    TextView magicTurnIndicator;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_combat);
-
-        setRoomCount();
-        displayHit = "You use " + EnterNames.thisPlayer.weaponName + " and it hits! for ";
-        displayMiss = "You use your " + EnterNames.thisPlayer.weaponName + ", but you miss. ";
-        darkSouls = "You Died. Final Score: " + EnterNames.thisPlayer.myPoints + "\nPress enter to see how you did. ";
-        victoryMessage = "You won! " + thisRoom.numberOne.name +
-                " dropped " + thisRoom.numberOne.pointValue + " points. Now you have " +
-                EnterNames.thisPlayer.myPoints + " points!";
-        consoleOutput = "Welcome, " + EnterNames.thisPlayer.name + "! You are in an empty room, too small to be searched. If it could be searched, you could Look. To enter the next room, press Progress.";
-        configureNextButton();
-        hud = (TextView) findViewById(R.id.hud);
-        gameInfo = (TextView) findViewById(R.id.gameInfo);
+        if (!hasBeenInitiated) {
+            Spell.thisPlayer = EnterNames.thisPlayer;
+            setRoomCount();
+            displayHit = "You use " + EnterNames.thisPlayer.weaponName + " and it hits! for ";
+            displayMiss = "You use your " + EnterNames.thisPlayer.weaponName + ", but you miss. ";
+            darkSouls = "You Died. Final Score: " + EnterNames.thisPlayer.myPoints + "\nPress enter to see how you did. ";
+            victoryMessage = "You won! " + thisRoom.numberOne.name +
+                    " dropped " + thisRoom.numberOne.pointValue + " points. Now you have " +
+                    EnterNames.thisPlayer.myPoints + " points!";
+            consoleOutput = "Welcome, " + EnterNames.thisPlayer.name + "! You are in an empty room, too small to be searched. If it could be searched, you could Look. To enter the next room, press Progress.";
+            configureNextButton();
+            hud = (TextView) findViewById(R.id.hudLine1);
+            hud2 = (TextView) findViewById(R.id.hudLine2);
+            hud3 = (TextView) findViewById(R.id.hudLine3);
+            gameInfo = (TextView) findViewById(R.id.gameInfo);
+            magicTurnIndicator = (TextView) findViewById(R.id.magicTurnIndicator);
+            hasBeenInitiated = true;
+        }
         setGameInfo();
         setHud();
     }
@@ -258,15 +283,7 @@ public class Gameplay extends AppCompatActivity {
         spellButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (!magicTurnAdvantage) {
-                    consoleOutput = noMagicTurn;
-                    setGameInfo();
-                } else if (EnterNames.thisPlayer.liveMP == 0) {
-                    consoleOutput = noMP;
-                    setGameInfo();
-                } else {
-                    startActivity(new Intent(Gameplay.this, SpellSelection.class));
-                }
+                changeOutput("s");
             }
         });
         lookButton.setOnClickListener(new View.OnClickListener() {
@@ -317,22 +334,16 @@ public class Gameplay extends AppCompatActivity {
         } else if (action.equals(attack)) {
             attack();
         } else if (action.equals(run)) {
-            if (EnterNames.thisPlayer.myPoints < 100) {
-                consoleOutput = insufficientPoints;
-            } else {
-                EnterNames.thisPlayer.myPoints -= 100;
-                consoleOutput = ranAway;
-                isBattling = false;
-                EnterNames.thisPlayer.liveHP = EnterNames.thisPlayer.hp;
-                movementStatus(progress);
-            }
+            run();
         } else if (action.equals(heal)) {
             heal();
+        } else if (action.equals(spell)) {
+            spell();
         } else {
             consoleOutput = invalidCommand;
         }
     }
-    public static void enemyBattleStatus() {
+    public void enemyBattleStatus() {
         int damageDealt = thisRoom.numberOne.determineHit(EnterNames.thisPlayer);
         if (isBattling) {
             if (damageDealt != 0) {
@@ -343,7 +354,8 @@ public class Gameplay extends AppCompatActivity {
                 if (EnterNames.thisPlayer.liveHP <= 0) {
                     EnterNames.thisPlayer.liveHP = 0;
                     isBattling = false;
-                    consoleOutput += darkSouls;
+                    startActivity(new Intent(Gameplay.this, GameOverScreen.class));
+                    //consoleOutput += darkSouls;
                 }
             } else {
                 consoleOutput += displayEnemyMiss;
@@ -352,28 +364,28 @@ public class Gameplay extends AppCompatActivity {
     }
     public void movementStatus(String action) {
         if (action.equals(progress)) {
+            //finished game
             if (liveRoomCount == roomCount && !isBattling) {
                 startActivity(new Intent(Gameplay.this, FinishedGame.class));
             }
-            if (EnterNames.thisPlayer.liveHP <= 0) {
-                startActivity(new Intent(Gameplay.this, GameOverScreen.class));
-            }
+            //general procedure for preparing next room
             if (liveRoomCount < roomCount) {
                 thisRoom = new Room();
                 liveRoomCount++;
                 emptyRoom = "You have entered the next room, room " + liveRoomCount + ".";
-                displayEnemyHit = thisRoom.numberOne.name + " uses " +
-                        thisRoom.numberOne.weaponName + " and it hits! for ";
-                displayEnemyMiss = thisRoom.numberOne.name + " uses " +
-                        thisRoom.numberOne.weaponName + ", but you dodge it.";
-                consoleOutput = emptyRoom;
+                //consoleOutput = emptyRoom;
                 if (thisRoom.hasEnemy) {
-                    if (thisRoom.numberOne.isStrong) {
+                    isBattling = true;
+                    displayEnemyHit = thisRoom.numberOne.name + " uses " +
+                            thisRoom.numberOne.weaponName + " and it hits! for ";
+                    displayEnemyMiss = thisRoom.numberOne.name + " uses " +
+                            thisRoom.numberOne.weaponName + ", but you dodge it.";
+                    if (!thisRoom.numberOne.isStrong) {
                         startBattle = " A " + thisRoom.numberOne.name + " appears in the room! Prepare for battle!";
-                        consoleOutput += startBattle;
+                        consoleOutput = startBattle;
                     } else {
                         strongStartBattle = " A miniboss appears, it's a " + thisRoom.numberOne.name + "! Prepare for battle!";
-                        consoleOutput += strongStartBattle;
+                        consoleOutput = strongStartBattle;
                     }
                 } else {
                     consoleOutput = emptyRoom;
@@ -383,39 +395,11 @@ public class Gameplay extends AppCompatActivity {
                 }
             }
         } else if (action.equals(look)) {
-            if (thisRoom.disSearchable) {
-                if (!thisRoom.roomSearched) {
-                    int foundSecret = EnterNames.thisPlayer.foundSecret();
-                    if (foundSecret == 0) {
-                        consoleOutput = noSecretFound;
-                    } else if (foundSecret == 1) {
-                        consoleOutput = foundAttackUp + nothingElse;
-                        EnterNames.thisPlayer.attackPower++;
-                    } else if (foundSecret == 2) {
-                        consoleOutput = foundDefenseUp + nothingElse;
-                        EnterNames.thisPlayer.hp += 2;
-                        EnterNames.thisPlayer.liveHP += 2;
-                    } else if (foundSecret == 3) {
-                        consoleOutput = foundNewSpell + nothingElse;
-                        EnterNames.thisPlayer.myPoints += 300;
-                    } else if (foundSecret == 4) {
-                        //consoleOutput =
-                    } else if (foundSecret == 5) {
-
-                    } else {
-
-                    }
-                    thisRoom.roomSearched = true;
-                    secretsFoundCounter++;
-                    setHud();
-                } else {
-                    consoleOutput = alreadySearched;
-                }
-            }  else {
-                consoleOutput = unsearchable;
-            }
+            look();
         } else if (action.equals(heal)) {
             heal();
+        } else if (action.equals(spell)) {
+            spell();
         } else if (action.equals(attack)){
             consoleOutput = attackEmptyRoom;
         } else if (action.equals(run)) {
@@ -428,8 +412,29 @@ public class Gameplay extends AppCompatActivity {
         gameInfo.setText(consoleOutput);
     }
     public void setHud() {
-        hud.setText("HP: " + EnterNames.thisPlayer.liveHP + "/" + EnterNames.thisPlayer.hp +
-                " MP: " + EnterNames.thisPlayer.liveMP + "/" + EnterNames.thisPlayer.mp + " Points: " + EnterNames.thisPlayer.myPoints);
+        String newHudText = "HP: " + EnterNames.thisPlayer.liveHP + "/" +
+                EnterNames.thisPlayer.hp;
+        String newHud2Text = "MP: " + EnterNames.thisPlayer.liveMP + "/" +
+                EnterNames.thisPlayer.mp;
+        String newHud3Text = "Points: " + EnterNames.thisPlayer.myPoints;
+        hud.setText(newHudText);
+        hud2.setText(newHud2Text);
+        hud3.setText(newHud3Text);
+        String magicTurn;
+        if (magicTurnAdvantage && isBattling) {
+            magicTurn = yesMagicTurn;
+        } else if (isBattling) {
+            magicTurn = noMagicTurn;
+        } else {
+            magicTurn = "";
+        }
+        if (thisRoom.hasEnemy) {
+            magicTurn += thisRoom.numberOne.liveHP + "/" + thisRoom.numberOne.hp;
+        }
+        magicTurnIndicator.setText(magicTurn);
+    }
+    public static void updateCastSuccess(byte spellIndex) {
+        castSuccess = "You cast " + EnterNames.thisPlayer.spells[spellIndex].name + "! ";
     }
     public static void attack() {
         int dealtDamage = EnterNames.thisPlayer.determineHit(thisRoom.numberOne);
@@ -459,7 +464,7 @@ public class Gameplay extends AppCompatActivity {
             attackTurnAdvantage = false;
         }
     }
-    public static void heal() {
+    public void heal() {
         if (EnterNames.thisPlayer.myPoints < 50) {
             consoleOutput = insufficientPoints;
         } else {
@@ -473,22 +478,77 @@ public class Gameplay extends AppCompatActivity {
             attackTurnAdvantage = false;
         }
     }
+    public void run() {
+        if (EnterNames.thisPlayer.myPoints < 100) {
+            consoleOutput = insufficientPoints;
+        } else {
+            EnterNames.thisPlayer.myPoints -= 100;
+            consoleOutput = ranAway;
+            isBattling = false;
+            EnterNames.thisPlayer.liveHP = EnterNames.thisPlayer.hp;
+            movementStatus(progress);
+        }
+    }
+    public void look() {
+        if (thisRoom.disSearchable) {
+            if (!thisRoom.roomSearched) {
+                int foundSecret = EnterNames.thisPlayer.foundSecret();
+                if (foundSecret == 0) {
+                    consoleOutput = noSecretFound;
+                } else if (foundSecret == 1) {
+                    consoleOutput = foundAttackUp + nothingElse;
+                    EnterNames.thisPlayer.attackPower++;
+                } else if (foundSecret == 2) {
+                    consoleOutput = foundDefenseUp + nothingElse;
+                    EnterNames.thisPlayer.hp += 2;
+                    EnterNames.thisPlayer.liveHP += 2;
+                } else if (foundSecret == 3) {
+                    consoleOutput = foundNewSpell + nothingElse;
+                    EnterNames.thisPlayer.myPoints += 300;
+                } else if (foundSecret == 4) {
+                    //consoleOutput =
+                } else if (foundSecret == 5) {
+
+                } else {
+
+                }
+                thisRoom.roomSearched = true;
+                secretsFoundCounter++;
+                setHud();
+            } else {
+                consoleOutput = alreadySearched;
+            }
+        }  else {
+            consoleOutput = unsearchable;
+        }
+    }
+    public void spell() {
+        if (!magicTurnAdvantage) {
+            consoleOutput = doNotHaveMagicTurn;
+        } else if (EnterNames.thisPlayer.liveMP == 0) {
+            consoleOutput = noMP;
+        } else {
+            startActivity(new Intent(Gameplay.this, SpellSelection.class));
+        }
+    }
+    public static void trulyCastSpell(byte spellIndex) {
+        if (EnterNames.thisPlayer.spells[spellIndex].name != "empty spell") {
+            if (EnterNames.thisPlayer.spells[spellIndex].mpCost > EnterNames.thisPlayer.liveMP) {
+                consoleOutput = notEnoughMP;
+            } else {
+                EnterNames.thisPlayer.spells[spellIndex].spellCast(EnterNames.thisPlayer, thisRoom.numberOne);
+                updateCastSuccess(spellIndex);
+                consoleOutput = castSuccess + EnterNames.thisPlayer.spells[spellIndex].getExtraText();
+                if (isBattling) {
+                    magicTurnAdvantage = false;
+                }
+            }
+        }
+    }
     public void setRoomCount() {
         byte variableRoomCount = (byte) Math.round(10 * Math.random());
         byte baseRoomCount = (byte) 15;
         roomCount = (byte) (baseRoomCount + variableRoomCount);
     }
-    public static void updateCastSuccess(byte spellIndex) {
-        castSuccess = "You cast " + EnterNames.thisPlayer.spells[spellIndex].name + "! ";
-    }
-    public static void trulyCastSpell(byte spellIndex) {
-        if (EnterNames.thisPlayer.spells[spellIndex].mpCost > EnterNames.thisPlayer.liveMP) {
-            consoleOutput = notEnoughMP;
-        } else {
-            EnterNames.thisPlayer.spells[spellIndex].spellCast(EnterNames.thisPlayer, thisRoom.numberOne);
-            consoleOutput = castSuccess;
-            magicTurnAdvantage = false;
-        }
-        //this.changeOutput("s");
-    }
+
 }

@@ -1,6 +1,6 @@
 package com.example.doome.text_baseddungeoncrawler;
 
-public class Enemy extends Character{
+public class Enemy extends Character {
     /**
      * The type of this enemy.
      */
@@ -8,7 +8,7 @@ public class Enemy extends Character{
     /**
      * Boolean that keeps track of whether this is a strong enemy
      */
-    public boolean isStrong;
+    public boolean isStrong = false;
     /**
      * If the enemy is a warlock, then they drop a page with a spell on it
      */
@@ -64,12 +64,12 @@ public class Enemy extends Character{
         A_Single_Rat,
     }
     /**
-     * Detemines the identity of this enemy
+     * Determines the identity of this enemy
      */
     private void determineType() {
         double type = Math.random();
-        double isStrong = Math.random();
-        if (isStrong > strongChance) {
+        double isMiniboss = Math.random();
+        if (isMiniboss > strongChance) {
             if (type < typeChances[0]) {
                 this.enemyType = enemyType.Green_Slime;
                 makeEnemy("Green Slime", "body check", (byte) 2, (byte) 2, (byte) 1, (byte) 2, 80);
@@ -95,6 +95,7 @@ public class Enemy extends Character{
             }
         }
         else {
+            isStrong = true;
             if (type < typeChances[0]) {
                 isWarlock = true;
                 this.enemyType = enemyType.Big_Brain_Warlock;
@@ -117,7 +118,7 @@ public class Enemy extends Character{
                 makeEnemy("Soul Eater", "absorb", (byte) 6, (byte) 3, (byte) 4, (byte) 4, 250);
             } else {
                 this.enemyType = enemyType.A_Single_Rat;
-                makeEnemy("A Single Rat", "bite", (byte) 1, (byte) 10, (byte) 1, (byte) 4, 170);
+                makeEnemy("Single Rat", "bite", (byte) 1, (byte) 10, (byte) 1, (byte) 4, 170);
             }
         }
     }

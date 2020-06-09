@@ -14,11 +14,24 @@
         tools:layout_editor_absoluteY="162dp">
 
         <TextView
-            android:id="@+id/hud"
+            android:id="@+id/hudLine1"
             android:layout_width="match_parent"
-            android:layout_height="30dp"
-            android:gravity="center_horizontal"
+            android:layout_height="wrap_content"
             android:textColor="@android:color/holo_red_dark"
+            android:textSize="20sp" />
+
+        <TextView
+            android:id="@+id/hudLine2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="#4FF13E"
+            android:textSize="20sp" />
+
+        <TextView
+            android:id="@+id/hudLine3"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="#B930B4"
             android:textSize="20sp" />
 
         <TextView
@@ -30,10 +43,11 @@
             android:textSize="19sp" />
 
         <TextView
-            android:id="@+id/lineBreak"
+            android:id="@+id/magicTurnIndicator"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="------------------------------------------------------------------------------------" />
+            android:textColor="#248120"
+            android:textSize="20sp" />
 
         <TableLayout
             android:layout_width="match_parent"

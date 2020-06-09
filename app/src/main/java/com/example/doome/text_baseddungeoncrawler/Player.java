@@ -5,6 +5,25 @@ package com.example.doome.text_baseddungeoncrawler;
 public class Player extends Character {
 
     private double negativeSecretChance = DifficultySelection.getFinalNegativeSecretChance();
+    /**
+     * The additional chance that this character has of dodging an attack entirely, directly
+     * influenced by luck stat, and is to be added to dodgeChance.
+     */
+    public double luckDodgeChance;
+    /**
+     * The additional chance that this character has of finding a secret upon using the "look"
+     * command, directly influenced by luck stat, and is to be added to secretChance.
+     */
+    public double luckSecretChance;
+    /**
+     * Number of magic points for this character: directly influenced by Magic stat.
+     */
+    public byte mp;
+    /**
+     * The dynamic value for this character's magic points. This is initially set to mp, but is
+     * lowered and raised throughout the course of the game.
+     */
+    public byte liveMP;
 
     public int myPoints = 100;
 
@@ -23,15 +42,25 @@ public class Player extends Character {
         name = setName;
         weaponName = setAttackName;
         setAllStats();
-        if (magicValue >= 0) {
-            spells[0] = new Spell((byte) 0);
-        } if (magicValue > 3) {
+        byte firstSpellIndex = 1;
+        spells[0] = new Spell((byte) 0);
+        if (magicValue > 3) {
             spells[1] = new Spell((byte) 8);
+            firstSpellIndex++;
         } if (magicValue > 5) {
             spells[2] = new Spell((byte) 7);
+            firstSpellIndex++;
         } if (magicValue > 8) {
             spells[0] = new Spell((byte) 1);
         }
+        for (byte i = firstSpellIndex; i < (byte) spells.length; i++) {
+            spells[i] = new Spell((byte) 127);
+        }
+    }
+
+    public Player() {
+        hp = 10;
+        liveHP = 10;
     }
     /**
      * Determines whether a secret was found or not.
@@ -62,6 +91,39 @@ public class Player extends Character {
         } else {
             return 0;
         }
+    }
+    /**
+     * Sets this player's magic points based on their magic stat.
+     * Helper function for setAllStats.
+     */
+    public void setMP() {
+        mp = (byte) (10 + (5 * magicValue));
+    }
+    /**
+     * Player class-overridden method
+     * Sets this character's chance to entirely dodge an attack, assuming the attacker lands their
+     * hit
+     * Helper function for setAllStats.
+     */
+    public void setDodgeChance() {
+        double scaled = 1;
+        for (int i = 0; i < agilityValue; i++) {
+            scaled *= scalarOne;
+        }
+        dodgeChance = luckDodgeChance + (baseDodgeChance * scaled);
+    }
+    /**
+     * Player class-overridden method
+     * Sets this character's chance of finding a secret upon using the "look" command, based on
+     * their intelligence stat.
+     * Helper function for setAllStats.
+     */
+    public void setSecretChance() {
+        double scaled = 1;
+        for (int i = 0; i < intelligenceValue; i++) {
+            scaled *= scalarOne;
+        }
+        secretChance = luckSecretChance + (baseSecretChance * scaled);
     }
     /**
      * Sets this character's additional chance to entirely dodge an attack based on their luck stat,
