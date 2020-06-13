@@ -14,6 +14,7 @@ public class GameOverScreen extends AppCompatActivity {
     TextView displayDefense;
     TextView displayAgility;
     TextView displayIntelligence;
+    TextView displayMagic;
     TextView displayLuck;
     TextView difficultyChosen;
     TextView enemiesDefeated;
@@ -31,7 +32,8 @@ public class GameOverScreen extends AppCompatActivity {
         displayDefense = (TextView) findViewById(R.id.displayDefense);
         displayAgility = (TextView) findViewById(R.id.displayAgility);
         displayIntelligence = (TextView) findViewById(R.id.displayIntelligence);
-        displayLuck = (TextView) findViewById(R.id.displayIntelligence);
+        displayMagic = (TextView) findViewById(R.id.displayMagic);
+        displayLuck = (TextView) findViewById(R.id.displayLuck);
         difficultyChosen = (TextView) findViewById(R.id.difficultyChosen);
         enemiesDefeated = (TextView) findViewById(R.id.enemiesDefeated);
         secretsFound = (TextView) findViewById(R.id.secretsFound);
@@ -43,6 +45,7 @@ public class GameOverScreen extends AppCompatActivity {
         displayDefense.setText("Your Defense: " + EnterNames.thisPlayer.defenseValue);
         displayAgility.setText("Your Agility: " + EnterNames.thisPlayer.agilityValue);
         displayIntelligence.setText("Your Intelligence: " + EnterNames.thisPlayer.intelligenceValue);
+        displayMagic.setText("Your Magic" + EnterNames.thisPlayer.magicValue);
         displayLuck.setText("Your Luck: " + EnterNames.thisPlayer.luckValue);
         if (DifficultySelection.selectedDifficulty == DifficultySelection.easy) {
             difficultyChosen.setText("Chosen Difficulty: Easy");

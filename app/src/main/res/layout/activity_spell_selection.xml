@@ -14,12 +14,20 @@
         tools:layout_editor_absoluteY="162dp">
 
         <TextView
-            android:id="@+id/textView7"
+            android:id="@+id/spellSelectionHeader"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
             android:text="Your Spells:"
             android:textColor="#37C53C"
             android:textSize="36sp" />
+
+        <TextView
+            android:id="@+id/messageBox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="#E90B0B"
+            android:textSize="20sp" />
 
         <TextView
             android:id="@+id/spellOneDesc"

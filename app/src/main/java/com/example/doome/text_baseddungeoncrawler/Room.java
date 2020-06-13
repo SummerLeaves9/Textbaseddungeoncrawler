@@ -40,9 +40,13 @@ public class Room {
      * All-purpose constructor
      */
     public Room() {
+
         if (Gameplay.liveRoomCount == 0) {
+            /*
             hasEnemy = false;
             disSearchable = false;
+
+             */
         } else {
             double enemyIndicator = Math.random();
             double isSearchable = Math.random();
@@ -50,7 +54,6 @@ public class Room {
                 hasEnemy = false;
             } else {
                 hasEnemy = true;
-                Gameplay.isBattling = true;
             }
             if (isSearchable < searchableChance) {
                 disSearchable = true;

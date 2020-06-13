@@ -1,5 +1,6 @@
 package com.example.doome.text_baseddungeoncrawler;
 
+import android.app.Activity;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -7,9 +8,12 @@ import android.widget.TextView;
 import android.widget.Button;
 import android.content.Intent;
 
+import org.w3c.dom.Text;
+
 public class SpellSelection extends AppCompatActivity {
 
-    static TextView spellOneDesc;
+    TextView messageBox;
+    TextView spellOneDesc;
     TextView spellTwoDesc;
     TextView spellThreeDesc;
     TextView spellFourDesc;
@@ -17,9 +21,12 @@ public class SpellSelection extends AppCompatActivity {
     TextView spellSixDesc;
     TextView spellSevenDesc;
 
+    private static String noSpellEquipped = "There is no spell equipped in that slot!";
+
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_spell_selection);
+        messageBox = (TextView) findViewById(R.id.messageBox);
         spellOneDesc = (TextView) findViewById(R.id.spellOneDesc);
         spellTwoDesc = (TextView) findViewById(R.id.spellTwoDesc);
         spellThreeDesc = (TextView) findViewById(R.id.spellThreeDesc);
@@ -27,7 +34,6 @@ public class SpellSelection extends AppCompatActivity {
         spellFiveDesc = (TextView) findViewById(R.id.spellFiveDesc);
         spellSixDesc = (TextView) findViewById(R.id.spellSixDesc);
         spellSevenDesc = (TextView) findViewById(R.id.spellSevenDesc);
-        configureNextButton();
         if (EnterNames.playerMagic >= 0) {
             spellOneDesc.setText(EnterNames.thisPlayer.spells[0].description);
         } if (EnterNames.playerMagic > 3) {
@@ -37,6 +43,7 @@ public class SpellSelection extends AppCompatActivity {
         } if (EnterNames.playerMagic > 8) {
             spellOneDesc.setText(EnterNames.thisPlayer.spells[0].description);
         }
+        configureNextButton();
     }
     private void configureNextButton() {
         Button spellOne = (Button) findViewById(R.id.activateSpellOne);
@@ -47,6 +54,15 @@ public class SpellSelection extends AppCompatActivity {
         Button spellSix = (Button) findViewById(R.id.activateSpellSix);
         Button spellSeven = (Button) findViewById(R.id.activateSpellSeven);
         Button cancelButton = (Button) findViewById(R.id.cancelButton);
+        if (EnterNames.playerMagic >= 0) {
+            spellOne.setText(EnterNames.thisPlayer.spells[0].name);
+        } if (EnterNames.playerMagic > 3) {
+            spellTwo.setText(EnterNames.thisPlayer.spells[1].name);
+        } if (EnterNames.playerMagic > 5) {
+            spellThree.setText(EnterNames.thisPlayer.spells[2].name);
+        } if (EnterNames.playerMagic > 8) {
+            spellOne.setText(EnterNames.thisPlayer.spells[0].name);
+        }
         cancelButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -58,50 +74,85 @@ public class SpellSelection extends AppCompatActivity {
         spellOne.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Gameplay.trulyCastSpell((byte) 0);
-                finish();
+                if (EnterNames.thisPlayer.spells[0].id != 127) {
+                    Gameplay.spellNum = 0;
+                    messageBox.setText("");
+                    finish();
+                } else {
+                    messageBox.setText(noSpellEquipped);
+                }
             }
         });
         spellTwo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Gameplay.trulyCastSpell((byte) 1);
-                finish();
+                if (EnterNames.thisPlayer.spells[1].id != 127) {
+                    Gameplay.spellNum = 1;
+                    messageBox.setText("");
+                    finish();
+                } else {
+                    messageBox.setText(noSpellEquipped);
+                }
             }
         });
         spellThree.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Gameplay.trulyCastSpell((byte) 2);
-                finish();
+                if (EnterNames.thisPlayer.spells[2].id != 127) {
+                    Gameplay.spellNum = 2;
+                    messageBox.setText("");
+                    finish();
+                } else {
+                    messageBox.setText(noSpellEquipped);
+                }
             }
         });
         spellFour.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Gameplay.trulyCastSpell((byte) 3);
-                finish();
+                if (EnterNames.thisPlayer.spells[3].id != 127) {
+                    Gameplay.spellNum = 3;
+                    messageBox.setText("");
+                    finish();
+                } else {
+                    messageBox.setText(noSpellEquipped);
+                }
             }
         });
         spellFive.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Gameplay.trulyCastSpell((byte) 4);
-                finish();
+                if (EnterNames.thisPlayer.spells[4].id != 127) {
+                    Gameplay.spellNum = 4;
+                    messageBox.setText("");
+                    finish();
+                } else {
+                    messageBox.setText(noSpellEquipped);
+                }
             }
         });
         spellSix.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Gameplay.trulyCastSpell((byte) 5);
-                finish();
+                if (EnterNames.thisPlayer.spells[5].id != 127) {
+                    Gameplay.spellNum = 5;
+                    messageBox.setText("");
+                    finish();
+                } else {
+                    messageBox.setText(noSpellEquipped);
+                }
             }
         });
         spellSeven.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Gameplay.trulyCastSpell((byte) 6);
-                finish();
+                if (EnterNames.thisPlayer.spells[6].id != 127) {
+                    Gameplay.spellNum = 6;
+                    messageBox.setText("");
+                    finish();
+                } else {
+                    messageBox.setText(noSpellEquipped);
+                }
             }
         });
     }
@@ -112,4 +163,5 @@ public class SpellSelection extends AppCompatActivity {
             spellOneDesc.setText(EnterNames.thisPlayer.spells[slot].description);
         }
     }
+
 }

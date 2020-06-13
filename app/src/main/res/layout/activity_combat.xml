@@ -13,41 +13,93 @@
         tools:layout_editor_absoluteX="0dp"
         tools:layout_editor_absoluteY="162dp">
 
-        <TextView
-            android:id="@+id/hudLine1"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textColor="@android:color/holo_red_dark"
-            android:textSize="20sp" />
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
 
-        <TextView
-            android:id="@+id/hudLine2"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textColor="#4FF13E"
-            android:textSize="20sp" />
+            <TextView
+                android:id="@+id/hudLine1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@android:color/holo_red_dark"
+                android:textSize="20sp" />
 
-        <TextView
-            android:id="@+id/hudLine3"
+            <TextView
+                android:id="@+id/enemyName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="right"
+                android:textColor="@android:color/black"
+                android:textSize="20sp" />
+
+        </LinearLayout>
+
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textColor="#B930B4"
-            android:textSize="20sp" />
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/hudLine2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="#4FF13E"
+                android:textSize="20sp" />
+
+            <TextView
+                android:id="@+id/enemyHealthIndicator"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="right"
+                android:textColor="@android:color/black"
+                android:textSize="20sp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/hudLine3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="#B930B4"
+                android:textSize="20sp" />
+        </LinearLayout>
 
         <TextView
             android:id="@+id/gameInfo"
             android:layout_width="match_parent"
-            android:layout_height="174dp"
+            android:layout_height="230dp"
             android:height="315dp"
             android:textColor="@android:color/black"
-            android:textSize="19sp" />
+            android:textSize="22sp" />
 
-        <TextView
-            android:id="@+id/magicTurnIndicator"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textColor="#248120"
-            android:textSize="20sp" />
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/magicTurnIndicator"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="#248120"
+                android:textSize="20sp" />
+
+            <TextView
+                android:id="@+id/lastSpellUsed"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="right"
+                android:text="TextView"
+                android:textSize="20sp" />
+        </LinearLayout>
 
         <TableLayout
             android:layout_width="match_parent"
@@ -59,22 +111,40 @@
 
                 <Button
                     android:id="@+id/attackButton"
-                    android:layout_width="match_parent"
+                    android:layout_width="107dp"
                     android:layout_height="wrap_content"
                     android:text="Attack" />
 
                 <Button
                     android:id="@+id/spellButton"
-                    android:layout_width="match_parent"
+                    android:layout_width="99dp"
                     android:layout_height="wrap_content"
                     android:text="Spells" />
 
                 <Button
+                    android:id="@+id/castButton"
+                    android:layout_width="106dp"
+                    android:layout_height="wrap_content"
+                    android:text="Cast" />
+
+                <Button
                     android:id="@+id/healButton"
-                    android:layout_width="match_parent"
+                    android:layout_width="99dp"
                     android:layout_height="wrap_content"
                     android:text="Heal" />
             </TableRow>
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" >
+
+            </TableRow>
+
+        </TableLayout>
+
+        <TableLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
 
             <TableRow
                 android:layout_width="match_parent"
@@ -82,23 +152,23 @@
 
                 <Button
                     android:id="@+id/runButton"
-                    android:layout_width="match_parent"
+                    android:layout_width="146dp"
                     android:layout_height="wrap_content"
                     android:text="run" />
 
                 <Button
                     android:id="@+id/progressButton"
-                    android:layout_width="match_parent"
+                    android:layout_width="131dp"
                     android:layout_height="wrap_content"
                     android:text="progress" />
 
                 <Button
                     android:id="@+id/lookButton"
-                    android:layout_width="match_parent"
+                    android:layout_width="131dp"
                     android:layout_height="wrap_content"
                     android:text="look" />
-            </TableRow>
 
+            </TableRow>
         </TableLayout>
 
     </LinearLayout>

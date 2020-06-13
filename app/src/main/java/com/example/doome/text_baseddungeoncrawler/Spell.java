@@ -23,27 +23,27 @@ public class Spell {
     public boolean isExplorationSpell;
 
     public final String[][] allSpells = {
-            {"Basic Heal", "MA, Cost: 5 MP. Restores some health", ""},
-            {"Strong Heal", "MA, Cost: 10 MP. Restores a lot of health", ""},
+            {"Basic Heal", "MA, Cost: 5 MP. Restores some health", "(empty)"},
+            {"Strong Heal", "MA, Cost: 10 MP. Restores a lot of health", "(empty)"},
             {"Ultimate Block", "MA, Cost: 20 MP. Ensures you won't take damage this turn.",
                     " You are completely protected from damage this turn. "},
             {"Sphericon","M, Cost: 7 MP. Summons a lil' guy to fight for you, but only by " +
                     "charging it.", " He's here, laaaaaads!! "},
             {"Sphericon Charge","M, Cost: 3 MP. Charges your Sphericon for 1 unit.",
-                    ""},
+                    "(empty)"},
             {"Sphericon Supercharge","MA, Cost: 8 MP. Charges your Sphericon for 3 units.",
-                    ""},
+                    "(empty)"},
             {"Lucky Marksman","M, Cost: 6 MP. You are healed half your your party's damage output" +
                     " this turn. But if you miss, you take double what your enemies deal.",
                     " Effect is active for this turn. "},
             {"Blinding Light","M, Cost: 3 MP. 80 percent chance to reduce your enemy's accuracy " +
-                    "by 3 this turn.", "", ""},
+                    "by 3 this turn.", "(empty)", "(empty)"},
             {"Fireball","MA, Cost: 6 MP. Cast a flaming projectile whose strength is proportional" +
                     " to your magic stat (from 1.5-2.5 times your base attack power). Less " +
-                    "accurate than your direct attack", "", " The " +
+                    "accurate than your direct attack", "(empty)", " The " +
                     "fireball misses... "},
-            {"Poison","M, Cost: 7 MP. Deals 15 percent of your enemy's max health for 3 turns, " +
-                    "but the enemy is healed 45 percent after 3 turns.", "", " The " +
+            {"Poison","M, Cost: 7 MP. Deals 15 percent of your enemy's max health for 3 turns",
+                    " but the enemy is healed 45 percent after 3 turns.", "(empty)", " The " +
                     "purple fumes come and go, dealing only 1 damage. "},
     };
 
@@ -64,7 +64,7 @@ public class Spell {
 
     /**
      * All-purpose constructor.
-     * @param setId
+     * @param setId number which identifies spell
      */
 
     public Spell(byte setId) {
@@ -150,10 +150,10 @@ public class Spell {
         }
         if (id == 0) {
             //basicHeal(p);
-            extraCastSuccessMessage = " You recover " + ((byte) (thisPlayer.liveHP * .35)) + " HP. ";
+            extraCastSuccessMessage = " You recover " + ((byte) (thisPlayer.hp * .35)) + " HP. ";
         } else if (id == 1) {
             //strongHeal(p);
-            extraCastSuccessMessage = " You recover " + ((byte) (thisPlayer.liveHP * .65)) + " HP. ";
+            extraCastSuccessMessage = " You recover " + ((byte) (thisPlayer.hp * .65)) + " HP. ";
         } else if (id == 4) {
             //sphericonCharge(p);
             extraCastSuccessMessage = " Total units: " + Gameplay.sphericonCharge + ". ";
