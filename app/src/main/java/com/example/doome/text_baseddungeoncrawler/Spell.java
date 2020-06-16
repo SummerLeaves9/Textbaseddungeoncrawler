@@ -16,6 +16,8 @@ public class Spell {
 
     public String spellFailMessage;
 
+    public String statusEffect;
+
     public boolean castFail = false;
 
     public boolean isCombatSpell;
@@ -23,15 +25,19 @@ public class Spell {
     public boolean isExplorationSpell;
 
     public final String[][] allSpells = {
-            {"Basic Heal", "MA, Cost: 5 MP. Restores some health", "(empty)"},
-            {"Strong Heal", "MA, Cost: 10 MP. Restores a lot of health", "(empty)"},
+            {"Basic Heal", "MA, Cost: 5 MP. Restores some health", "(empty)", "(spell doesn't " +
+                    "fail)", "(no status effect)"},
+            {"Strong Heal", "MA, Cost: 10 MP. Restores a lot of health", "(empty)", "(spell " +
+                    "doesn't fail)", "(no status effect)"},
             {"Ultimate Block", "MA, Cost: 20 MP. Ensures you won't take damage this turn.",
-                    " You are completely protected from damage this turn. "},
+                    " You are completely protected from damage this turn. ", "(spell doesn't " +
+                    "fail)", "(no status effect)"},
             {"Sphericon","M, Cost: 7 MP. Summons a lil' guy to fight for you, but only by " +
-                    "charging it.", " He's here, laaaaaads!! "},
-            {"Sphericon Charge","M, Cost: 3 MP. Charges your Sphericon for 1 unit.",
-                    "(empty)"},
-            {"Sphericon Supercharge","MA, Cost: 8 MP. Charges your Sphericon for 3 units.",
+                    "charging it.", " He's here, laaaaaads!! ", "(spell doesn't fail)",
+                    "Sphericon active. Charge: "},
+            {"Sphericon Charge","M, Cost: 2 MP. Charges your Sphericon for 1 unit.",
+                    "(empty)", "(spell doesn't fail)", "no status effect"},
+            {"Sphericon Supercharge","MA, Cost: 6 MP. Charges your Sphericon for 3 units.",
                     "(empty)"},
             {"Lucky Marksman","M, Cost: 6 MP. You are healed half your your party's damage output" +
                     " this turn. But if you miss, you take double what your enemies deal.",
@@ -58,7 +64,7 @@ public class Spell {
             {true, false},
             {true, false},
             {true, false},
-            {true, true},
+            {true, false},
             {true, false},
     };
 
@@ -82,6 +88,7 @@ public class Spell {
         }
         isCombatSpell = allSpellTypes[setId][0];
         isExplorationSpell = allSpellTypes[setId][1];
+        statusEffect = allSpells[setId][4];
     }
 
     /**
@@ -162,7 +169,8 @@ public class Spell {
             extraCastSuccessMessage = " Total units: " + Gameplay.sphericonCharge + ". ";
         } else if (id == 7) {
             //blindingLight(p, e);
-            extraCastSuccessMessage = " The " + Gameplay.thisRoom.numberOne.name + " was successfully blinded! ";
+            extraCastSuccessMessage = " The " + Gameplay.thisRoom.numberOne.name + " was " +
+                    "successfully blinded! ";
         } else if (id == 8) {
             //fireball(p, e);
             extraCastSuccessMessage = " The fireball hits for " +
@@ -190,7 +198,9 @@ public class Spell {
             p.liveHP += tobeHealed;
         }
         p.liveMP -= 5;
-        Gameplay.attackTurnAdvantage = false;
+        if (Gameplay.isBattling) {
+            Gameplay.attackTurnAdvantage = false;
+        }
     }
 
     /**
@@ -209,7 +219,9 @@ public class Spell {
             p.liveHP += tobeHealed;
         }
         p.liveMP -= 10;
-        Gameplay.attackTurnAdvantage = false;
+        if (Gameplay.isBattling) {
+            Gameplay.attackTurnAdvantage = false;
+        }
     }
 
     /**
@@ -221,7 +233,9 @@ public class Spell {
     private static void ultimateBlock(Player p, Character e) {
         Gameplay.hasBlocked = true;
         p.liveHP -= 20;
-        Gameplay.attackTurnAdvantage = false;
+        if (Gameplay.isBattling) {
+            Gameplay.attackTurnAdvantage = false;
+        }
     }
 
     /**
@@ -232,20 +246,36 @@ public class Spell {
      * it will do. It will attack the first turn you don't give it charge.
      */
 
-    private static void sphericon(Player p) {
+    private void sphericon(Player p) {
         Gameplay.hasSphericon = true;
         p.liveMP -= 7;
     }
 
+    /**
+     * Sphericon blast: when the player doesn't charge the sphericon, that turn the
+     */
+    public void sphericonBlast(Character e) {
+        byte dealtDamage = 0;
+        for (; Gameplay.sphericonCharge > 0; Gameplay.sphericonCharge--) {
+            dealtDamage += 3;
+            if (Gameplay.sphericonCharge > 4) {
+                dealtDamage++;
+            }
+            if (Gameplay.sphericonCharge > 7) {
+                dealtDamage++;
+            }
+        }
+        e.liveHP -= dealtDamage;
+    }
     /**
      * Sphericon Charge: M
      * Spell 5
      * Charges a sphericon for one unit.
      */
 
-    private static void sphericonCharge(Player p) {
+    private void sphericonCharge(Player p) {
         Gameplay.sphericonCharge++;
-        p.liveMP -= 3;
+        p.liveMP -= 2;
     }
 
     /**
@@ -254,10 +284,12 @@ public class Spell {
      * Charges a sphericon for three units.
      */
 
-    private static void sphericonSuperCharge(Player p) {
+    private void sphericonSuperCharge(Player p) {
         Gameplay.sphericonCharge += 3;
-        p.liveMP -= 8;
-        Gameplay.attackTurnAdvantage = false;
+        p.liveMP -= 6;
+        if (Gameplay.isBattling) {
+            Gameplay.attackTurnAdvantage = false;
+        }
     }
 
     /**
@@ -282,8 +314,31 @@ public class Spell {
      */
 
     private void blindingLight(Player p, Character e) {
-
+        double blinded = Math.random();
+        byte initAcc = -1;
+        if (blinded < .8) {
+            initAcc = e.accuracyValue;
+            if (e.accuracyValue < 3) {
+                e.accuracyValue = 0;
+            } else {
+                e.accuracyValue -= 3;
+            }
+            e.setHitChance();
+            castFail = false;
+            Gameplay.initStat = initAcc;
+            Gameplay.statusEffect = true;
+        } else {
+            castFail = true;
+        }
         p.liveMP -= 3;
+    }
+
+    /**
+     * Blinding Light helper: to undo the effect once the turn is over
+     */
+    public void blindingLightReverse(Character e, byte initAcc) {
+        e.accuracyValue = initAcc;
+        e.setHitChance();
     }
 
     /**
@@ -313,28 +368,12 @@ public class Spell {
             dealtDamage = fireballAttackPower;
             e.liveHP -= dealtDamage;
         }
-        //Updates appropriate strings/output in Gameplay class
         if (dealtDamage != 0) {
             castFail = false;
-            if (e.liveHP <= 0) {
-                thisPlayer.myPoints += Gameplay.thisRoom.numberOne.pointValue;
-                Gameplay.victoryMessage = "You won! " + e.name +
-                        " dropped " + Gameplay.thisRoom.numberOne.pointValue + " points. Now you have " +
-                        thisPlayer.myPoints + " points!";
-                Gameplay.consoleOutput += Gameplay.victoryMessage;
-                Gameplay.isBattling = false;
-                Gameplay.enemiesDefeatedCounter++;
-                if (Gameplay.thisRoom.disSearchable) {
-                    Gameplay.consoleOutput += Gameplay.canBeSearched;
-                }
-                Gameplay.attackTurnAdvantage = true;
-            } else {
-                Gameplay.attackTurnAdvantage = false;
-                Gameplay.magicTurnAdvantage = false;
-            }
         } else {
             castFail = true;
-            Gameplay.consoleOutput += Gameplay.displayMiss;
+        }
+        if (Gameplay.isBattling) {
             Gameplay.attackTurnAdvantage = false;
         }
         //increases player accuracy back to original level

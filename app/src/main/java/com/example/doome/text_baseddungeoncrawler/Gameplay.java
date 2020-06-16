@@ -26,6 +26,10 @@ public class Gameplay extends AppCompatActivity {
      */
     public byte roomCount = 0;
     /**
+     * Boolean to track if the user has picked a spell for the first time in a battle
+     */
+    public static boolean hasPickedSpell = false;
+    /**
      * The boolean to track when the user is in battle
      */
     public static boolean isBattling = false;
@@ -45,6 +49,15 @@ public class Gameplay extends AppCompatActivity {
      * The boolean that stores whether the player has an active Sphericon on the battlefield
      */
     public static boolean hasSphericon = false;
+    /**
+     * The boolean that stores whether a status effect spell has been used this turn
+     */
+    public static boolean statusEffect = false;
+    /**
+     * The byte to store the enemy's initial stat value when it is successfully reduced by a player
+     * spell.
+     */
+    public static byte initStat = 0;
     /**
      * The int that stores how many Sphericon charges are loaded up
      */
@@ -261,8 +274,7 @@ public class Gameplay extends AppCompatActivity {
     /**
      * The add-on message displayed to the user when the room can be searched.
      */
-    public static final String canBeSearched = " You find a hidden opening in the wall here! " +
-            "What could it be? ";
+    public static final String canBeSearched = " You feel this room might be hiding something... ";
     /**
      * The message displayed when the player enters an empty room.
      */
@@ -316,9 +328,13 @@ public class Gameplay extends AppCompatActivity {
      */
     public final String combatOnly = "This spell is only meant for combat.";
     /**
+     *
+     */
+    public final String noSpellSelected = "No spell selected! ";
+    /**
      * The byte that is changed in SpellSelection to indicate which spell in which slot to use
      */
-    public static byte spellNum = 0;
+    public static byte spellNum = -1;
 
     TextView hud;
     TextView hud2;
@@ -446,7 +462,7 @@ public class Gameplay extends AppCompatActivity {
         } else if (action.equals(spell)) {
             spell();
         } else if (action.equals(cast)) {
-            trulyCastSpell(spellNum);
+            cast(spellNum);
         } else {
             consoleOutput = invalidCommand;
         }
@@ -493,13 +509,12 @@ public class Gameplay extends AppCompatActivity {
                             thisRoom.numberOne.weaponName + ", but you dodge it.";
                     if (!thisRoom.numberOne.isStrong) {
                         startBattle = " A " + thisRoom.numberOne.name + " appears in the room! Prepare for battle!";
-                        consoleOutput = startBattle;
+                        consoleOutput += startBattle;
                     } else {
                         strongStartBattle = " A miniboss appears, it's a " + thisRoom.numberOne.name + "! Prepare for battle!";
-                        consoleOutput = strongStartBattle;
+                        consoleOutput += strongStartBattle;
                     }
                 } else {
-                    consoleOutput = emptyRoom;
                     if (thisRoom.disSearchable) {
                         consoleOutput += canBeSearched;
                     }
@@ -516,7 +531,7 @@ public class Gameplay extends AppCompatActivity {
         } else if (action.equals(run)) {
             consoleOutput = runEmptyRoom;
         } else if (action.equals(cast)) {
-            trulyCastSpell(spellNum);
+            cast(spellNum);
         } else {
             consoleOutput = invalidCommand;
         }
@@ -547,7 +562,9 @@ public class Gameplay extends AppCompatActivity {
         if (isBattling) {
             enemyNameText = thisRoom.numberOne.name;
             enemyHealth = thisRoom.numberOne.liveHP + "/" + thisRoom.numberOne.hp;
-            //newLastSpellText = "Last: " + EnterNames.thisPlayer.spells[spellNum].name;
+            if (hasPickedSpell) {
+                newLastSpellText = "Last used: " + EnterNames.thisPlayer.spells[spellNum].name;
+            }
         }
         magicTurnIndicator.setText(magicTurn);
         enemyName.setText(enemyNameText);
@@ -563,12 +580,14 @@ public class Gameplay extends AppCompatActivity {
                     EnterNames.thisPlayer.myPoints + " points!";
             consoleOutput += victoryMessage;
             isBattling = false;
+            hasPickedSpell = false;
             enemiesDefeatedCounter++;
             if (thisRoom.disSearchable) {
                 consoleOutput += canBeSearched;
             }
             attackTurnAdvantage = true;
             magicTurnAdvantage = true;
+            spellNum = -1;
         }
     }
 
@@ -598,8 +617,10 @@ public class Gameplay extends AppCompatActivity {
             } else {
                 EnterNames.thisPlayer.liveHP = EnterNames.thisPlayer.hp;
             }
-            attackTurnAdvantage = false;
-            magicTurnAdvantage = false;
+            if (isBattling) {
+                attackTurnAdvantage = false;
+                magicTurnAdvantage = false;
+            }
         }
     }
 
@@ -727,9 +748,11 @@ public class Gameplay extends AppCompatActivity {
         }
     }
 
-    public void trulyCastSpell(byte spellIndex) {
+    public void cast(byte spellIndex) {
         if (!magicTurnAdvantage) {
             consoleOutput = noMagicTurn;
+        } else if (spellNum == -1) {
+            consoleOutput = noSpellSelected;
         } else if (EnterNames.thisPlayer.spells[spellIndex].mpCost > EnterNames.thisPlayer.liveMP) {
             consoleOutput = notEnoughMP;
         } else if (isBattling && !(EnterNames.thisPlayer.spells[spellIndex].isCombatSpell)) {

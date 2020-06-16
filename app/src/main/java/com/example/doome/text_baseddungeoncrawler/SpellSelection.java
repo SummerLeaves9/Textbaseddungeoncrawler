@@ -77,6 +77,9 @@ public class SpellSelection extends AppCompatActivity {
                 if (EnterNames.thisPlayer.spells[0].id != 127) {
                     Gameplay.spellNum = 0;
                     messageBox.setText("");
+                    if (!(Gameplay.hasPickedSpell) && Gameplay.isBattling) {
+                        Gameplay.hasPickedSpell = true;
+                    }
                     finish();
                 } else {
                     messageBox.setText(noSpellEquipped);
@@ -89,6 +92,9 @@ public class SpellSelection extends AppCompatActivity {
                 if (EnterNames.thisPlayer.spells[1].id != 127) {
                     Gameplay.spellNum = 1;
                     messageBox.setText("");
+                    if (!(Gameplay.hasPickedSpell) && Gameplay.isBattling) {
+                        Gameplay.hasPickedSpell = true;
+                    }
                     finish();
                 } else {
                     messageBox.setText(noSpellEquipped);
@@ -101,6 +107,9 @@ public class SpellSelection extends AppCompatActivity {
                 if (EnterNames.thisPlayer.spells[2].id != 127) {
                     Gameplay.spellNum = 2;
                     messageBox.setText("");
+                    if (!(Gameplay.hasPickedSpell) && Gameplay.isBattling) {
+                        Gameplay.hasPickedSpell = true;
+                    }
                     finish();
                 } else {
                     messageBox.setText(noSpellEquipped);
@@ -113,6 +122,9 @@ public class SpellSelection extends AppCompatActivity {
                 if (EnterNames.thisPlayer.spells[3].id != 127) {
                     Gameplay.spellNum = 3;
                     messageBox.setText("");
+                    if (!(Gameplay.hasPickedSpell) && Gameplay.isBattling) {
+                        Gameplay.hasPickedSpell = true;
+                    }
                     finish();
                 } else {
                     messageBox.setText(noSpellEquipped);
@@ -125,6 +137,9 @@ public class SpellSelection extends AppCompatActivity {
                 if (EnterNames.thisPlayer.spells[4].id != 127) {
                     Gameplay.spellNum = 4;
                     messageBox.setText("");
+                    if (!(Gameplay.hasPickedSpell) && Gameplay.isBattling) {
+                        Gameplay.hasPickedSpell = true;
+                    }
                     finish();
                 } else {
                     messageBox.setText(noSpellEquipped);
@@ -137,6 +152,9 @@ public class SpellSelection extends AppCompatActivity {
                 if (EnterNames.thisPlayer.spells[5].id != 127) {
                     Gameplay.spellNum = 5;
                     messageBox.setText("");
+                    if (!(Gameplay.hasPickedSpell) && Gameplay.isBattling) {
+                        Gameplay.hasPickedSpell = true;
+                    }
                     finish();
                 } else {
                     messageBox.setText(noSpellEquipped);
@@ -149,6 +167,9 @@ public class SpellSelection extends AppCompatActivity {
                 if (EnterNames.thisPlayer.spells[6].id != 127) {
                     Gameplay.spellNum = 6;
                     messageBox.setText("");
+                    if (!(Gameplay.hasPickedSpell) && Gameplay.isBattling) {
+                        Gameplay.hasPickedSpell = true;
+                    }
                     finish();
                 } else {
                     messageBox.setText(noSpellEquipped);

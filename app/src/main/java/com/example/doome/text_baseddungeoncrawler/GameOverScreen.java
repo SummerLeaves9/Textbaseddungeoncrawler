@@ -45,7 +45,7 @@ public class GameOverScreen extends AppCompatActivity {
         displayDefense.setText("Your Defense: " + EnterNames.thisPlayer.defenseValue);
         displayAgility.setText("Your Agility: " + EnterNames.thisPlayer.agilityValue);
         displayIntelligence.setText("Your Intelligence: " + EnterNames.thisPlayer.intelligenceValue);
-        displayMagic.setText("Your Magic" + EnterNames.thisPlayer.magicValue);
+        displayMagic.setText("Your Magic: " + EnterNames.thisPlayer.magicValue);
         displayLuck.setText("Your Luck: " + EnterNames.thisPlayer.luckValue);
         if (DifficultySelection.selectedDifficulty == DifficultySelection.easy) {
             difficultyChosen.setText("Chosen Difficulty: Easy");
