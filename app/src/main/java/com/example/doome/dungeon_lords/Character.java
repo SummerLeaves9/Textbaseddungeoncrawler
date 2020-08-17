@@ -1,4 +1,4 @@
-package com.example.doome.text_baseddungeoncrawler;
+package com.example.doome.dungeon_lords;
 
 public class Character {
     /**
@@ -64,7 +64,7 @@ public class Character {
     public double critChance;
 
     /**
-     * The name for this character!
+     * The name for this character
      */
     public String name;
     /**
@@ -76,13 +76,13 @@ public class Character {
      */
     public static final double critMultiplier = 1.8;
     /**
-     * The base hp for all characters
+     * The base hp for enemies
      */
     public static final int baseHP = 10;
     /**
      * The base attackPower for all characters
      */
-    public static final int baseAttackPower = 4;
+    public static final double baseAttackPower = 4.4;
     /**
      * The base chance to land a critical hit for all characters. Only for characters with luckValue
      * above 0, otherwise their critChance is 0.
@@ -91,7 +91,7 @@ public class Character {
     /**
      * The base hitChance for all characters
      */
-    public static final double baseHitChance = .5;
+    public static final double baseHitChance = .55;
     /**
      * The base dodge chance for all characters
      */
@@ -104,7 +104,7 @@ public class Character {
      * The base chance that a player finds a secret upon entering the "look" command, based on their
      * intelligence stat.
      */
-    public static final double baseSecretChance = .08;
+    public static final double baseSecretChance = .23;
     /**
      * The base additional chance to find a secret upon entering the "look" command based on the
      * intelligence stat.
@@ -118,22 +118,38 @@ public class Character {
     public final static double baseAllLuckChance = 0;
     /**
      * The most generous value to scale base calculable stats depending on a character's stats
-     * Used in calculating luckSecretChance, luckDodgeChance, critChance, hp, dodgeChance, and
-     * secretChance
+     * Used in calculating luckSecretChance, luckDodgeChance, dodgeChance
      */
     public final static double scalarOne = 1.2;
     /**
-     * The middle of the road value to scale base calculable stats depending on a character's stats
-     * Used in calculating attackPower
+     * scalar used for determining critChance
      */
-    public final static double scalarTwo = 1.12;
+    public final static double critScalar = 1.23;
+    /**
+     * The middle of the road value to scale base calculable stats depending on a character's stats
+     * Used in calculating attackPower for enemies only, and hp
+     */
+    public final static double scalarTwo = 1.1;
     /**
      * The least generous value to scale base calculable stats depending on a character's stats
-     * Used in calculating hitChance
+     * Used in calculating hitChance for player
      */
-    public final static double scalarThree = 1.07;
+    public final static double scalarThree = 1.045;
     /**
-     * The value to multiply scalarOne by, then add to the base hp to get the final hp value
+     * Scalar for calculating hp
+     */
+    public final static double scalarFour = 1.155;
+    /**
+     * scalar used in calculating hitchance for enemies
+     */
+    public final static double scalarFive = 1.07;
+    /**
+     * scalar used in calculating hp for player
+     */
+    public final static double scalarSix = 1.08;
+    /**
+     * The value to multiply scalarOne^defenseValue by, then add to the base hp to get the final hp
+     * value
      */
     public final static int hpScalar = 7;
     /**
@@ -147,18 +163,20 @@ public class Character {
 
     /**
      * Sets this character's hitpoints based on their defense stat.
+     * This version only applies to Enemy's, as it is overridden in Player
      * Helper function for setAllStats.
      */
     public void setHp() {
         double scaled = 1;
         for (int i = 0; i < defenseValue; i++) {
-            scaled *= scalarOne;
+            scaled *= scalarFour;
         }
         hp = (byte) Math.round(baseHP + (hpScalar * scaled));
         if (defenseValue == 0) {
             hp -= hpScalar;
         }
     }
+
     /**
      * Sets this character's damage dealt upon hit based on their strength stat.
      * Helper function for setAllStats.
@@ -190,18 +208,19 @@ public class Character {
     public void setSecretChance() {
         double scaled = 1;
         for (int i = 0; i < intelligenceValue; i++) {
-            scaled *= scalarOne;
+            scaled *= scalarTwo;
         }
         secretChance = (baseSecretChance * scaled);
     }
     /**
      * Sets this character's chance of landing their attack, based on their accuracy stat.
+     * This version only applies to Enemy's, as Player overrides this method
      * Helper function for setAllStats.
      */
     public void setHitChance() {
         double scaled = 1;
         for (int i = 0; i < accuracyValue; i++) {
-            scaled *= scalarThree;
+            scaled *= scalarFive;
         }
         hitChance = baseHitChance * scaled;
     }
@@ -219,6 +238,25 @@ public class Character {
                 return (byte) (this.attackPower * critMultiplier);
             } else {
                 other.liveHP -= this.attackPower;
+                return this.attackPower;
+            }
+        }
+        return 0;
+    }
+    /**
+     * Uses the stats of both characters to determine if this character landed a hit on the other.
+     * Unlike determineHit, this method does not actually deal damage, it just returns the
+     * damage this character would have dealt.
+     * @param other the character that is being attacked.
+     */
+    public int determineHitNoDamage(Character other) {
+        double otherDodgeResult = Math.random();
+        double thisHitResult = Math.random();
+        double thisCritResult = Math.random();
+        if (other.dodgeChance < otherDodgeResult && this.hitChance > thisHitResult) {
+            if (thisCritResult < this.critChance) {
+                return (byte) (this.attackPower * critMultiplier);
+            } else {
                 return this.attackPower;
             }
         }

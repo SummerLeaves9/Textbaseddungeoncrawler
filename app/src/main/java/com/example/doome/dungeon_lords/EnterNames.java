@@ -1,4 +1,4 @@
-package com.example.doome.text_baseddungeoncrawler;
+package com.example.doome.dungeon_lords;
 
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 
 public class EnterNames extends AppCompatActivity {
 
@@ -71,8 +72,7 @@ public class EnterNames extends AppCompatActivity {
                 thisPlayer = new Player(playerStrength, playerAccuracy,
                         playerDefense, playerAgility, playerIntelligence, playerMagic,
                         playerLuck, playerName, playerWeaponName);
-
-
+                StatSelection.statsChosen = true;
                 startActivity(new Intent(EnterNames.this, Gameplay.class));
             }
         });
@@ -90,9 +90,11 @@ public class EnterNames extends AppCompatActivity {
                 playerIntelligence = 0;
                 playerMagic = 0;
                 playerLuck = 0;
-
                 startActivity(new Intent(EnterNames.this, StatSelection.class));
             }
         });
     }
+
+    @Override
+    public void onBackPressed() {}
 }

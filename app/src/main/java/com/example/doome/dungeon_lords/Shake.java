@@ -1,7 +1,6 @@
-package com.example.doome.text_baseddungeoncrawler;
+package com.example.doome.dungeon_lords;
 
 import android.content.Context;
-import android.content.Intent;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;

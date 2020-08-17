@@ -2,7 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/container"
+    android:id="@+id/appNs"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".TitleScreen">
@@ -10,34 +10,76 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="#4f4f4f"
         android:orientation="vertical">
 
         <Space
             android:layout_width="match_parent"
-            android:layout_height="166dp" />
+            android:layout_height="0dp"
+            android:layout_weight="20"/>
 
         <TextView
             android:id="@+id/textView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_weight="1"
             android:gravity="center_horizontal"
             android:text="Dungeon Lords!"
-            android:textColor="@android:color/black"
-            android:textSize="52sp"
+            android:textColor="#eaeaea"
+            android:textSize="48sp"
             android:textStyle="bold" />
 
         <Space
             android:layout_width="match_parent"
-            android:layout_height="59dp" />
+            android:layout_height="0dp"
+            android:layout_weight="7"/>
 
         <Button
             android:id="@+id/startButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_weight="1"
             android:layout_gravity="center_horizontal|center_vertical"
+            android:background="@drawable/color_button"
+            android:textColor="#eaeaea"
             android:gravity="center"
-            android:text="Press to Start!"
-            android:textSize="36sp" />
+            android:text="Press to Start"
+            android:textSize="32sp" />
+
+        <Space
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="7"/>
+
+        <Button
+            android:id="@+id/tutorialButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_gravity="center_horizontal"
+            android:background="@drawable/color_button"
+            android:textColor="#eaeaea"
+            android:text="View Tutorial"
+            android:textSize="20sp" />
+
+        <Space
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="7"/>
+
+        <Button
+            android:id="@+id/quickStartButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@drawable/color_button"
+            android:textColor="#eaeaea"
+            android:text="Quick Start" />
+        <Space
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_weight="5"/>
+
     </LinearLayout>
 
 </RelativeLayout>

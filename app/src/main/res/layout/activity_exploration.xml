@@ -1,6 +1,269 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#3f3f3f">
 
-</android.support.constraint.ConstraintLayout>
+
+    <TextView
+        android:id="@+id/extraMapViewTop"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="22sp" />
+
+    <TextView
+        android:id="@+id/mapWindowLine1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fontFamily="monospace"
+        android:gravity="center_horizontal"
+        android:textColor="#eaeaea"
+        android:textSize="22sp" />
+
+    <TextView
+        android:id="@+id/mapWindowLine2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fontFamily="monospace"
+        android:gravity="center_horizontal"
+        android:textColor="#eaeaea"
+        android:textSize="22sp" />
+
+    <TextView
+        android:id="@+id/mapWindowLine3"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fontFamily="monospace"
+        android:gravity="center_horizontal"
+        android:textColor="#eaeaea"
+        android:textSize="22sp" />
+
+    <TextView
+        android:id="@+id/mapWindowLine4"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fontFamily="monospace"
+        android:gravity="center_horizontal"
+        android:textColor="#eaeaea"
+        android:textSize="22sp" />
+
+    <TextView
+        android:id="@+id/mapWindowLine5"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fontFamily="monospace"
+        android:gravity="center_horizontal"
+        android:textColor="#eaeaea"
+        android:textSize="22sp" />
+
+    <TextView
+        android:id="@+id/extraMapViewBottom"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="22sp" />
+
+    <TextView
+        android:id="@+id/mapMessage"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fontFamily="sans-serif-medium"
+        android:gravity="center_horizontal"
+        android:textColor="#eaeaea"
+        android:textSize="20sp" />
+
+    <TextView
+        android:id="@+id/stepsLeftToday"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:textColor="#eaeaea"
+        android:textSize="20sp" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <Space
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="2" />
+
+        <Button
+            android:id="@+id/goNorthButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@drawable/color_button"
+            android:layout_margin="2dp"
+            android:text="Go North"
+            android:textColor="#eaeaea" />
+
+        <Space
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="2" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <Space
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="2" />
+
+        <Button
+            android:id="@+id/goWestButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@drawable/color_button"
+            android:layout_margin="2dp"
+            android:text="Go West"
+            android:textColor="#eaeaea" />
+
+        <Space
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="2" />
+
+        <Button
+            android:id="@+id/goEastButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@drawable/color_button"
+            android:layout_margin="2dp"
+            android:text="Go East"
+            android:textColor="#eaeaea" />
+
+        <Space
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="2" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <Space
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="2" />
+
+        <Button
+            android:id="@+id/goSouthButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@drawable/color_button"
+            android:layout_margin="2dp"
+            android:fontFamily="sans-serif-medium"
+            android:text="Go South"
+            android:textColor="#eaeaea" />
+
+        <Space
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="2" />
+    </LinearLayout>
+
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="30dp" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/viewWorldMap"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:background="@drawable/color_button"
+            android:layout_margin="2dp"
+            android:textColor="#eaeaea"
+            android:layout_weight="1"
+            android:text="world map"/>
+
+        <Button
+            android:id="@+id/explorationCampButton"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@drawable/color_button"
+            android:layout_margin="2dp"
+            android:textColor="#eaeaea"
+            android:text="set up camp"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/explorationSpellButton"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@drawable/color_button"
+            android:layout_margin="2dp"
+            android:textColor="#eaeaea"
+            android:text="spells"/>
+
+        <Button
+            android:id="@+id/explorationCastButton"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@drawable/color_button"
+            android:layout_margin="2dp"
+            android:textColor="#eaeaea"
+            android:text="cast"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/yesButtonExploration"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@drawable/color_button"
+            android:layout_margin="2dp"
+            android:textColor="#eaeaea"
+            android:text="Yes" />
+
+        <Button
+            android:id="@+id/noButtonExploration"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@drawable/color_button"
+            android:layout_margin="2dp"
+            android:textColor="#eaeaea"
+            android:text="No" />
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/explorationContinueButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="2dp"
+        android:background="@drawable/color_button"
+        android:text="continue"
+        android:textColor="#eaeaea" />
+
+</LinearLayout>

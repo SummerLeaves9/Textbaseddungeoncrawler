@@ -3,8 +3,9 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    tools:context=".GameOverScreen">
+    android:layout_height="match_parent"
+    tools:context=".GameOverScreen"
+    android:background="#4f4f4f">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -15,24 +16,17 @@
             android:id="@+id/CongratsMessage"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="You died. Game over! Have some fun statistics."
-            android:textColor="@android:color/black"
-            android:textSize="18sp" />
-
-        <TextView
-            android:id="@+id/score"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="TextView"
-            android:textColor="@android:color/black"
-            android:textSize="18sp" />
+            android:gravity="center_horizontal"
+            android:text="You died. Game over!"
+            android:textColor="#eaeaea"
+            android:textSize="24sp" />
 
         <TextView
             android:id="@+id/playerName1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="TextView"
-            android:textColor="@android:color/black"
+            android:textColor="#eaeaea"
             android:textSize="18sp" />
 
         <TextView
@@ -40,7 +34,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="TextView"
-            android:textColor="@android:color/black"
+            android:textColor="#eaeaea"
             android:textSize="18sp" />
 
         <TextView
@@ -48,7 +42,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="TextView"
-            android:textColor="@android:color/black"
+            android:textColor="#eaeaea"
             android:textSize="18sp" />
 
         <TextView
@@ -56,7 +50,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="TextView"
-            android:textColor="@android:color/black"
+            android:textColor="#eaeaea"
             android:textSize="18sp" />
 
         <TextView
@@ -64,7 +58,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="TextView"
-            android:textColor="@android:color/black"
+            android:textColor="#eaeaea"
             android:textSize="18sp" />
 
         <TextView
@@ -72,7 +66,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="TextView"
-            android:textColor="@android:color/black"
+            android:textColor="#eaeaea"
             android:textSize="18sp" />
 
         <TextView
@@ -80,7 +74,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="TextView"
-            android:textColor="@android:color/black"
+            android:textColor="#eaeaea"
             android:textSize="18sp" />
 
         <TextView
@@ -88,7 +82,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="TextView"
-            android:textColor="@android:color/black"
+            android:textColor="#eaeaea"
             android:textSize="18sp" />
 
         <TextView
@@ -96,15 +90,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="TextView"
-            android:textColor="@android:color/black"
-            android:textSize="18sp" />
-
-        <TextView
-            android:id="@+id/difficultyChosen"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="TextView"
-            android:textColor="@android:color/black"
+            android:textColor="#eaeaea"
             android:textSize="18sp" />
 
         <TextView
@@ -112,7 +98,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="TextView"
-            android:textColor="@android:color/black"
+            android:textColor="#eaeaea"
             android:textSize="18sp" />
 
         <TextView
@@ -120,8 +106,34 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="TextView"
-            android:textColor="@android:color/black"
+            android:textColor="#eaeaea"
             android:textSize="18sp" />
+
+        <Space
+            android:layout_width="match_parent"
+            android:layout_height="25dp" />
+
+        <Button
+            android:id="@+id/gameOverPlayAgainSameStats"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="2dp"
+            android:background="@drawable/color_button"
+            android:text="restart dungeon"
+            android:textColor="#eaeaea" />
+
+        <Space
+            android:layout_width="match_parent"
+            android:layout_height="25dp" />
+
+        <Button
+            android:id="@+id/gameOverPlayAgain"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="2dp"
+            android:background="@drawable/color_button"
+            android:text="restart game"
+            android:textColor="#eaeaea" />
 
     </LinearLayout>
 </ScrollView>

@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#4f4f4f"
     tools:context=".SpellSelection">
 
     <LinearLayout
@@ -26,27 +27,23 @@
             android:id="@+id/messageBox"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textColor="#E90B0B"
+            android:textColor="#72D55C"
             android:textSize="20sp" />
-
-        <TextView
-            android:id="@+id/spellOneDesc"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="(No spell equipped)"
-            android:textSize="18sp" />
 
         <Button
             android:id="@+id/activateSpellOne"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="@drawable/color_button"
+            android:textColor="#eaeaea"
             android:text="Spell 1"
             android:textSize="18dp" />
 
         <TextView
-            android:id="@+id/spellTwoDesc"
+            android:id="@+id/spellOneDesc"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:textColor="#eaeaea"
             android:text="(No spell equipped)"
             android:textSize="18sp" />
 
@@ -54,13 +51,16 @@
             android:id="@+id/activateSpellTwo"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="@drawable/color_button"
+            android:textColor="#eaeaea"
             android:text="Spell 2"
             android:textSize="18sp" />
 
         <TextView
-            android:id="@+id/spellThreeDesc"
+            android:id="@+id/spellTwoDesc"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:textColor="#eaeaea"
             android:text="(No spell equipped)"
             android:textSize="18sp" />
 
@@ -68,13 +68,16 @@
             android:id="@+id/activateSpellThree"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="@drawable/color_button"
+            android:textColor="#eaeaea"
             android:text="Spell 3"
             android:textSize="18sp" />
 
         <TextView
-            android:id="@+id/spellFourDesc"
+            android:id="@+id/spellThreeDesc"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:textColor="#eaeaea"
             android:text="(No spell equipped)"
             android:textSize="18sp" />
 
@@ -82,13 +85,16 @@
             android:id="@+id/activateSpellFour"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="@drawable/color_button"
+            android:textColor="#eaeaea"
             android:text="Spell 4"
             android:textSize="18sp" />
 
         <TextView
-            android:id="@+id/spellFiveDesc"
+            android:id="@+id/spellFourDesc"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:textColor="#eaeaea"
             android:text="(No spell equipped)"
             android:textSize="18sp" />
 
@@ -96,14 +102,16 @@
             android:id="@+id/activateSpellFive"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="@drawable/color_button"
+            android:textColor="#eaeaea"
             android:text="Spell 5"
-            android:textSize="18sp"
-            android:typeface="normal" />
+            android:textSize="18sp" />
 
         <TextView
-            android:id="@+id/spellSixDesc"
+            android:id="@+id/spellFiveDesc"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:textColor="#eaeaea"
             android:text="(No spell equipped)"
             android:textSize="18sp" />
 
@@ -111,13 +119,16 @@
             android:id="@+id/activateSpellSix"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="@drawable/color_button"
+            android:textColor="#eaeaea"
             android:text="Spell 6"
             android:textSize="18sp" />
 
         <TextView
-            android:id="@+id/spellSevenDesc"
+            android:id="@+id/spellSixDesc"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:textColor="#eaeaea"
             android:text="(No spell equipped)"
             android:textSize="18sp" />
 
@@ -125,13 +136,25 @@
             android:id="@+id/activateSpellSeven"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="@drawable/color_button"
+            android:textColor="#eaeaea"
             android:text="Spell 7"
+            android:textSize="18sp" />
+
+        <TextView
+            android:id="@+id/spellSevenDesc"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="#eaeaea"
+            android:text="(No spell equipped)"
             android:textSize="18sp" />
 
         <Button
             android:id="@+id/cancelButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="@drawable/color_button"
+            android:textColor="#eaeaea"
             android:text="@android:string/cancel"
             android:textSize="18sp" />
 

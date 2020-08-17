@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#4f4f4f"
     tools:context=".EnterNames">
 
     <LinearLayout
@@ -15,12 +16,16 @@
             android:id="@+id/enterNamesBackButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="@drawable/color_button"
+            android:textColor="#eaeaea"
             android:text="back to stat selection" />
 
         <EditText
             android:id="@+id/NameEnterName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:textColor="#eaeaea"
+            android:textColorHint="#eaeaea"
             android:ems="10"
             android:hint="Your name"
             android:inputType="textPersonName" />
@@ -29,6 +34,8 @@
             android:id="@+id/NameEnterWeaponName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:textColor="#eaeaea"
+            android:textColorHint="#eaeaea"
             android:ems="10"
             android:hint="Weapon Name"
             android:inputType="textPersonName" />
@@ -37,6 +44,8 @@
             android:id="@+id/NameSubmitButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="@drawable/color_button"
+            android:textColor="#eaeaea"
             android:text="start game!" />
 
     </LinearLayout>

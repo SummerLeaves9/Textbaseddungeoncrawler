@@ -1,4 +1,4 @@
-package com.example.doome.text_baseddungeoncrawler;
+package com.example.doome.dungeon_lords;
 
 import org.junit.Test;
 

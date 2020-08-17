@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#4f4f4f"
+    tools:context=".Outside">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/hudLine1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="#FF2020"
+            android:textSize="20sp" />
+
+        <TextView
+            android:id="@+id/hudLine2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="#4FF13E"
+            android:textSize="20sp" />
+
+        <TextView
+            android:id="@+id/finishedDungeonMessage"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="10dp"
+            android:layout_margin="5dp"
+            android:textColor="#eaeaea"
+            android:textSize="20sp" />
+
+        <Space
+            android:layout_width="match_parent"
+            android:layout_height="10dp" />
+
+        <Button
+            android:id="@+id/initSetUpCampButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="2dp"
+            android:background="@drawable/color_button"
+            android:textColor="#eaeaea"
+            android:text="set up camp" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal"
+            android:weightSum="2">
+
+            <Button
+                android:id="@+id/setUpCampButton"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="2dp"
+                android:background="@drawable/color_button"
+                android:textColor="#eaeaea"
+                android:layout_weight="1"
+                android:text="set Up camp" />
+
+            <Button
+                android:id="@+id/exploreButton"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_margin="2dp"
+                android:background="@drawable/color_button"
+                android:text="explore"
+                android:textColor="#eaeaea" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+
+            <Button
+                android:id="@+id/itemsButton"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_margin="2dp"
+                android:background="@drawable/color_button"
+                android:textColor="#eaeaea"
+                android:text="items"/>
+
+            <Button
+                android:id="@+id/viewStatsButton"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_margin="2dp"
+                android:background="@drawable/color_button"
+                android:text="view stats"
+                android:textColor="#eaeaea" />
+
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/backToTownButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="2dp"
+            android:background="@drawable/color_button"
+            android:text="back to town"
+            android:textColor="#eaeaea" />
+
+    </LinearLayout>
+</ScrollView>

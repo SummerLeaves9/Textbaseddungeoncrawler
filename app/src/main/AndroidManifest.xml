@@ -1,31 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.doome.text_baseddungeoncrawler">
+    package="com.example.doome.dungeon_lords">
 
     <uses-feature
         android:name = "android.hardware.sensor.accelerometer"
-        android:required="true"/>
+        android:required="false"/>
 
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
-        android:label="Escape The Dungeon"
+        android:label="Dungeon Lords"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".TitleScreen"
+            android:name="com.example.doome.dungeon_lords.TitleScreen"
             android:screenOrientation="portrait"
-            android:label="@string/app_name">
+            android:label="Dungeon Lords">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
+                <action android:name="android.intent.action.VIEW" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity
-            android:name=".DifficultySelection"
-            android:screenOrientation="portrait"/>
         <activity
             android:name=".StatSelection"
             android:screenOrientation="portrait"/>
@@ -36,7 +33,7 @@
             android:name=".EnterNames"
             android:screenOrientation="portrait"/>
         <activity
-            android:name=".FinishedGame"
+            android:name=".Outside"
             android:screenOrientation="portrait"/>
         <activity
             android:name=".GameOverScreen"
@@ -47,6 +44,31 @@
         <activity
             android:name=".SpellSelection"
             android:screenOrientation="portrait"/>
+        <activity
+            android:name=".Tutorial"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".Dialogue"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".Items"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".Sleeping"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".Exploration"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".ViewWorldMap"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".Town"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".BuyingStuff"
+            android:screenOrientation="portrait"/>
+
 
     </application>
 

@@ -1,4 +1,4 @@
-package com.example.doome.text_baseddungeoncrawler;
+package com.example.doome.dungeon_lords;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -46,11 +46,28 @@ public class TitleScreen extends AppCompatActivity {
     }
     private void configureNextButton() {
         Button progressButton = (Button) findViewById(R.id.startButton);
+        Button viewTutorial = (Button) findViewById(R.id.tutorialButton);
+        Button quickStartButton = (Button) findViewById(R.id.quickStartButton);
         progressButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(TitleScreen.this, DifficultySelection.class));
+                startActivity(new Intent(TitleScreen.this, StatSelection.class));
+            }
+        });
+        viewTutorial.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(TitleScreen.this, Tutorial.class));
+            }
+        });
+        quickStartButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                EnterNames.thisPlayer = new Player((byte) 10, (byte) 10, (byte) 10, (byte) 10, (byte) 10, (byte) 10, (byte) 10, "Xander", "dual mace");
+                startActivity(new Intent(TitleScreen.this, Gameplay.class));
             }
         });
     }
+    @Override
+    public void onBackPressed() {}
 }

@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent" android:background="#4f4f4f">
+
+    <TextView
+        android:id="@+id/townNameDisplay"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:textColor="#eaeaea"
+        android:textSize="24sp" />
+
+    <TextView
+        android:id="@+id/townMessage"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:textColor="#eaeaea"
+        android:textSize="20sp" />
+
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="20dp" />
+
+    <Button
+        android:id="@+id/townVisitShopButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="2dp"
+        android:background="@drawable/color_button"
+        android:text="Visit the shop"
+        android:textColor="#eaeaea" />
+
+    <Button
+        android:id="@+id/townTalkButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="2dp"
+        android:background="@drawable/color_button"
+        android:text="talk to a villager"
+        android:textColor="#eaeaea" />
+
+    <Button
+        android:id="@+id/townHotelButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="2dp"
+        android:background="@drawable/color_button"
+        android:text="Stay in a Hotel (100 gold)"
+        android:textColor="#eaeaea" />
+
+    <Button
+        android:id="@+id/townMasterButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="2dp"
+        android:text="Talk to a master"
+        android:background="@drawable/color_button"
+        android:textColor="#eaeaea" />
+
+    <Button
+        android:id="@+id/townLookForQuestsButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="2dp"
+        android:background="@drawable/color_button"
+        android:textColor="#eaeaea"
+        android:text="Examine billboard for quests" />
+
+    <Button
+        android:id="@+id/townLeaveButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="2dp"
+        android:text="Leave Town"
+        android:background="@drawable/color_button"
+        android:textColor="#eaeaea" />
+</LinearLayout>
