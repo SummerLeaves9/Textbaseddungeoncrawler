@@ -95,6 +95,7 @@ public class Player extends Character {
         weaponName = setAttackName;
         setAllStats();
         randomizeSpells();
+        //myItems[2] = 4;
     }
 
     /**
@@ -283,6 +284,19 @@ public class Player extends Character {
     }
 
     /**
+     * Used for certain spells to scale characters' attack power (across attack, counter, and
+     * defend)
+     *
+     * (value is not overwritten, i.e. use 1 as input to reset effect of scaling)
+     */
+    public void scaleAttackPower(double scalar) {
+        double scaled = scalar * doubleAttackPower;
+        attackPower = (byte) scaled;
+        counterAttackPower = (byte) (1.25 * scaled);
+        defendJabAttackPower = (byte) (.22 * scaled);
+    }
+
+    /**
      * Overridden from Character, since a player must also have their counterAttackPower and
      * defendJabAttackPower set.
      */
@@ -291,9 +305,10 @@ public class Player extends Character {
         for (int i = 0; i < strengthValue; i++) {
             scaled *= scalarFive;
         }
-        attackPower = (byte)  (baseAttackPower * scaled);
-        counterAttackPower = (byte) (1.4 * attackPower);
-        defendJabAttackPower = (byte) (.4 * attackPower);
+        doubleAttackPower = (baseAttackPower * scaled);
+        attackPower = (byte) doubleAttackPower;
+        counterAttackPower = (byte) (1.25 * doubleAttackPower);
+        defendJabAttackPower = (byte) (.22 * doubleAttackPower);
     }
 
     /**
@@ -363,7 +378,9 @@ public class Player extends Character {
         for (byte i = firstEmptySpellIndex; i < (byte) spells.length; i++) {
             spells[i] = new Spell((byte) 127);
         }
-        spells[6] = new Spell((byte) 10);
+        spells[4] = new Spell((byte) 16);
+        spells[5] = new Spell((byte) 13);
+        spells[6] = new Spell((byte) 15);
     }
 
     public void setAllStats() {

@@ -1,6 +1,10 @@
 package com.example.doome.dungeon_lords;
 
-public class Spell {
+import android.support.v7.app.AppCompatActivity;
+import android.view.View;
+import android.widget.TextView;
+
+public class Spell extends AppCompatActivity {
 
     //public static Player thisPlayer = TitleScreen.tempPlayer;
 
@@ -36,12 +40,16 @@ public class Spell {
 
     public boolean shouldUpdateSpellNum;
 
-    public final String[][] allSpells = {
+    public boolean effectLingers;
+
+    //'(empty)' generally means the string is used and modified in methods below, as they require
+    //the characters' names
+    public static final String[][] allSpells = {
             {"Basic Heal", "MA, Cost: 4 MP. Restores some health", "You recover 10 HP. ",
                     "(spell doesn't fail)", "(no status effect)"},
             {"Strong Heal", "MA, Cost: 9 MP. Restores a lot of health", "You recover 18 HP. ",
                     "(spell doesn't fail)", "(no status effect)"},
-            {"Ultimate Block", "M, Cost: 15 MP. Ensures you won't take damage this turn.",
+            {"Ultimate Block", "M, Cost: 5 MP. Ensures you won't take damage this turn.",
                     " You are completely protected from damage this turn. ", "(spell doesn't " +
                     "fail)", "(no status effect)"},
             {"Sphericon","M, Cost: 5 MP. Summons a lil' guy to fight for you, but only by " +
@@ -55,7 +63,8 @@ public class Spell {
                     "(empty)", "You don't have a sphericon out! ", "Sphericon active. Charge: "},
             {"Sphericon Supercharge","MA, Cost: 4 MP. Charges your Sphericon for 3 units.",
                     "(empty)", "You don't have a sphericon out! ", "Sphericon active. Charge: "},
-            {"Lucky Marksman","M, Cost: 5 MP. You deal double damage this turn! But if you miss, " +
+            {"Lucky Marksman","M, Cost: 5 MP. You deal double damage this turn with your " +
+                    "regular attack! But if you miss, " +
                     "you take double what your enemies deal.", " Effect is active for this turn. ",
                     "(spell doesn't fail)", "Lucky Marksman", "Lucky Marksman wears off. "},
             {"Blinding Light","M, Cost: 3 MP. 80 percent chance to reduce your enemy's accuracy " +
@@ -71,24 +80,73 @@ public class Spell {
                     "of Poison wears off, and the enemy regains the health they lost. ", "(empty)"},
             {"Vision", "N/A, Cost: 10 MP. Guarantees you to find a secret in a dungeon if the room" +
                     " is searchable. While exploring, it also lets you see 2 tiles away no " +
-                    "matter if you're in jungle or not ", "You feel way more in touch with your " +
-                    "environment. ", "(spell doesn't fail)", "(no status effect)"}
+                    "matter if you're in jungle or not the rest of that day", "You feel way more in touch with your " +
+                    "environment. ", "(spell doesn't fail)", "(no status effect)"},
+            //Status: almost, if not wholly implemented
+            {"Mark of Death", "M, Cost: 6 MP. For the next three turns, hitting with a normal " +
+                    "attack will mark the enemy with a magic dagger. On your third turn, " +
+                    "marks will hit the enemy, dealing half your attack damage times the number " +
+                    "of marks. ", "Your marks are summoned and ready. ", "(spell doesn't fail)",
+                    "Mark of Death", "Mark of Death expires, and all your marks hit! for " + 0 +
+                    " damage. ", ""},
+            //Status: almost, if not wholly implemented
+            {"Achilles' Blessing", "M, Cost: 8 MP. " +
+                    "80% chance to receive a massive increase in your Accuracy (+6) for 4 turns. " +
+                    "20% chance to summon a spear that deals 7 damage. ",
+                    "May your aim be true! ", "A spear pierces the enemy from over your head, " +
+                    "hitting for 7. ", "Accuracy Up", "Achilles' Blessing wears off."},
+            //Status: almost, if not wholly implemented
+            {"Absolute Zero", "M, Cost: 9 MP. 90 percent chance to gradually freeze your enemy " +
+                    "over 3 turns. On the second turn, the enemy's agility and accuracy are " +
+                    "reduced to 0. On the third turn, your enemy freezes completely, " +
+                    "guaranteeing that you strike them on that turn, and they don't strike you.",
+                    "The " + " starts to cool down! ", "No effect! ", "Frozen", "The enemy " +
+                    "shakes off the ice and regains their strength. "},
+            //Status: almost, if not wholly implemented
+            {"Berserk", "M, Cost: 7 MP. Can only be activated if you have 12 health or less. " +
+                    "Shrug off 1/3 of incoming damage and deal 1.6 times damage with attack, " +
+                    "counter, defend, and certain spells for 2 turns.", "you gain a fiery aura " +
+                    "as you feel your muscles accepting the ballistic energy. ", "but the spell " +
+                    "refuses to empower you! You have too much HP. ", "Berserk",
+                    "The effects of Berserk wear off. "},
+            //Status: almost, if not wholly implemented
+            {"Electric Touch", "MA, Cost: 4 MP. If your enemy uses a melee attack, shock them for " +
+                    "3 damage next time they hit you. They become stunned on the following turn.",
+                    "bolts of energy briefly fly from the ground to your legs and hands. ",
+                    "(spell doesn't fail)", "Electric Touch", "(spell doesn't linger)"},
+            //Status: almost, if not wholly implemented
+            {"Hex of Draining", "M, Cost: 6 MP. 70% chance to, for this rest of this fight, each " +
+                    "time you hit with an attack or counter more than once in a row, heal for " +
+                    "half the damage you deal.", "A black aura pulsates off the top of the " + ". ",
+                    "No effect!", "Hex of Draining", "(spell doesn't linger)"}
+
     };
 
-    public static final byte[] allMPCosts = {4, 9, 15, 5, 1, 4, 5, 3, 6, 7, 10};
+    //TODO: DISABLE THE PLAYER FROM USING 2 SPELLS AT A TIME THAT EACH HAVE A BUFF/DEBUFF EFFECT ON
+    // EITHER THEMSELF OR THE ENEMY
+    //done I think
 
+    public static final byte[] allMPCosts = {4, 9, 5, 5, 1, 4, 5, 3, 6, 7, 10, 6, 8, 9, 7, 4, 6,};
+
+    //isCombatSpell, isExplorationSpell, enemyEffect, hasEffect, shouldUpdateSpellNum, effectLingers
     public static final boolean[][] allSpellBools = {
-            {true, true, false, false, true},
-            {true, true, false, false, true},
-            {true, false, false, false, true},
-            {true, false, false, true, true},
-            {true, false, false, true, false},
-            {true, false, false, true, false},
-            {true, false, false, true, true},
-            {true, false, true, true, true},
-            {true, false, false, false, true},
-            {true, false, true, true, true},
-            {false, true, false, false, true}
+            {true, true, false, false, true, false}, // Basic Heal
+            {true, true, false, false, true, false}, // Strong Heal
+            {true, false, false, false, true, false}, // Ultimate Block
+            {true, false, false, true, true, false}, // Sphericon
+            {true, false, false, true, false, false}, // Sphericon Charge
+            {true, false, false, true, false, false}, // Sphericon Supercharge
+            {true, false, false, true, true, false}, // Lucky Marksman
+            {true, false, true, true, true, false}, // Blinding Light
+            {true, false, false, false, true, false}, // Fireball
+            {true, false, true, true, true, true}, // Poison
+            {false, true, false, false, true, false}, // Vision
+            {true, false, false, true, true, false}, // Mark of Death
+            {true, false, false, true, true, false}, // Achilles' Blessing
+            {true, false, true, true, true, true}, // Absolute Zero
+            {true, false, false, true, true, false}, // Berserk
+            {true, false, false, true, true, false}, // Electric Touch
+            {true, false, true, true, true, false}, // Hex of Draining
     };
 
     /**
@@ -107,11 +165,12 @@ public class Spell {
         enemyEffect = allSpellBools[setId][2];
         hasEffect  = allSpellBools[setId][3];
         shouldUpdateSpellNum = allSpellBools[setId][4];
+        effectLingers = allSpellBools[setId][5];
         mpCost = allMPCosts[setId];
         name = allSpells[setId][0];
         description = allSpells[setId][1];
         extraCastSuccessMessage = allSpells[setId][2];
-        if ((id < 10 && id > 6) || id == 3) {
+        if ((id < 10 && id > 6) || id == 3 || id == 12 || id == 13 || id == 14 || id == 16) {
             spellFailMessage = allSpells[setId][3];
         }
         if (hasEffect) {
@@ -120,7 +179,7 @@ public class Spell {
                 effectEndsText = allSpells[setId][5];
             }
         }
-        if (id == 3 || id == 9) {
+        if (id == 3 || id == 9 || id == 11) {
             lingeringEffectText = allSpells[setId][6];
         }
     }
@@ -168,7 +227,26 @@ public class Spell {
             case 10:
                 vision();
                 break;
+            case 11:
+                markOfDeath();
+                break;
+            case 12:
+                achillesBlessing(e);
+                break;
+            case 13:
+                absoluteZero(e);
+                break;
+            case 14:
+                berserk(e);
+                break;
+            case 15:
+                electricTouch();
+                break;
+            case 16:
+                hexOfDraining(e);
+                break;
         }
+        subtractMP();
     }
 
     /**
@@ -191,31 +269,48 @@ public class Spell {
 
     /**
      * General way to call the helper methods that reverse spell effects once the spell is over
-     * @param e Enemy or player that
+     * @param e Enemy being affected
      */
     public void reverseSpellCast(Character e) {
-        if (id == 127) {
-            return;
-        }
-        if (id == 3) {
-            effectEndsText = "Sphericon was not charged, so it unleashes a " +
-                    "powerful blast! For " + sphericonBlast(e) + " damage. ";
-        } else if (id == 6) {
-            luckyMarksmanReverse();
-        } else if (id == 7) {
-            blindingLightReverse(e);
-        } else if (id == 9) {
-            poisonReverse(e);
+        switch (id) {
+            case 127:
+                return;
+            case 3:
+                effectEndsText = "Sphericon was not charged, so it unleashes a " +
+                        "powerful blast! For " + sphericonBlast(e) + " damage. ";
+                break;
+            case 6:
+                luckyMarksmanReverse();
+                break;
+            case 7:
+                blindingLightReverse(e);
+                break;
+            case 9:
+                poisonReverse(e);
+                break;
+            case 11:
+                markOfDeathReverse();
+                break;
+            case 12:
+                achillesBlessingReverse();
+                break;
+            case 13:
+                absoluteZeroReverse();
+                break;
+            case 14:
+                berserkReverse(e);
         }
     }
     /**
      * General way to call spell effects that linger once per turn
      */
     public void lingeringEffect(Character pe) {
-        if (id == 3) {
-
-        } else if (id == 9) {
-            poisonDamager(pe);
+        switch (id) {
+            case 9:
+                poisonDamager(pe);
+                break;
+            case 13:
+                absoluteZeroLinger(pe);
         }
     }
 
@@ -290,12 +385,28 @@ public class Spell {
             //poison(p, e);
             extraCastSuccessMessage = " The " +
                     Gameplay.thisRoom.numberOne.name + " was successfully poisoned! ";
+        } else if (id == 13) {
+            //absoluteZero(e)
+            extraCastSuccessMessage = "The " + Gameplay.thisRoom.numberOne.name + " starts to " +
+                    "cool down! ";
+        } else if (id == 16) {
+            extraCastSuccessMessage = "A black aura pulsates off the top of the " +
+                    Gameplay.thisRoom.numberOne.name + ". ";
         }
     }
 
     private void updateLingeringEffectText(Character pe) {
-        if (id == 9) {
-            lingeringEffectText = pe.name + " takes " + (byte) (pe.hp * .15) + " poison damage. ";
+        switch (id) {
+            case 9:
+                lingeringEffectText = pe.name + " takes " + (byte) (pe.hp * .15) + " poison damage. ";
+                break;
+            case 13:
+                if (Gameplay.enemyEffectCounter == 2) {
+                    lingeringEffectText = "The " + Gameplay.thisRoom.numberOne.name + " gets " +
+                            "chillier...Accuracy and Agility down! ";
+                } else if (Gameplay.enemyEffectCounter == 1) {
+                    lingeringEffectText = Gameplay.thisRoom.numberOne.name + " is fully frozen! ";
+                }
         }
     }
 
@@ -306,7 +417,7 @@ public class Spell {
 
     /**
      * Basic Heal: MA
-     * Spell 1
+     * Spell 0
      * Restores 10 health
      */
 
@@ -317,7 +428,6 @@ public class Spell {
         } else {
             p.liveHP += tobeHealed;
         }
-        subtractMP();
         if (Gameplay.isBattling) {
             Gameplay.attackTurnAdvantage = false;
         }
@@ -325,7 +435,7 @@ public class Spell {
 
     /**
      * Strong Heal: MA
-     * Spell 2
+     * Spell 1
      * Restores 18 health
      */
 
@@ -336,7 +446,6 @@ public class Spell {
         } else {
             p.liveHP += tobeHealed;
         }
-        subtractMP();
         if (Gameplay.isBattling) {
             Gameplay.attackTurnAdvantage = false;
         }
@@ -344,18 +453,17 @@ public class Spell {
 
     /**
      * Ultimate Block: M
-     * Spell 3
+     * Spell 2
      * Makes the player invincible this turn.
      */
 
     private void ultimateBlock() {
         Gameplay.hasBlocked = true;
-        subtractMP();
     }
 
     /**
      * Sphericon: M
-     * Spell 4
+     * Spell 3
      * Summons a lil guy to fight for you. To make it deal damage, charge it with
      * either Sphericon Charge or Sphericon Supercharge. The more you charge it, the more damage
      * it will do. It will attack the first turn you don't give it charge.
@@ -367,7 +475,6 @@ public class Spell {
         } else {
             Gameplay.hasSphericon = true;
             Gameplay.hasCharged = true;
-            subtractMP();
         }
     }
 
@@ -391,7 +498,7 @@ public class Spell {
     }
     /**
      * Sphericon Charge: M
-     * Spell 5
+     * Spell 4
      * Charges a sphericon for one unit.
      */
 
@@ -400,7 +507,6 @@ public class Spell {
             castFail = false;
             Gameplay.hasCharged = true;
             Gameplay.sphericonCharge++;
-            subtractMP();
         } else {
             castFail = true;
         }
@@ -408,14 +514,13 @@ public class Spell {
 
     /**
      * Sphericon Supercharge: MA
-     * Spell 6
+     * Spell 5
      * Charges a sphericon for three units.
      */
 
     private void sphericonSuperCharge() {
         Gameplay.hasCharged = true;
         Gameplay.sphericonCharge += 3;
-        subtractMP();
         if (Gameplay.isBattling) {
             Gameplay.attackTurnAdvantage = false;
         }
@@ -423,7 +528,7 @@ public class Spell {
 
     /**
      * Lucky Marksman: M
-     * Spell 7
+     * Spell 6
      * When cast, the following conditions apply to the player's next attack turn:
      * If this player lands their attack, they are healed half of the amount they deal
      * If this player does not hit their attack, AND the enemy hits theirs, the player takes double
@@ -432,7 +537,6 @@ public class Spell {
     private void luckyMarksman() {
         Gameplay.usedLuckyMarksman = true;
         Gameplay.myEffectCounter = 0;
-        subtractMP();
     }
 
     /**
@@ -444,7 +548,7 @@ public class Spell {
 
     /**
      * Blinding Light: M
-     * Spell 8
+     * Spell 7
      * When cast,
      * 80 percent chance that your enemy's accuracy is decreased by 5 this turn
      * 20 percent chance of doing nothing
@@ -462,26 +566,25 @@ public class Spell {
             }
             e.setHitChance();
             castFail = false;
-            Gameplay.initStat = initAcc;
+            Gameplay.enemInitStat = initAcc;
             //Gameplay.statusEffect = true;
             Gameplay.enemyEffectCounter = 0;
         } else {
             castFail = true;
         }
-        subtractMP();
     }
 
     /**
      * Blinding Light helper: to undo the effect once the turn is over
      */
     public void blindingLightReverse(Character e) {
-        e.accuracyValue = Gameplay.initStat;
+        e.accuracyValue = Gameplay.enemInitStat;
         e.setHitChance();
     }
 
     /**
      * Fireball: MA
-     * Spell 9
+     * Spell 8
      * Cast a flaming projectile with these properties:
      * Depending on the player's magic stat, deals 1.5-2.5 times normal damage
      * Is -2 accurate compared to your normal attack
@@ -502,7 +605,7 @@ public class Spell {
         p.setHitChance();
         //determines hit
         int dealtDamage = 0;
-        if (e.dodgeChance < otherDodgeResult && p.hitChance > thisHitResult) {
+        if ((e.dodgeChance < otherDodgeResult && p.hitChance > thisHitResult) || Gameplay.frozen) {
             dealtDamage = fireballAttackPower;
             e.liveHP -= dealtDamage;
         }
@@ -517,12 +620,11 @@ public class Spell {
         //increases player accuracy back to original level
         p.accuracyValue = initAcc;
         p.setHitChance();
-        subtractMP();
     }
 
     /**
      * Poison: M
-     * Spell 10
+     * Spell 9
      * 60 percent chance of lowering your enemy's max health by 20 percent for 3 turns. After the
      * third turn, they will also be healed the number of hp their max hp was lowered by.
      * 40 percent chance of dealing 1 damage.
@@ -538,7 +640,6 @@ public class Spell {
             castFail = true;
             e.liveHP -= 1;
         }
-        subtractMP();
     }
 
     /**
@@ -565,13 +666,170 @@ public class Spell {
 
     /**
      * Vision: N/A
-     * Spell 11
+     * Spell 10
      * Guarantees you to find a secret in a dungeon if the room is searchable. While exploring, it
      * also lets you see 2 tiles away no matter if you're in jungle or not
      */
     private void vision() {
         usedVision = true;
-        subtractMP();
+    }
+
+    /**
+     * Mark of Death: M
+     * Spell 11
+     * For the next three turns, hitting with a normal attack will mark the enemy with a magic
+     * dagger. On your fourth turn, marks will hit the enemy, dealing half your attack damage
+     * times the number of marks.
+     */
+    private void markOfDeath() {
+        Gameplay.usedMarkOfDeath = true;
+        Gameplay.myEffectCounter = 2;
+    }
+
+    /**
+     * Mark of Death helper: reverses the effect after 3 turns
+     */
+    private void markOfDeathReverse() {
+        int dealtDamage = (int) (.5 * EnterNames.thisPlayer.attackPower) * Gameplay.markCount;
+        Gameplay.thisRoom.numberOne.liveHP -= dealtDamage;
+        effectEndsText =  "Mark of Death expires, and all your marks hit! for " + dealtDamage +
+                " damage. ";
+        Gameplay.usedMarkOfDeath = false;
+    }
+
+    /**
+     * Achilles' Blessing: M
+     * Spell 12
+     * 80% chance to receive a massive increase in your Accuracy (+6) for 4 turns. 20% chance to
+     * summon a spear that deals 7 damage.
+     */
+    private void achillesBlessing(Character e) {
+        double accChance = Math.random();
+        //EnterNames.thisPlayer.liveHP -= (byte) (EnterNames.thisPlayer.liveHP * .5);
+        if (accChance < .8) {
+            byte tempAccValue = EnterNames.thisPlayer.accuracyValue;
+            Gameplay.playerInitStat = tempAccValue;
+            if (tempAccValue > 4) {
+                EnterNames.thisPlayer.accuracyValue = 10;
+            } else {
+                EnterNames.thisPlayer.accuracyValue += 6;
+            }
+            EnterNames.thisPlayer.setHitChance();
+            castFail = false;
+            Gameplay.myEffectCounter = 4;
+        } else {
+            castFail = true;
+            e.liveHP -= 7;
+        }
+    }
+
+    private void achillesBlessingReverse() {
+        EnterNames.thisPlayer.accuracyValue = Gameplay.playerInitStat;
+        EnterNames.thisPlayer.setHitChance();
+    }
+
+    /**
+     * Absolute Zero: M
+     * Spell 13
+     * 90 percent chance to gradually freeze your enemy over 3 turns. On the second turn, the
+     * enemy's agility and accuracy are reduced to 0. On the third turn, your enemy freezes
+     * completely, guaranteeing that you can strike them on that turn, and they don't strike you.
+     */
+    private void absoluteZero(Character e) {
+        //TextView h = findViewById(R.id.enemyEffectIndicator);
+        //h.setTextColor(15720141);
+        double castSuccess = Math.random();
+        if (castSuccess < .9) {
+            Gameplay.enemyEffectCounter = 2;
+            castFail = false;
+        } else {
+            castFail = true;
+        }
+    }
+
+    private byte enemyTempAg;
+    private byte enemyTempAcc;
+
+    /**
+     * Absolute Zero helper: inflicts effects on second and third turns
+     */
+    private void absoluteZeroLinger(Character e) {
+        if (Gameplay.enemyEffectCounter == 2) {
+            enemyTempAg = e.agilityValue;
+            enemyTempAcc = e.accuracyValue;
+            e.accuracyValue = 0;
+            e.agilityValue = 0;
+            e.setHitChance();
+            e.setDodgeChance();
+        } else if (Gameplay.enemyEffectCounter == 1) {
+            e.accuracyValue = enemyTempAcc;
+            e.agilityValue = enemyTempAg;
+            e.setHitChance();
+            e.setDodgeChance();
+            Gameplay.frozen = true;
+        }
+    }
+
+    /**
+     * Absolute Zero reverse: restores enemies to original state
+     */
+    private void absoluteZeroReverse() {
+        Gameplay.frozen = false;
+    }
+
+    /**
+     * Berserk: M
+     * Spell 14
+     * Can only be activated if you have 12 health or less. Shrug off 1/3 of
+     * incoming damage and deal 1.6 times damage with attack, counter, defend, and certain spells
+     * for 2 turns.
+     */
+    private void berserk(Character e) {
+        if (EnterNames.thisPlayer.liveHP > 12) {
+            castFail = true;
+        } else {
+            castFail = false;
+            e.scaleAttackPower(.666);
+            EnterNames.thisPlayer.scaleAttackPower(1.6);
+            Gameplay.myEffectCounter = 1;
+        }
+    }
+
+    /**
+     * BerserkReverse: undoes effects
+     */
+    private void berserkReverse(Character e) {
+        EnterNames.thisPlayer.scaleAttackPower(1);
+        e.scaleAttackPower(1);
+    }
+
+    /**
+     * Electric Touch: MA
+     * Spell 15
+     * MA, Cost: 4 MP. If your enemy uses a melee attack, shock them for 3 damage next time they
+     * hit you. They become stunned on the following turn.
+     */
+    private void electricTouch() {
+        Gameplay.myEffectCounter = 127;
+        Gameplay.hasElectricTouch = true;
+        Gameplay.attackTurnAdvantage = false;
+    }
+
+    /**
+     * Hex of Draining: M
+     * Spell 16
+     * MA, Cost: 6 MP 70% chance to, for this rest of this fight, each time you hit with an attack
+     * or counter more than once in a row, heal for half the damage you deal.
+     */
+    private void hexOfDraining(Character e) {
+        double spellWorked = Math.random();
+        if (spellWorked < .7) {
+            e.hasHexOfDraining = true;
+            Gameplay.enemyEffectCounter = 127;
+            castFail = false;
+        } else {
+            castFail = true;
+        }
     }
 
     private void subtractMP() {

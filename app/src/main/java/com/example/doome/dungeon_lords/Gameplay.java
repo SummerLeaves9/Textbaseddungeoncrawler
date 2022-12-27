@@ -11,6 +11,11 @@ public class Gameplay extends AppCompatActivity {
 
     public static final char[] vowels = {'a', 'e', 'i', 'o', 'u', 'A', 'E', 'I', 'O', 'U'};
     /**
+     * Boolean to keep track of whether the player is in a dungeon, enabling them to drink certain
+     * potions
+     */
+    public static boolean isDungeoneering = false;
+    /**
      * possible negativeSecretChance values, depending on the difficulty of the dungeon
      */
     private final double[] negativeSecretValues = {.1, .23, .3, .35};
@@ -23,6 +28,31 @@ public class Gameplay extends AppCompatActivity {
      * the protocol for the attack() method changes.
      */
     public static boolean usedLuckyMarksman = false;
+    /**
+     * Boolean to track whether the player has cast Mark of Death within 3 turns. If true,
+     * the protocol for the attack() method changes.
+     */
+    public static boolean usedMarkOfDeath = false;
+    /**
+     * Boolean to track whether the player has cast Electric Touch.
+     */
+    public static boolean hasElectricTouch = false;
+    /**
+     * Boolean to track whether the enemy is stunned this turn from Electric Touch.
+     */
+    public static boolean stunnedFromET = false;
+    /**
+     * Boolean to keep track of whether the player has completely frozen the enemy
+     */
+    public static boolean frozen = false;
+    /**
+     * Counter for how many marks the players has placed on the enemy.
+     */
+    public static byte markCount = 0;
+    /**
+     * Counter for how many consecutive hits the player has made on the enemy.
+     */
+    public static byte consecHits = 0;
     /**
      * Boolean to keep track of whether gameplay is in focus
      */
@@ -78,6 +108,14 @@ public class Gameplay extends AppCompatActivity {
      */
     public static int tempGold = 0;
     /**
+     * Array of player's items to be set to when they die and start the dungeon over
+     */
+    public static byte[] tempPlayerItems = new byte[7];
+    /**
+     * Array of player's spells to be set to when they die and start the dungeon over
+     */
+    public static Spell[] tempPlayerSpells = new Spell[7];
+    /**
      * The boolean to track when the user is in battle
      */
     public static boolean isBattling = false;
@@ -113,7 +151,12 @@ public class Gameplay extends AppCompatActivity {
      * The byte to store the enemy's initial stat value when it is successfully reduced by a player
      * spell.
      */
-    public static byte initStat = 0;
+    public static byte enemInitStat = 0;
+    /**
+     * The byte to store the player's initial stat value when it is successfully increased by a
+     * player spell.
+     */
+    public static byte playerInitStat = 0;
     /**
      * The int that stores how many Sphericon charges are loaded up
      */
@@ -208,11 +251,11 @@ public class Gameplay extends AppCompatActivity {
     /**
      * The message displayed to the user when they attack a monster.
      */
-    public String displayHit = EnterNames.thisPlayer.weaponName + " hits for ";
+    public String displayHit = "Your " + EnterNames.thisPlayer.weaponName + " hits for ";
     /**
      * The message displayed to the user when they attempt to attack, but miss
      */
-    public static String displayMiss = "You use your " + EnterNames.thisPlayer.weaponName + ", but you miss. ";
+    public String displayMiss = "You use your " + EnterNames.thisPlayer.weaponName + ", but you miss. ";
     /**
      * The message displayed when an enemy's attack hits the player.
      */
@@ -359,6 +402,16 @@ public class Gameplay extends AppCompatActivity {
      */
     public final String criticalHit = "Critical hit! ";
     /**
+     * Message displayed when player has activated Hex of Draining, and they are keeping track of
+     * how many consecutive hits they've made
+     */
+    public static String consecutive = "Consecutive hits: " + 0 + ". ";
+    /**
+     * Message displayed when player has activated Hex of Draining and they have achieved 2 or more
+     * consecutive hits
+     */
+    public static String consecHeal = "2 + hit combo! You heal for " + 0 + " HP. ";
+    /**
      * the message added on to the end when the player looks for and finds a secret
      */
     public final String nothingElse = "It seems there is nothing else in this room. ";
@@ -367,7 +420,7 @@ public class Gameplay extends AppCompatActivity {
      */
     public final String oasisText = "It's an oasis! It's well-lit in here, and there's a healing " +
             "spring in the middle of the room. There are also doors that lock from the inside. " +
-            "Restore all health and magic points? ";
+            "Restore all health and mana points? ";
     /**
      * the message displayed when the player chooses to use the oasis
      */
@@ -394,7 +447,7 @@ public class Gameplay extends AppCompatActivity {
      */
     public final String doNotHaveMagicTurn = "You have already used your magic turn! ";
     /**
-     * The message displayed when you try to use a spell, but you have no magic points
+     * The message displayed when you try to use a spell, but you have no mana points
      */
     public static final String notEnoughMP = "Not enough MP!";
     /**
@@ -428,6 +481,10 @@ public class Gameplay extends AppCompatActivity {
      */
     public static final String noSpellSelected = "No spell selected! ";
     /**
+     * message when the player tries to invoke two effects on the enemy or themself
+     */
+    public static final String multipleEffects = "You cannot inflict 2 effects on anyone at once!";
+    /**
      * the message displayed when you activate ultimate block
      */
     public String usedUltimateBlock = thisRoom.numberOne.name + " couldn't touch you " +
@@ -457,6 +514,11 @@ public class Gameplay extends AppCompatActivity {
     public final String luckyMarksmanEnemyHit = "You missed your attack with Lucky Marksman " +
             "active, so you take double damage... ";
     /**
+     * the message displayed when the player hits the enemy with their normal attack, while Mark of
+     * Death is active
+     */
+    public String markAdded = "The " + " was marked! Marks: " + markCount + ". ";
+    /**
      * the message displayed when you try to use Vision, but the room has already been searched
      */
     public final String visionAlreadySearched = "Vision can't be used after searching the room!";
@@ -464,6 +526,33 @@ public class Gameplay extends AppCompatActivity {
      * the message displayed when you try to use Vision, but the room is not searchable
      */
     public final String visionCannotSearch = "This room is not searchable!";
+    /**
+     * Message when the enemy tries to attack, but they are frozen
+     */
+    public String frozenAttack = "The " + " couldn't move this turn! ";
+    /**
+     * Message when the player tries to counter on the turn that the enemy is frozen
+     */
+    public final String frozenCounter = "You try to counter! ...after a few seconds you realize " +
+            "the enemy was frozen while you were staring at them. It breaks free and stares right" +
+            " back. ";
+    /**
+     * Message when the player tries to defend on the turn that the enemy is frozen.
+     */
+    public final String frozenDefend = "You brace yourself for a mighty attack! You open your " +
+            "eyes and realize the enemy was frozen while you defended. It breaks free! ";
+    /**
+     * Message when the player tries to counter while the enemy is stunned from Electric Touch
+     */
+    public final String stunnedCounter = "You try to counter! ...after a few seconds you realize " +
+            "the enemy was stunned while you were staring at them. The electrons diffuse into " +
+            "the floor and the enemy regains its composure.";
+    /**
+     * Message when the player tries to defend while the enemy is stunned from Electric Touch
+     */
+    public final String stunnedDefend = "You brace yourself for a mighty attack! You open your " +
+            "eyes and realize the enemy was stunned while you defended. The electrons diffuse " +
+            "into the floor and the enemy regains its composure.";
     /**
      * the message displayed at the end of battle if the enemy drops MP
      */
@@ -502,8 +591,8 @@ public class Gameplay extends AppCompatActivity {
      * the message displayed when a counter attack is attempted, but the enemy catches on and
      * feints an attack. This leads to a free blow on the player.
      */
-    public String counterFailEnemyRead = "You anticipate the enemy's approach. You watch the " +
-            thisRoom.numberOne.name + "approach, and you try to counter! But they catch on, and" +
+    public String counterFailEnemyRead = "You anticipate the " +
+            thisRoom.numberOne.name + "'s approach, and you try to counter! But they catch on, and" +
             "you are baited by their feint! The enemy lands a free " +
             thisRoom.numberOne.weaponName + " for " + thisRoom.numberOne.attackPower + " damage. ";
     /**
@@ -524,6 +613,12 @@ public class Gameplay extends AppCompatActivity {
      */
     public String encounterText = "You are woken up by the sound of running and snarling. A " +
             thisRoom.numberOne.name + " picks a fight with you, prepare for battle!";
+    /**
+     * The message when the player has activated Electric Touch and the enemy hits their attack this
+     * turn.
+     */
+    public String electricTouchActivated = "The " + " was shocked! For 3 damage. Stunned this " +
+            "turn! ";
     /**
      * Game over
      */
@@ -605,7 +700,7 @@ public class Gameplay extends AppCompatActivity {
         } else {
             gameplayInFocus = true;
             configureDungeon();
-            displayHit = EnterNames.thisPlayer.weaponName + " hits for ";
+            displayHit = "Your " + EnterNames.thisPlayer.weaponName + " hits for ";
             displayMiss = "You use " + EnterNames.thisPlayer.weaponName + ", but you miss. ";
             victoryMessage = "You won! +" + thisRoom.numberOne.goldDrop + " gold. ";
             magicSapperSuccess = "You try to block them with " +
@@ -615,6 +710,7 @@ public class Gameplay extends AppCompatActivity {
                 setEncounterText();
                 consoleOutput = encounterText;
             } else {
+                isDungeoneering = true;
                 switch (thisDungeon[1]) {
                     case 0:
                         consoleOutput = openingMessage;
@@ -747,10 +843,10 @@ public class Gameplay extends AppCompatActivity {
                     consoleOutput = oasisYes;
                     gameInfo.setTextSize(22);
                     if (consoleOutput.length() > 200) {
-                        gameInfo.setTextSize(18);
+                        //gameInfo.setTextSize(18);
                     }
                     if (consoleOutput.length() > 400) {
-                        gameInfo.setTextSize(14);
+                        //gameInfo.setTextSize(14);
                     }
                     setGameInfo();
                     setHud();
@@ -779,10 +875,10 @@ public class Gameplay extends AppCompatActivity {
                 }
                 gameInfo.setTextSize(22);
                 if (consoleOutput.length() > 200) {
-                    gameInfo.setTextSize(18);
+                    //gameInfo.setTextSize(18);
                 }
                 if (consoleOutput.length() > 400) {
-                    gameInfo.setTextSize(14);
+                    //gameInfo.setTextSize(14);
                 }
                 setGameInfo();
             }
@@ -803,10 +899,10 @@ public class Gameplay extends AppCompatActivity {
                     }
                     gameInfo.setTextSize(22);
                     if (consoleOutput.length() > 200) {
-                        gameInfo.setTextSize(18);
+                        //gameInfo.setTextSize(18);
                     }
                     if (consoleOutput.length() > 400) {
-                        gameInfo.setTextSize(14);
+                        //gameInfo.setTextSize(14);
                     }
                     setGameInfo();
                     doneButton.setVisibility(View.GONE);
@@ -864,12 +960,15 @@ public class Gameplay extends AppCompatActivity {
             movementStatus(action);
         }
         gameInfo.setTextSize(22);
+
         if (consoleOutput.length() > 200) {
-            gameInfo.setTextSize(18);
+            //gameInfo.setTextSize(18);
         }
         if (consoleOutput.length() > 400) {
-            gameInfo.setTextSize(14);
+           // gameInfo.setTextSize(14);
         }
+
+
         //if (liveRoomCount < roomCount) {
             setGameInfo();
             setHud();
@@ -879,29 +978,45 @@ public class Gameplay extends AppCompatActivity {
     public void regulateSpells() {
         if (enemyEffectCounter > -1) {
             if (enemyEffectCounter > 0) {
-                EnterNames.thisPlayer.spells[enemyEffectSpellNum].
-                        lingeringEffect(thisRoom.numberOne);
-                consoleOutput += EnterNames.thisPlayer.spells[enemyEffectSpellNum].
-                        getLingeringEffectText(thisRoom.numberOne);
+                if (EnterNames.thisPlayer.spells[enemyEffectSpellNum].effectLingers) {
+                    EnterNames.thisPlayer.spells[enemyEffectSpellNum].
+                            lingeringEffect(thisRoom.numberOne);
+                    if (!checkForGameOver()) {
+                        consoleOutput += EnterNames.thisPlayer.spells[enemyEffectSpellNum].
+                                getLingeringEffectText(thisRoom.numberOne);
+                    }
+                }
             } else {
                 EnterNames.thisPlayer.spells[enemyEffectSpellNum].
                         reverseSpellCast(thisRoom.numberOne);
-                consoleOutput += EnterNames.thisPlayer.spells[enemyEffectSpellNum].effectEndsText;
+                if (!checkForGameOver()) {
+                    consoleOutput += EnterNames.thisPlayer.spells[enemyEffectSpellNum].effectEndsText;
+                }
             }
             enemyEffectCounter--;
             checkIfEnemyDefeated();
         }
         if (myEffectCounter > -1) {
             if (myEffectCounter > 0) {
-                EnterNames.thisPlayer.spells[myEffectSpellNum].
-                        lingeringEffect(EnterNames.thisPlayer);
+                //effect not ending this turn
+                if (EnterNames.thisPlayer.spells[myEffectSpellNum].effectLingers) {
+                    EnterNames.thisPlayer.spells[myEffectSpellNum].
+                            lingeringEffect(EnterNames.thisPlayer);
+                    if (!checkForGameOver()) {
+                        consoleOutput += EnterNames.thisPlayer.spells[myEffectSpellNum].lingeringEffectText;
+                    }
+                }
             }
             else {
+                //effect ending this turn
                 EnterNames.thisPlayer.spells[myEffectSpellNum].
-                        reverseSpellCast(EnterNames.thisPlayer);
-                consoleOutput += EnterNames.thisPlayer.spells[myEffectSpellNum].effectEndsText;
+                        reverseSpellCast(thisRoom.numberOne);
+                if (!checkForGameOver()) {
+                    consoleOutput += EnterNames.thisPlayer.spells[myEffectSpellNum].effectEndsText;
+                }
             }
             myEffectCounter--;
+            checkIfEnemyDefeated();
         }
         if (!hasCharged && sphericonCharge > 0) {
             EnterNames.thisPlayer.spells[sphericonSpellNum].reverseSpellCast(thisRoom.numberOne);
@@ -912,7 +1027,7 @@ public class Gameplay extends AppCompatActivity {
         }
     }
 
-    public int myBattleStatus (String action) {
+    public int myBattleStatus(String action) {
         if (action.equals(attack)) {
             return attack();
         } else if (action.equals(counterAttack)) {
@@ -930,10 +1045,30 @@ public class Gameplay extends AppCompatActivity {
     }
 
     public void enemyBattleStatus(int playerDamage) {
-        if (isBattling) {
+        if (frozen) {
+            if (hasCountered) {
+                consoleOutput = frozenCounter;
+            } else if (hasDefended) {
+                consoleOutput = frozenDefend;
+            } else {
+                frozenAttack = "The " + thisRoom.numberOne.name + " couldn't move this turn! ";
+                consoleOutput += frozenAttack;
+            }
+        } else if (stunnedFromET) {
+            stunnedFromET = false;
+            if (hasCountered) {
+                consoleOutput = stunnedCounter;
+            } else if (hasDefended) {
+                consoleOutput = stunnedDefend;
+            } else {
+                frozenAttack = "The " + thisRoom.numberOne.name + " couldn't move this turn! ";
+                consoleOutput += frozenAttack;
+            }
+        } else {
             if (hasCountered) {
                 int damageDealt = thisRoom.numberOne.determineHitNoDamage(EnterNames.thisPlayer);
                 if (damageDealt == 0) {
+                    consecHits = 0;
                     counterFailEnemyMiss = "You go to dodge the attack, but the " +
                             thisRoom.numberOne.name + " misses, and can recover before you can do " +
                             "any serious damage. ";
@@ -943,34 +1078,50 @@ public class Gameplay extends AppCompatActivity {
                     double enemyReadCounter = Math.random();
                     if (counterDodgeSuccessful < EnterNames.thisPlayer.counterDodgeChance) {
                         if (enemyReadCounter > thisRoom.numberOne.liveCounterReadChance) {
+                            consecHits++;
                             counterSuccess = "You anticipate the " + thisRoom.numberOne.name + "'s " +
                                     "attack, and you dodge it! You use " +
                                     EnterNames.thisPlayer.weaponName + " and deal a powerful blow, " +
                                     "for " + EnterNames.thisPlayer.counterAttackPower + " damage! ";
                             thisRoom.numberOne.liveHP -= EnterNames.thisPlayer.counterAttackPower;
                             consoleOutput = counterSuccess;
+                            if (consecHits > 1 && thisRoom.numberOne.hasHexOfDraining) {
+                                byte dealtDamage = EnterNames.thisPlayer.counterAttackPower;
+                                dealtDamage *= .5;
+                                if (EnterNames.thisPlayer.liveHP + dealtDamage > EnterNames.thisPlayer.hp) {
+                                    EnterNames.thisPlayer.liveHP = EnterNames.thisPlayer.hp;
+                                } else {
+                                    EnterNames.thisPlayer.liveHP += dealtDamage;
+                                }
+                                consecHeal = consecHits + " hit combo! You heal for " + dealtDamage + " HP. ";
+                                consoleOutput += consecHeal;
+                            }
                             checkIfEnemyDefeated();
                         } else {
+                            consecHits = 0;
                             EnterNames.thisPlayer.liveHP -= thisRoom.numberOne.attackPower;
-                            counterFailEnemyRead = "You anticipate the enemy's approach. You " +
-                                    "watch the " + thisRoom.numberOne.name + " approach, and you " +
+                            counterFailEnemyRead = "You anticipate the " + thisRoom.numberOne.name +
+                                    "'s approach, and you " +
                                     "try to counter! But they catch on, and you are baited by " +
                                     "their feint! The enemy lands a free " +
                                     thisRoom.numberOne.weaponName + " for " +
                                     thisRoom.numberOne.attackPower + " damage. ";
                             consoleOutput = counterFailEnemyRead;
-                            if(checkForGameOver()) {
+                            processElectricTouch();
+                            if (checkForGameOver()) {
                                 return;
                             }
                         }
                     } else {
+                        consecHits = 0;
                         EnterNames.thisPlayer.liveHP -= thisRoom.numberOne.attackPower;
                         counterFailAgility = "You try to dodge the attack, but you aren't quick " +
                                 "enough and you are hit by the " + thisRoom.numberOne.name + "'s " +
                                 thisRoom.numberOne.weaponName + "! For " +
                                 thisRoom.numberOne.attackPower + " damage. ";
                         consoleOutput = counterFailAgility;
-                        if(checkForGameOver()) {
+                        processElectricTouch();
+                        if (checkForGameOver()) {
                             return;
                         }
                     }
@@ -993,8 +1144,12 @@ public class Gameplay extends AppCompatActivity {
                     defendBlock = "You take a strong stance and block. The " +
                             thisRoom.numberOne.name + " uses their " +
                             thisRoom.numberOne.weaponName + " and it hits! For " +
-                            (byte) (thisRoom.numberOne.attackPower / 2) + " damage. ";
+                            damageDealt + " damage. ";
                     consoleOutput = defendBlock;
+                    if (damageDealt > (thisRoom.numberOne.attackPower * .5)) {
+                        consoleOutput += criticalHit;
+                    }
+                    processElectricTouch();
                     if (checkForGameOver()) {
                         return;
                     }
@@ -1006,10 +1161,10 @@ public class Gameplay extends AppCompatActivity {
                 hasDefended = false;
             } else if (hasBlocked) {
                 usedUltimateBlock = thisRoom.numberOne.name + " couldn't touch you this " +
-                        "turn!";
+                        "turn! ";
                 consoleOutput += usedUltimateBlock;
                 hasBlocked = false;
-            } else {
+            } else { //(player currently attacking)
                 int damageDealt = thisRoom.numberOne.determineHit(EnterNames.thisPlayer);
                 if (damageDealt != 0) {
                     if (playerDamage == 0 && usedLuckyMarksman) {
@@ -1026,6 +1181,7 @@ public class Gameplay extends AppCompatActivity {
                             consoleOutput += criticalHit;
                         }
                     }
+                    processElectricTouch();
                     if (checkForGameOver()) {
                         return;
                     }
@@ -1037,8 +1193,28 @@ public class Gameplay extends AppCompatActivity {
                     thisRoom.numberOne.liveCounterReadChance /= Enemy.counterReadMultiplier;
                 }
             }
-            attackTurnAdvantage = true;
-            magicTurnAdvantage = true;
+        }
+        attackTurnAdvantage = true;
+        magicTurnAdvantage = true;
+        /*
+        if (thisRoom.numberOne.hasHexOfDraining) {
+            consecutive = "Consecutive hits: " + consecHits + ". ";
+            consoleOutput += consecutive;
+        }
+         */
+
+    }
+
+    private void processElectricTouch() {
+        if (hasElectricTouch && thisRoom.numberOne.usesMelee) {
+            thisRoom.numberOne.liveHP -= 3;
+            stunnedFromET = true;
+            hasElectricTouch = false;
+            myEffectCounter = -1;
+            electricTouchActivated = "The " + thisRoom.numberOne.name + " was " +
+                    "shocked! For 3 damage. Stunned this turn! ";
+            consoleOutput += electricTouchActivated;
+            checkIfEnemyDefeated();
         }
     }
 
@@ -1046,6 +1222,7 @@ public class Gameplay extends AppCompatActivity {
         if (action.equals(progress)) {
             //finished dungeon
             if (liveRoomCount == roomCount) {
+                isDungeoneering = false;
                 liveRoomCount = 0;
                 enemiesDefeatedCounter = 0;
                 secretsFoundCounter = 0;
@@ -1180,22 +1357,32 @@ public class Gameplay extends AppCompatActivity {
 
     public boolean checkIfEnemyDefeated() {
         if (thisRoom.numberOne.liveHP <= 0) {
+            consecHits = 0;
             isBattling = false;
             hasSphericon = false;
             sphericonCharge = 0;
+            markCount = 0;
+            usedMarkOfDeath = false;
             hasBlocked = false;
             usedLuckyMarksman = false;
+            frozen = false;
+            hasElectricTouch = false;
+            stunnedFromET = false;
             attackTurnAdvantage = true;
             magicTurnAdvantage = true;
             enemyEffectCounter = -1;
-            myEffectCounter = -1;
+            if (myEffectCounter != -1) {
+                EnterNames.thisPlayer.spells[myEffectSpellNum].
+                        reverseSpellCast(thisRoom.numberOne);
+                myEffectCounter = -1;
+            }
             enemiesDefeatedCounter++;
-            if (roomCount == 1) {
+            if (roomCount == 1 && !consoleOutput.contains("You won!")) {
                 encounterVictoryMessage = "You won! The " + thisRoom.numberOne.name + " is " +
                         "defeated. Time to get some more sleep. ";
                 consoleOutput += encounterVictoryMessage;
                 toggleReturnToCampVisible();
-            } else {
+            } else if (!consoleOutput.contains("You won!")){
                 if (usedGreedPotion) {
                     EnterNames.thisPlayer.myGold += (thisRoom.numberOne.goldDrop * 1.5);
                     victoryMessage = "You won! +" + (int) (thisRoom.numberOne.goldDrop * 1.5) + " gold. ";
@@ -1253,6 +1440,20 @@ public class Gameplay extends AppCompatActivity {
     public boolean checkForGameOver() {
         if (EnterNames.thisPlayer.liveHP <= 0) {
             EnterNames.thisPlayer.liveHP = 0;
+
+            isBattling = false;
+            hasSphericon = false;
+            sphericonCharge = 0;
+            markCount = 0;
+            usedMarkOfDeath = false;
+            hasBlocked = false;
+            usedLuckyMarksman = false;
+            frozen = false;
+            hasDefended = false;
+            hasCountered = false;
+
+            usedGreedPotion = false;
+            usedBrainJuice = false;
             toggleContinueVisible();
             consoleOutput += gameOver;
             if (roomCount == 1) {
@@ -1265,7 +1466,13 @@ public class Gameplay extends AppCompatActivity {
 
     public int attack() {
         int dealtDamage = EnterNames.thisPlayer.determineHit(thisRoom.numberOne);
+        if ((stunnedFromET || frozen) && dealtDamage == 0) {
+            dealtDamage = EnterNames.thisPlayer.attackPower;
+            thisRoom.numberOne.liveHP -= dealtDamage;
+            //stunnedFromET = false;
+        }
         if (dealtDamage != 0) {
+            consecHits++;
             if (usedLuckyMarksman) {
                 thisRoom.numberOne.liveHP -= dealtDamage;
                 dealtDamage *= 2;
@@ -1279,7 +1486,24 @@ public class Gameplay extends AppCompatActivity {
                     consoleOutput += criticalHit;
                 }
             }
+            if (usedMarkOfDeath && !checkIfEnemyDefeated()) {
+                markCount++;
+                markAdded = "The " + thisRoom.numberOne.name + " was marked! Marks: " + markCount +
+                        ". ";
+                consoleOutput += markAdded;
+            }
+            if (consecHits > 1 && thisRoom.numberOne.hasHexOfDraining) {
+                dealtDamage *= .5;
+                if (EnterNames.thisPlayer.liveHP + dealtDamage > EnterNames.thisPlayer.hp) {
+                    EnterNames.thisPlayer.liveHP = EnterNames.thisPlayer.hp;
+                } else {
+                    EnterNames.thisPlayer.liveHP += dealtDamage;
+                }
+                consecHeal = consecHits + " hit combo! You heal for " + dealtDamage + " HP. ";
+                consoleOutput += consecHeal;
+            }
         } else {
+            consecHits = 0;
             consoleOutput = displayMiss;
         }
         attackTurnAdvantage = false;
@@ -1315,6 +1539,8 @@ public class Gameplay extends AppCompatActivity {
                 } else {
                     foundSecret = EnterNames.thisPlayer.foundSecret();
                 }
+                //DEBUGGING: REMOVE THE FOLLOWING LINE AFTER VERIFYING ALL SPELLS CAN BE FOUND
+                //foundSecret = 3;
                 if (foundSecret == 0) {
                     //secret was not found
                     consoleOutput = noSecretFound;
@@ -1352,15 +1578,14 @@ public class Gameplay extends AppCompatActivity {
                         consoleOutput += tripwire;
                         if (EnterNames.thisPlayer.agilityValue > 5) {
                             consoleOutput += tripwireSuccess;
-                            determineNegativeSecretReward();
                         } else {
                             consoleOutput += tripwireFail;
                             EnterNames.thisPlayer.liveHP -= 14;
-                            if(checkForGameOver()) {
+                            if (checkForGameOver()) {
                                 return;
                             }
-                            determineNegativeSecretReward();
                         }
+                        determineNegativeSecretReward();
                     } else if (foundSecret == 5) {
                         consoleOutput += magicSapper;
                         if (EnterNames.thisPlayer.accuracyValue > 5) {
@@ -1374,7 +1599,7 @@ public class Gameplay extends AppCompatActivity {
                             }
                         }
                         determineNegativeSecretReward();
-                    } else {
+                    } else { //foundSecret == 6
                         consoleOutput += scrollQuestion;
                         if (EnterNames.thisPlayer.intelligenceValue > 5) {
                             consoleOutput += scrollQuestionSuccess;
@@ -1382,7 +1607,7 @@ public class Gameplay extends AppCompatActivity {
                         } else {
                             consoleOutput += scrollQuestionFail;
                             EnterNames.thisPlayer.liveHP -= 13;
-                            if(checkForGameOver()) {
+                            if (checkForGameOver()) {
                                 return;
                             }
                             determineNegativeSecretReward();
@@ -1436,7 +1661,7 @@ public class Gameplay extends AppCompatActivity {
     }
 
     public byte generateSpellID() {
-        return (byte) (Math.random() * 11);
+        return (byte) (Math.random() * 15);
     }
 
     public void toggleYesAndNoVisible() {
@@ -1538,10 +1763,9 @@ public class Gameplay extends AppCompatActivity {
             consoleOutput = combatOnly;
         } else if (EnterNames.thisPlayer.spells[spellIndex].mpCost > EnterNames.thisPlayer.liveMP) {
             consoleOutput = notEnoughMP;
-        } else if (enemyEffectCounter > 0 && EnterNames.thisPlayer.spells[spellIndex].enemyEffect) {
-            enemyAlreadyHasEffect = "The " + thisRoom.numberOne.name + " already has an " +
-                    "effect active, you must wait until the effect passes. ";
-            consoleOutput = enemyAlreadyHasEffect;
+        } else if ((enemyEffectCounter > -1 && EnterNames.thisPlayer.spells[spellIndex].enemyEffect) ||
+                (myEffectCounter > -1 && EnterNames.thisPlayer.spells[spellIndex].hasEffect && !EnterNames.thisPlayer.spells[spellIndex].enemyEffect)) {
+            consoleOutput = multipleEffects;
         } else if (EnterNames.thisPlayer.spells[spellIndex].id < 6 &&
                 EnterNames.thisPlayer.spells[spellIndex].id > 3 && !hasSphericon) {
             consoleOutput = noSphericon;
@@ -1591,7 +1815,27 @@ public class Gameplay extends AppCompatActivity {
         tempPlayerValues[7] = EnterNames.thisPlayer.magicValue;
         tempPlayerValues[8] = EnterNames.thisPlayer.luckValue;
 
+        tempPlayerItems[0] = EnterNames.thisPlayer.myItems[0];
+        tempPlayerItems[1] = EnterNames.thisPlayer.myItems[1];
+        tempPlayerItems[2] = EnterNames.thisPlayer.myItems[2];
+        tempPlayerItems[3] = EnterNames.thisPlayer.myItems[3];
+        tempPlayerItems[4] = EnterNames.thisPlayer.myItems[4];
+        tempPlayerItems[5] = EnterNames.thisPlayer.myItems[5];
+        tempPlayerItems[6] = EnterNames.thisPlayer.myItems[6];
+
+        //TODO: STORE PLAYER'S SPELLS AT BEGINNING OF DUNGEON, AND RESTORE THEM ON DUNGEON RESTART
+        //done :P
+
+        tempPlayerSpells[0] = EnterNames.thisPlayer.spells[0];
+        tempPlayerSpells[1] = EnterNames.thisPlayer.spells[1];
+        tempPlayerSpells[2] = EnterNames.thisPlayer.spells[2];
+        tempPlayerSpells[3] = EnterNames.thisPlayer.spells[3];
+        tempPlayerSpells[4] = EnterNames.thisPlayer.spells[4];
+        tempPlayerSpells[5] = EnterNames.thisPlayer.spells[5];
+        tempPlayerSpells[6] = EnterNames.thisPlayer.spells[6];
+
         tempGold = EnterNames.thisPlayer.myGold;
+
         byte variableRoomCount = (byte) Math.round(5 * Math.random());
         byte baseRoomCount;
         switch (thisDungeon[0]) {
@@ -1617,8 +1861,10 @@ public class Gameplay extends AppCompatActivity {
                 isBattling = true;
         }
         roomCount = (byte) (baseRoomCount + variableRoomCount);
-        if (thisDungeon == firstDungeon) {
-            liveRoomCount = roomCount;
+        if (/*thisDungeon == firstDungeon */ true) {
+            //liveRoomCount = roomCount;
+            //EnterNames.thisPlayer.myGold = 1000;
+            //EnterNames.thisPlayer.liveMP = 100;
         }
         if (diedInEncounter) {
             thisRoom.numberOne.liveHP = thisRoom.numberOne.hp;

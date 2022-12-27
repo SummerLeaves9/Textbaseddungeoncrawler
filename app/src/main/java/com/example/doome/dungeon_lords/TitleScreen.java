@@ -48,6 +48,7 @@ public class TitleScreen extends AppCompatActivity {
         Button progressButton = (Button) findViewById(R.id.startButton);
         Button viewTutorial = (Button) findViewById(R.id.tutorialButton);
         Button quickStartButton = (Button) findViewById(R.id.quickStartButton);
+        Button scrollTest = (Button) findViewById(R.id.button2);
         progressButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -63,8 +64,16 @@ public class TitleScreen extends AppCompatActivity {
         quickStartButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                EnterNames.thisPlayer = new Player((byte) 10, (byte) 10, (byte) 10, (byte) 10, (byte) 10, (byte) 10, (byte) 10, "Xander", "dual mace");
+                EnterNames.thisPlayer = new Player((byte) 5, (byte) 5, (byte) 5, (byte) 5, (byte) 5, (byte) 5, (byte) 5, "Xander", "dual mace");
+                StatSelection.statsChosen = true;
                 startActivity(new Intent(TitleScreen.this, Gameplay.class));
+            }
+        });
+        scrollTest.setVisibility(View.GONE);
+        scrollTest.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(TitleScreen.this, PartialScrollTest.class));
             }
         });
     }

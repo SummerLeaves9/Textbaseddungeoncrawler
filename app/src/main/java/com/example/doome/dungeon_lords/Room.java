@@ -13,7 +13,7 @@ public class Room {
     /**
      * Chance that this room is an oasis
      */
-    public double oasisChance = .07;
+    public double oasisChance = .17;
     /**
      * Boolean to keep track of whether an oasis has occurred in this dungeon
      */
@@ -37,7 +37,7 @@ public class Room {
     private byte enemyIndex;
     /**
      * Arrays that determine the chances of which Enemy will appear in a given room. Longer arrays
-     * correspond to the dungeon having more Enemy types available
+     * correspond to dungeons having more Enemy types available
      */
     private double[][] typeChances = {
             {.45, .75, .93},

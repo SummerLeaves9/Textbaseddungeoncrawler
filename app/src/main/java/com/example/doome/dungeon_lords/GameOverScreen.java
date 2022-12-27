@@ -72,6 +72,7 @@ public class GameOverScreen extends AppCompatActivity {
         playAgain.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                //restart game
                 Gameplay.thisDungeon = Gameplay.firstDungeon;
                 Exploration.mapInitiated = false;
                 Gameplay.sphericonCharge = 0;
@@ -100,7 +101,10 @@ public class GameOverScreen extends AppCompatActivity {
         playAgainSameStats.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                //restart dungeon
                 Gameplay.sphericonCharge = 0;
+                Gameplay.enemyEffectCounter = -1;
+                Gameplay.myEffectCounter = -1;
                 Gameplay.hasSphericon = false;
                 Gameplay.hasBlocked = false;
                 Gameplay.usedLuckyMarksman = false;
@@ -115,7 +119,15 @@ public class GameOverScreen extends AppCompatActivity {
                 EnterNames.thisPlayer.intelligenceValue = Gameplay.tempPlayerValues[6];
                 EnterNames.thisPlayer.magicValue = Gameplay.tempPlayerValues[7];
                 EnterNames.thisPlayer.luckValue = Gameplay.tempPlayerValues[8];
+                for (byte i = 0; i < 7; i++) {
+                    EnterNames.thisPlayer.myItems[i] = Gameplay.tempPlayerItems[i];
+                }
+
                 EnterNames.thisPlayer.myGold = Gameplay.tempGold;
+
+                for (byte i = 0; i < 7; i++) {
+                    EnterNames.thisPlayer.spells[i] = Gameplay.tempPlayerSpells[i];
+                }
                 EnterNames.thisPlayer.setAllStats();
                 EnterNames.thisPlayer.liveHP = Gameplay.tempPlayerValues[0];
                 EnterNames.thisPlayer.liveMP = Gameplay.tempPlayerValues[1];

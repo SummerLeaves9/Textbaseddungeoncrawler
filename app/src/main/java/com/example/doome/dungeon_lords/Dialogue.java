@@ -20,6 +20,12 @@ public class Dialogue extends AppCompatActivity {
 
     String[][] currentResponses;
 
+    DialogueNode curr = null;
+
+    DialogueNode head; // :D actually using CS225 in personal projects "So head?"
+
+    boolean end_convo = false;
+
     private static final String houseOneMonologue = "'The man approached my house much like you did. " +
             "He claimed to be a god, and put on a light show with his big metallic " +
             "cannons. No one's ever seen anything like what he did, at least around " +
@@ -229,19 +235,17 @@ public class Dialogue extends AppCompatActivity {
             "painting. It’s almost as wide as her whole armspan, and about 4 feet tall. She " +
             "starts explaining who they are, but it turns to muffles in your ears. The armor, " +
             "the faces, the insignia. It matches the piece of armor William gave you. You knew " +
-            "it looked familiar. You know the gods. You’ve…known them for years! They’re your " +
-            "best friends! But how??";
+            "it looked familiar. You know the gods. You’ve…known them for years! But how??";
 
     private static final String houseConversation2Monologue2 = "‘No, I’ve made so many at this " +
-            "point that they have decided favorites. I have their least favorite ones. But " +
-            "I’ll be right back with my personal favorite one. It happens to have all 6 of " +
-            "them!’ You find a cushioned chair, another memory returns to you. You used to sit " +
-            "in cushioned chairs all the time, but it’s been so long now. The woman comes back " +
+            "point that they have decided favorites. I personally like all of them, but let me " +
+            "show you my favorite of those the gods let me keep. It happens to have all 6 of " +
+            "them!’ The woman comes back " +
             "with the painting. It’s almost as wide as her whole armspan, and about 4 feet " +
             "tall. She starts explaining who they are, but it turns to muffles in your ears. " +
             "The armor, the faces, the insignia. It matches the piece of armor William gave " +
             "you. You knew it looked familiar. You know the gods. You’ve…known them for years! " +
-            "They’re your best friends! But how??";
+            "But how??";
 
     private static final String[][] houseConversation2 = {
             {"You walk up to the unsuspecting house. It’s much nicer than William’s house, not " +
@@ -889,16 +893,6 @@ public class Dialogue extends AppCompatActivity {
                     "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "",}
     };
 
-    private static final String houseConversation3Monologue = "You get in the bed and immediately feel your body go numb. You feel an intense cold sweat, butterflies in your stomach, and numbness everywhere. Your head really hurts. You pass out. The memories start to flow in a dreamlike way. You're not a travelling warrior living in 1500's Europe. You're from the year 2172. The last thing you remember before you woke up in that dungeon is you and your crew boarding a ship, no, a time machine. So that's how you got here. The mission was to extract some DNA from extinct species from " +
-    "Europe and bring them to the present, to have them set free and repopulate. But, you notice your crew-oh yes! Your crew. They were Dustin, Ally, Josh, Peter, Katie, Brianna, and...Valentine. Your best friend. But the crew had packed a lot more gadgets than the mission allowed. Weapons, tons of armor, portable bunkers, and the strangest of all, a life form generator. A device that accepted a code of DNA, cell media, and food, and made any life form you wanted. Human, ant, or something entirely new. It was being used to attempt to recreate several extinct species in 2172, but to no avail. " +
-    "The mission would enable your present day to know and love the extinct species. The trip to 1559 Europe would take a week of real time, living in the time machine. You couldn't be seen by anyone living there, so your commander set your course for a place no one had yet visited in the year 1559. Mount Olympus! Just like the lady from town was talking about. Life in the machine was quiet and peaceful. You got about 40% through a book Valentine recommended. But on the night before you were to arrive, you heard voices coming from the lounge. You saw Josh, " +
-    "Katie, and Dustin. 'How many people live in this country?' 'About 10,000. But we won't have to worry about them all at once. Communication was slow back then.' 'Right, right. So the plan is to make about 100 at first, and raid a small village? And after that we just keep manufacturing them until we can fill 20 portable bunkers?' 'Yes sirree. I can't wait to tell " + EnterNames.thisPlayer.name + " about this.' You butted in. You were always the brutally honest type. 'Tell me about what, guys?' The 3 looked at you in horror. Josh smacked his " +
-    "head. 'Dang it, " + EnterNames.thisPlayer.name + ", you ruined the surprise. We were going to tell you and Valentine, but you had to miss your sleep schedule today, didn't you?' You got flustered. 'Doesn't matter. What in god's name are you planning to do? I already saw the extra equipment you 'hid' in cargo bay 4.' You made air quotes with your fingers. Dustin and Katie looked at each other, and Dustin spoke. 'Guess we HAVE to tell you now, don't we?' Katie smiled her sly smile. She spoke: 'Alright, here's the deal. This job blows. Everyone on this ship agrees except you and " +
-    "Valentine. That's why we waited to tell you but we knew you'd love our plan.' Josh smiled and gave you a playful nod. Katie continued, 'We're not doing this mission to bring back some ancient rhino piss. We're gonna live like gods in this period. We make a few monsters to scare some villagers, and we kill them with our guns and explosives to make the villagers think we're a bunch of gods. Then we make em feed us and clothe us for free, for the rest of time!' You got furious. 'You want to scare people with our technology so you can be " +
-    "a bunch of freeloaders?! Screw off!' 'Think about it man,' Dustin threw out. 'No job in the world would let us live this good. We're not taking over the world or anything, it's just a small country. And we're not gonna kill anyone, just make them do what we say sometimes!' 'No, Dustin. No, all of you! This is slavery. Is everyone besides Valentine and I on board with this idiotic plan of yours?' Katie looked around. Still just the four of you. 'Yep, everyone except you and Valentine.' 'Well, this bullshit isn't happening. I'm stopping the ship.' " +
-    "You ran through the tunnels and made for the cockpit. The three chased you. '" + EnterNames.thisPlayer.name + ", don't do this! You won't like what happens if you do!' shouted Katie. 'Listen to yourself! I have to save to the people you're going to enslave!' You were livid, filled with adrenaline. You thought these guys you were assigned were a bit shady, sure, but they had crossed the line and kept going for miles. You got to the door of the cockpit, but you figured whoever was in the cockpit found out what was happening, and wasn't Valentine. " +
-    "Because the next thing you saw was a bat flying at your face. You almost passed out, but didn't. You were dragged and set in a chair, a device strapped to your head. The whole crew had gathered. You heard mumbles of 'memory' and 'forget this ever happened'. Everyone's face was either solemn or happy to see you go, except Valentine's. A tear dripped down her face. In your last burst of consciousness, you heard the metal clank of a lever to your right. Then it went black. Blackness... blackness... until you see yourself, in third person. In the first " +
-    "dungeon. You fling up in Valentine's bed. The pain and numbness is almost gone. But you feel weak. Valentine is sitting in a chair with your favorite meal prepared. Milk and cookies. 'It's me, " + EnterNames.thisPlayer.name + ". Welcome back, cadet.'";
 
     private static final String[][] villagerConversation1 = {
             {"You see a lanky, well-dressed man. 'Greetings, traveler. Looking to move here?'"},
@@ -1009,15 +1003,21 @@ public class Dialogue extends AppCompatActivity {
         characterDialogue = findViewById(R.id.characterDialogueBox);
         optionOneText = findViewById(R.id.dialogueOptionOneText);
         optionTwoText = findViewById(R.id.dialogueOptionTwoText);
+
+        //OLD METHOD
+        /*
         if (atHouse) {
-            byte houseNum = 0;
+            byte houseNum = Exploration.thisHouseIndex;
+            //start of previously commented out section
             while (Exploration.visitedHouses[houseNum].length > 0) {
                 houseNum++;
             }
             houseNum--;
-            if (houseNum < 3) {
-                EnterNames.thisPlayer.myItems[4 + houseNum]++;
-            }
+
+            //end of previously commented out section
+            EnterNames.thisPlayer.myItems[4 + houseNum]++;
+
+
             switch (houseNum) {
                 case 0:
                     currentConversation = houseConversation1;
@@ -1028,6 +1028,8 @@ public class Dialogue extends AppCompatActivity {
                     currentResponses = houseResponseText2;
                     break;
                 case 2:
+                    currentConversation = DirtyCode.houseConversation3;
+                    currentResponses = DirtyCode2.houseResponseText3;
                     break;
                 case 3:
                     break;
@@ -1036,11 +1038,11 @@ public class Dialogue extends AppCompatActivity {
             }
         } else {
             switch (Exploration.thisTownIndex) {
-                case 0:
+                case 1:
                     currentConversation = villagerConversation1;
                     currentResponses = villagerResponseText1;
                     break;
-                case 2:
+                case 3:
                     currentConversation = villagerConversation2;
                     currentResponses = villagerResponseText2;
                     break;
@@ -1049,6 +1051,12 @@ public class Dialogue extends AppCompatActivity {
         characterDialogue.setText(currentConversation[conversationProgress][responseIndex]);
         optionOneText.setText(currentResponses[conversationProgress][responseIndex]);
         optionTwoText.setText(currentResponses[conversationProgress][responseIndex + 1]);
+        */
+
+        //New method :)
+        buildDialogueTree();
+        renderCurr(false, true);
+
         configureNextButton();
     }
 
@@ -1058,14 +1066,24 @@ public class Dialogue extends AppCompatActivity {
         dialogueOptionOne.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                //old method
+                /*
                 progressConversation();
+                */
+                //new method
+                renderCurr(true, false);
             }
         });
         dialogueOptionTwo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                //old method
+                /*
                 responseIndex++;
                 progressConversation();
+                */
+                //new method
+                renderCurr(false, false);
             }
         });
     }
@@ -1077,14 +1095,170 @@ public class Dialogue extends AppCompatActivity {
             conversationProgress++;
             characterDialogue.setText(currentConversation[conversationProgress][responseIndex]);
             responseIndex *= 2;
-            optionOneText.setText(currentResponses[conversationProgress][responseIndex]);
-            optionTwoText.setText(currentResponses[conversationProgress][responseIndex + 1]);
-            if (currentResponses[conversationProgress][responseIndex].equals("")) {
+            if (currentResponses == DirtyCode2.houseResponseText3 && conversationProgress == 11) {
                 optionOneText.setText(farewell);
                 optionTwoText.setText(farewell);
+            } else {
+                optionOneText.setText(currentResponses[conversationProgress][responseIndex] /*+ houseConversation3[0].length + " " +houseConversation3[1].length + " " +houseConversation3[2].length + " " +houseConversation3[3].length + " " +houseConversation3[4].length + " " +houseConversation3[5].length + " " +houseConversation3[6].length + " "+houseConversation3[7].length + " "+houseConversation3[8].length + " "+houseConversation3[9].length + " "*/);
+                optionTwoText.setText(currentResponses[conversationProgress][responseIndex + 1] /*+ houseResponseText3[0].length + " " + houseResponseText3[1].length + " " + houseResponseText3[2].length + " " + houseResponseText3[3].length + " " + houseResponseText3[4].length + " " + houseResponseText3[5].length + " " + houseResponseText3[6].length + " " + houseResponseText3[7].length + " " + houseResponseText3[8].length + " " + houseResponseText3[9].length + " "*/);
+                if (currentResponses[conversationProgress][responseIndex].equals("")) {
+                    optionOneText.setText(farewell);
+                    optionTwoText.setText(farewell);
+                }
+            }
+
+        }
+    }
+
+    //new methods to replace the old ones
+
+    /**
+     * Green comments, the nostalgia :>
+     *
+     * constructs a dialogue tree by creating nodes and assigning them to previous nodes's lefts and
+     * rights. Will have ~10 helper methods to build the specific ones, the purpose of this one is
+     * to judge the conditions of the player's situation and choose the correct ones to build
+     *
+     * With this tree system, there may be pseudo-trees in that multiple nodes's lefts and/or rights
+     * point to the same node. This is to minimize clutter from copying and hitting the physical
+     * java class character limit
+     */
+    private void buildDialogueTree() {
+        if (atHouse) {
+            byte houseNum = Exploration.thisHouseIndex;
+
+            switch (houseNum) {
+                case 0:
+                    buildHouseTalk1();
+                    break;
+                case 1:
+                    buildHouseTalk2();
+                    break;
+                case 2:
+                    buildHouseTalk3();
+                    break;
+                case 3:
+                    buildHouseTalk4();
+                    break;
+                case 4:
+                    buildHouseTalk5();
+                    break;
+            }
+        } else {
+            byte townNum = Exploration.thisTownIndex;
+
+            switch (townNum) {
+                case 1:
+                    buildVillageTalk1();
+                    break;
+                case 3:
+                    buildVillageTalk2();
+                    break;
+                case 5:
+                    buildVillageTalk3();
+                    break;
+                case 7:
+                    buildVillageTalk4();
+                    break;
+                case 9:
+                    buildVillageTalk5();
+                    break;
+            }
+        }
+
+        //this should be the last line
+        curr = head;
+    }
+
+    private void buildVillageTalk1() {
+        /*
+        head = new DialogueNode("", "Pineapples on pizza?");
+        head.DNAppendLeft(new DialogueNode("Heck yeah!", "Correct."));
+        head.DNAppendRight(new DialogueNode("Of course not, how dare you!", "Shame. *Dr. Manhattan disintegrates you*"));
+        head.getLeft().appendLeaves();
+        head.getRight().appendLeaves();
+         */
+        head = new DialogueNode("", "This is the second village, test!");
+        head.appendLeaves();
+    }
+
+    private void buildVillageTalk2() {
+        head = new DialogueNode("", "This is the fourth village, test!");
+        head.appendLeaves();
+    }
+
+    private void buildVillageTalk3() {
+        head = new DialogueNode("", "This is the sixth village, test!");
+        head.appendLeaves();
+    }
+
+    private void buildVillageTalk4() {
+        head = new DialogueNode("", "This is the eighth village, test!");
+        head.appendLeaves();
+    }
+
+    private void buildVillageTalk5() {
+        head = new DialogueNode("", "This is the tenth village, test!");
+        head.appendLeaves();
+    }
+
+    private void buildHouseTalk1() {
+        head = new DialogueNode("", "This is the first house, test!");
+        head.appendLeaves();
+    }
+
+    private void buildHouseTalk2() {
+        head = new DialogueNode("", "This is the second house, test!");
+        head.appendLeaves();
+    }
+
+    private void buildHouseTalk3() {
+        head = new DialogueNode("", "This is the third house, test!");
+        head.appendLeaves();
+    }
+
+    private void buildHouseTalk4() {
+        head = new DialogueNode("", "This is the fourth house, test!");
+        head.appendLeaves();
+    }
+
+    private void buildHouseTalk5() {
+        head = new DialogueNode("", "This is the last house, test!");
+        head.appendLeaves();
+    }
+
+    /**
+     * Renders the correct text in the various text boxes in the current activity, based on the
+     * player's last dialogue choice
+     */
+    private void renderCurr(boolean isLeft, boolean isStart) {
+        if (optionOneText.getText().equals(farewell)) {
+            finish();
+        } else if (isStart) {
+            characterDialogue.setText(curr.getBit());
+            optionOneText.setText(curr.getLeftResponse());
+            optionTwoText.setText(curr.getRightResponse());
+        } else {
+            if (isLeft) {
+                curr = curr.getLeft();
+            } else {
+                curr = curr.getRight();
+            }
+
+            characterDialogue.setText(curr.getBit());
+
+            String leftResp = curr.getLeftResponse();
+            String rightResp = curr.getRightResponse();
+            if (leftResp.equals("")) {
+                optionOneText.setText(farewell);
+                optionTwoText.setText(farewell);
+            } else {
+                optionOneText.setText(leftResp);
+                optionTwoText.setText(rightResp);
             }
         }
     }
+
 
     @Override
     public void onBackPressed() {}

@@ -19,6 +19,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Select stats. Points remaining:"
+            android:textAlignment="center"
             android:textColor="#eaeaea"
             android:textSize="20sp" />
 

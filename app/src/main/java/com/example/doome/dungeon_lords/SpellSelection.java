@@ -20,8 +20,6 @@ public class SpellSelection extends AppCompatActivity {
     TextView spellSixDesc;
     TextView spellSevenDesc;
 
-    private boolean hasBeenInitiated = false;
-
     private final String noSpellEquipped = "There is no spell equipped in that slot!";
 
     public static String selectSlotForSpell = "Select Spell slot for " + Gameplay.spellsToLearn[0].name;
@@ -41,7 +39,6 @@ public class SpellSelection extends AppCompatActivity {
         spellFiveDesc = (TextView) findViewById(R.id.spellFiveDesc);
         spellSixDesc = (TextView) findViewById(R.id.spellSixDesc);
         spellSevenDesc = (TextView) findViewById(R.id.spellSevenDesc);
-        if (!hasBeenInitiated) {
             if (EnterNames.thisPlayer.spells[0].id != 127) {
                 spellOneDesc.setText(EnterNames.thisPlayer.spells[0].description);
             }
@@ -63,9 +60,11 @@ public class SpellSelection extends AppCompatActivity {
             if (EnterNames.thisPlayer.spells[6].id != 127) {
                 spellSevenDesc.setText(EnterNames.thisPlayer.spells[6].description);
             }
-        }
         if (Gameplay.isAddingSpell) {
+            messageBox.setVisibility(View.VISIBLE);
             messageBox.setText(selectSlotForSpell);
+        } else {
+            messageBox.setVisibility(View.GONE);
         }
         configureNextButton();
     }
@@ -78,7 +77,6 @@ public class SpellSelection extends AppCompatActivity {
         final Button spellSix = (Button) findViewById(R.id.activateSpellSix);
         final Button spellSeven = (Button) findViewById(R.id.activateSpellSeven);
         final Button cancelButton = (Button) findViewById(R.id.cancelButton);
-        if (!hasBeenInitiated) {
             if (EnterNames.thisPlayer.spells[0].id != 127) {
                 spellOne.setText(EnterNames.thisPlayer.spells[0].name);
             }
@@ -100,8 +98,6 @@ public class SpellSelection extends AppCompatActivity {
             if (EnterNames.thisPlayer.spells[6].id != 127) {
                 spellSeven.setText(EnterNames.thisPlayer.spells[6].name);
             }
-            hasBeenInitiated = true;
-        }
         if (Gameplay.isAddingSpell) {
             cancelButton.setVisibility(View.GONE);
         } else {

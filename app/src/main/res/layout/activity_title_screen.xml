@@ -75,6 +75,13 @@
             android:background="@drawable/color_button"
             android:textColor="#eaeaea"
             android:text="Quick Start" />
+
+        <Button
+            android:id="@+id/button2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="go to scroll test" />
+
         <Space
             android:layout_width="match_parent"
             android:layout_height="50dp"

@@ -84,10 +84,14 @@ public class Character {
      */
     public static final double baseAttackPower = 4.4;
     /**
+     * The scalable double used for changing characters' attack power more precisely
+     */
+    public double doubleAttackPower;
+    /**
      * The base chance to land a critical hit for all characters. Only for characters with luckValue
      * above 0, otherwise their critChance is 0.
      */
-    public static final double baseCritChance = .07;
+    public static final double baseCritChance = .06;
     /**
      * The base hitChance for all characters
      */
@@ -160,6 +164,10 @@ public class Character {
      * Minimum Value for any stat
      */
     public final static int statMin = 0;
+    /**
+     * Boolean that tracks whether Hex of Draining was cast on this enemy
+     */
+    public boolean hasHexOfDraining = false;
 
     /**
      * Sets this character's hitpoints based on their defense stat.
@@ -186,8 +194,19 @@ public class Character {
         for (int i = 0; i < strengthValue; i++) {
             scaled *= scalarTwo;
         }
-        attackPower = (byte)  Math.round(baseAttackPower * scaled);
+        doubleAttackPower = baseAttackPower * scaled;
+        attackPower = (byte)  doubleAttackPower;
     }
+
+    /**
+     * Used for certain spells to scale characters' attack power (across attack, counter, and
+     * defend)
+     */
+    public void scaleAttackPower(double scalar) {
+        double scaled = scalar * doubleAttackPower;
+        attackPower = (byte) scaled;
+    }
+
     /**
      * Sets this character's chance to entirely dodge an attack, assuming the attacker lands their
      * hit

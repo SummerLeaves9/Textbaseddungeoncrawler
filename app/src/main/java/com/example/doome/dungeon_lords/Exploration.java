@@ -100,7 +100,7 @@ public class Exploration extends AppCompatActivity {
     /**
      * Various map markers
      */
-    final char player = 'M';
+    final char player = 'P';
     final char forest = 'J';
     final char dense = '#';
     final char walkway = 'W';
@@ -118,7 +118,7 @@ public class Exploration extends AppCompatActivity {
     final int walkwayNum = 150;
     final byte townNum = 10;
     final byte dungeonNum = 20;
-    final byte houseNum = 100;
+    final byte houseNum = 5;
     final byte centaurCaveNum = 8;
 
     /**
@@ -342,6 +342,7 @@ public class Exploration extends AppCompatActivity {
                         }
                         Gameplay.thisDungeon = knownDungeons[i];
                         hasCleared[i] = true;
+                        Gameplay.isDungeoneering = true;
                         startActivity(new Intent(Exploration.this, Gameplay.class));
                         break;
                     case town:
@@ -671,13 +672,16 @@ public class Exploration extends AppCompatActivity {
         }
 
         //dotting houses around the map
+        /*
         for (byte i = 0; i < houseNum; i++) {
             byte thisHouseX = (byte) (Math.random() * worldMap.length);
             byte thisHouseY = (byte) (Math.random() * worldMap.length);
             worldMap[thisHouseX][thisHouseY] = house;
         }
-        /*
+         */
+
         //placing Mount Olympus
+        /*
         byte MTOlympusX = (byte) (Math.random() * worldMap.length);
         byte MTOlympusY = (byte) (Math.random() * worldMap[0].length);
         while (Math.sqrt((mapWindowCoords[12][0] - MTOlympusX) ^ 2 + (mapWindowCoords[12][1] - MTOlympusY) ^ 2) > 12) {
@@ -1316,9 +1320,11 @@ public class Exploration extends AppCompatActivity {
                     visitedHouses[thisHouseIndex] = generateHouse();
                     explorationInfo = houseFind;
                 }
+                //thisHouseIndex = 2;
                 if (thisHouseIndex == 2) {
                     godIsALie = true;
                 }
+
                 break;
             case MTOlympus:
                 if (!godIsALie) {
@@ -1350,19 +1356,19 @@ public class Exploration extends AppCompatActivity {
         byte[] dungeon = new byte[(int) (8 + (Math.random() * 4))];
         double coinFlip = Math.random() * 4;
         if (EnterNames.thisPlayer.statSum < 45) {
-            if (coinFlip < 4) {
+            if (coinFlip < 3) {
                 dungeon[0] = 0;
             } else {
                 dungeon[0] = 1;
             }
         } else if (EnterNames.thisPlayer.statSum < 55) {
-            if (coinFlip < 4) {
+            if (coinFlip < 3) {
                 dungeon[0] = 1;
             } else {
                 dungeon[0] = 2;
             }
         } else if (EnterNames.thisPlayer.statSum < 65) {
-            if (coinFlip < 4) {
+            if (coinFlip < 3) {
                 dungeon[0] = 2;
             } else {
                 dungeon[0] = 3;
@@ -1387,6 +1393,7 @@ public class Exploration extends AppCompatActivity {
         for (byte i = 4; i < dungeon.length; i++) {
             dungeon[i] = -1;
         }
+        //custom enemy sets related to dungeon name
         switch (thisName) {
             case 3:
                 dungeon[4] = 6;

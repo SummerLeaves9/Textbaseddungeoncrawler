@@ -26,7 +26,7 @@ public class BuyingStuff extends AppCompatActivity {
 
     final String shopWelcome = "'Welcome! Have a look around.'";
 
-    final String masterWelcome = "'Welcome to my abode. What do you '";
+    final String masterWelcome = "'Welcome to my abode. What can I do for you?'";
 
     final String cantTrain = "'I have nothing to teach you in this art. You've reached your " +
             "limit.'";

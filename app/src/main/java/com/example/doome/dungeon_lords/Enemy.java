@@ -14,6 +14,10 @@ public class Enemy extends Character {
      */
     public boolean isWarlock = false;
     /**
+     * Boolean that tracks if this enemy uses melee attacks
+     */
+    public boolean usesMelee = false;
+    /**
      * Chance that, if warlock, this enemy will drop a page with a spell
      */
     public static final double dropsNewSpellPage = .65;
@@ -75,6 +79,7 @@ public class Enemy extends Character {
         goldDrop = setGoldDrop;
         intelligenceValue = intelligenceStat;
         luckValue = statMin;
+        critChance = baseCritChance;
     }
     /**
      * Possible types this enemy could be.
@@ -112,24 +117,24 @@ public class Enemy extends Character {
             if (type < typeChances[0]) {
                 MPDrop = 3;
                 this.enemyType = enemyType.Green_Slime;
-                makeEnemy("Green Slime", "body check", (byte) 1, (byte) 2, (byte) 1, (byte) 2, (byte) 2, 80);
+                makeEnemy("Green Slime", "body check", (byte) 10, (byte) 2, (byte) 1, (byte) 2, (byte) 2, 80);
             } else if (type < typeChances[1]) {
                 MPDrop = 4;
                 this.enemyType = enemyType.Red_Slime;
-                makeEnemy("Red Slime", "body check", (byte) 2, (byte) 3, (byte) 2, (byte) 2, (byte) 2, 90);
+                makeEnemy("Red Slime", "body check", (byte) 10, (byte) 3, (byte) 3, (byte) 2, (byte) 2, 90);
             } else if (type < typeChances[2]) {
                 this.enemyType = enemyType.Goblin;
                 makeEnemy("Goblin", "knife slash", (byte) 1, (byte) 4, (byte) 3, (byte) 3, (byte) 3, 110);
             } else if (type < typeChances[3]) {
                 MPDrop = 4;
                 this.enemyType = enemyType.Skeleton;
-                makeEnemy("Skeleton", "bone toss", (byte) 2, (byte) 1, (byte) 3, (byte) 2, (byte) 4, 100);
+                makeEnemy("Skeleton", "bone toss", (byte) 2, (byte) 0, (byte) 3, (byte) 2, (byte) 4, 100);
             } else if (type < typeChances[4]){
                 this.enemyType = enemyType.Giant_Isopod;
                 makeEnemy("Giant Isopod", "bite", (byte) 1, (byte) 3, (byte) 5, (byte) 2, (byte) 2, 120);
             } else if (type < typeChances[5]){
                 this.enemyType = enemyType.Giant_Squid;
-                makeEnemy("Giant Squid", "tentacle whip", (byte) 3, (byte) 3, (byte) 3, (byte) 2, (byte) 5, 120);
+                makeEnemy("Giant Squid", "tentacle whip", (byte) 3, (byte) 3, (byte) 3, (byte) 2, (byte) 5, 140);
             } else {
                 MPDrop = 10;
                 isWarlock = true;
@@ -181,29 +186,34 @@ public class Enemy extends Character {
         switch (enemyIndex) {
             case 0:
                 MPDrop = 3;
+                usesMelee = true;
                 this.enemyType = enemyType.Green_Slime;
                 makeEnemy("Green Slime", "body check", (byte) 1, (byte) 2, (byte) 1, (byte) 2, (byte) 2, 80);
                 break;
             case 1:
                 MPDrop = 4;
                 this.enemyType = enemyType.Red_Slime;
+                usesMelee = true;
                 makeEnemy("Red Slime", "body check", (byte) 2, (byte) 3, (byte) 2, (byte) 2, (byte) 2, 90);
                 break;
             case 2:
                 this.enemyType = enemyType.Goblin;
-                makeEnemy("Goblin", "knife slash", (byte) 1, (byte) 4, (byte) 3, (byte) 3, (byte) 3, 110);
+                usesMelee = true;
+                makeEnemy("Goblin", "knife slash", (byte) 2, (byte) 4, (byte) 3, (byte) 3, (byte) 3, 110);
                 break;
             case 3:
                 MPDrop = 4;
                 this.enemyType = enemyType.Skeleton;
-                makeEnemy("Skeleton", "bone toss", (byte) 2, (byte) 1, (byte) 3, (byte) 2, (byte) 4, 100);
+                makeEnemy("Skeleton", "bone toss", (byte) 3, (byte) 1, (byte) 3, (byte) 2, (byte) 4, 100);
                 break;
             case 4:
                 this.enemyType = enemyType.Giant_Isopod;
+                usesMelee = true;
                 makeEnemy("Giant Isopod", "bite", (byte) 1, (byte) 3, (byte) 5, (byte) 2, (byte) 2, 120);
                 break;
             case 5:
                 this.enemyType = enemyType.Giant_Squid;
+                usesMelee = true;
                 makeEnemy("Giant Squid", "tentacle whip", (byte) 3, (byte) 3, (byte) 3, (byte) 2, (byte) 5, 120);
                 break;
             case 6:
@@ -241,21 +251,25 @@ public class Enemy extends Character {
             case 11:
                 isStrong = true;
                 this.enemyType = enemyType.Anarchist_Eddie;
+                usesMelee = true;
                 makeEnemy("Anarchist Eddie", "crowbar swing", (byte) 6, (byte) 4, (byte) 6, (byte) 4, (byte) 1, 220);
                 break;
             case 12:
                 isStrong = true;
                 MPDrop = 15;
                 this.enemyType = enemyType.Soul_Eater;
+                usesMelee = true;
                 makeEnemy("Soul Eater", "absorb", (byte) 9, (byte) 3, (byte) 6, (byte) 4, (byte) 3, 250);
                 break;
             case 13:
                 isStrong = true;
                 this.enemyType = enemyType.A_Single_Rat;
+                usesMelee = true;
                 makeEnemy("Single Rat", "bite", (byte) 1, (byte) 10, (byte) 2, (byte) 4, (byte) 3, 170);
                 break;
             case 14:
                 this.enemyType = enemyType.Lone_Wolf;
+                usesMelee = true;
                 makeEnemy("Lone Wolf", "bite", (byte) 2, (byte) 3, (byte) 3, (byte) 4, (byte) 1, 110);
                 break;
             case 15:
@@ -264,14 +278,17 @@ public class Enemy extends Character {
                 break;
             case 16:
                 this.enemyType = enemyType.Feisty_Crab;
+                usesMelee = true;
                 makeEnemy("Feisty Crab", "pince", (byte) 5, (byte) 3, (byte) 5, (byte) 1, (byte) 2, 130);
                 break;
             case 17:
                 this.enemyType = enemyType.Master_Thief;
+                usesMelee = true;
                 makeEnemy("Master Thief", "knife slash", (byte) 5, (byte) 5, (byte) 4, (byte) 4, (byte) 7, 170);
                 break;
             case 18:
                 this.enemyType = enemyType.Grizzly_Bear;
+                usesMelee = true;
                 makeEnemy("Grizzly Bear", "claws", (byte) 6, (byte) 6, (byte) 3, (byte) 4, (byte) 3, 160);
                 break;
             case 19:
@@ -280,7 +297,8 @@ public class Enemy extends Character {
                 break;
             case 20:
                 this.enemyType = enemyType.Centaur;
-                makeEnemy("Centaur", "kick", (byte) 7, (byte) 3, (byte) 5, (byte) 6, (byte) 5, 300);
+                usesMelee = true;
+                makeEnemy("Centaur", "kick", (byte) 7, (byte) 4, (byte) 5, (byte) 6, (byte) 5, 300);
                 break;
         }
     }

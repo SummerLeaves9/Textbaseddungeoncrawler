@@ -47,7 +47,7 @@ public class Items extends AppCompatActivity {
     /**
      * Description of the second item the player gets
      */
-    public final String secondItemDesc = "-A piece of strange, yet not that foreign armor given to you -A piece of strange, yet not that";
+    public final String secondItemDesc = "-A painting of";
 
     /**
      * Description of the third item the player gets
@@ -58,6 +58,12 @@ public class Items extends AppCompatActivity {
      * Message when player has no items
      */
     public final String noItems = "(You have no items)";
+
+    /**
+     * Message when player tries to drink lasting effect potions outside of a dungeon
+     */
+    public final String notDungeoneering = "You can't use that now! You must go to a dungeon " +
+            "first.";
 
     /**
      * Cereal when haves items
@@ -203,31 +209,38 @@ public class Items extends AppCompatActivity {
         drinkBrainJuice.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (Gameplay.usedBrainJuice || Gameplay.usedGreedPotion) {
-                    itemMessage.setText(effectPotionOD);
+                if (Gameplay.isDungeoneering) {
+                    if (Gameplay.usedBrainJuice || Gameplay.usedGreedPotion) {
+                        itemMessage.setText(effectPotionOD);
+                    } else {
+                        EnterNames.thisPlayer.myItems[2]--;
+                        EnterNames.thisPlayer.intelligenceValue += 3;
+                        EnterNames.thisPlayer.setAllStats();
+                        Gameplay.usedBrainJuice = true;
+                        String brainNum = EnterNames.thisPlayer.myItems[2] + "";
+                        brainJuiceNum.setText(brainNum);
+                        itemMessage.setText(brainJuiceUse);
+                    }
                 } else {
-                    EnterNames.thisPlayer.myItems[2]--;
-                    EnterNames.thisPlayer.intelligenceValue += 3;
-                    EnterNames.thisPlayer.setAllStats();
-                    Gameplay.usedBrainJuice = true;
-                    String brainNum = EnterNames.thisPlayer.myItems[2] + "";
-                    brainJuiceNum.setText(brainNum);
-                    itemMessage.setText(brainJuiceUse);
+                    itemMessage.setText(notDungeoneering);
                 }
-
             }
         });
         drinkGreedPotion.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (Gameplay.usedBrainJuice || Gameplay.usedGreedPotion) {
-                    itemMessage.setText(effectPotionOD);
+                if (Gameplay.isDungeoneering) {
+                    if (Gameplay.usedBrainJuice || Gameplay.usedGreedPotion) {
+                        itemMessage.setText(effectPotionOD);
+                    } else {
+                        EnterNames.thisPlayer.myItems[3]--;
+                        Gameplay.usedGreedPotion = true;
+                        String greedNum = EnterNames.thisPlayer.myItems[3] + "";
+                        greedPotionNum.setText(greedNum);
+                        itemMessage.setText(greedPotionUse);
+                    }
                 } else {
-                    EnterNames.thisPlayer.myItems[3]--;
-                    Gameplay.usedGreedPotion = true;
-                    String greedNum = EnterNames.thisPlayer.myItems[3] + "";
-                    greedPotionNum.setText(greedNum);
-                    itemMessage.setText(greedPotionUse);
+                    itemMessage.setText(notDungeoneering);
                 }
             }
         });

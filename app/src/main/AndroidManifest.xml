@@ -68,6 +68,9 @@
         <activity
             android:name=".BuyingStuff"
             android:screenOrientation="portrait"/>
+        <activity
+            android:name=".PartialScrollTest"
+            android:screenOrientation="portrait"/>
 
 
     </application>

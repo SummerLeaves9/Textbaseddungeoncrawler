@@ -12,6 +12,8 @@ public class Town extends AppCompatActivity {
 
     final String newLocations = "New locations added to map.";
 
+    final String noGold = "You don't have enough gold...";
+
     TextView townNameDisplay;
     TextView townMessage;
 
@@ -24,6 +26,7 @@ public class Town extends AppCompatActivity {
         townMessage.setVisibility(View.GONE);
         configureNextButton();
     }
+
     private void configureNextButton() {
         Button visitShopButton = findViewById(R.id.townVisitShopButton);
         Button talkButton = findViewById(R.id.townTalkButton);
@@ -31,7 +34,7 @@ public class Town extends AppCompatActivity {
         Button masterButton = findViewById(R.id.townMasterButton);
         final Button examineBillBoard = findViewById(R.id.townLookForQuestsButton);
         final Button leaveButton = findViewById(R.id.townLeaveButton);
-        if (Exploration.thisTownIndex % 2 == 0) {
+        if (Exploration.thisTownIndex % 2 == 1) {
             if (Exploration.visitedTowns[Exploration.thisTownIndex][3] == 0) {
                 leaveButton.setVisibility(View.GONE);
             }
@@ -51,6 +54,7 @@ public class Town extends AppCompatActivity {
             public void onClick(View view) {
                 townMessage.setText("");
                 BuyingStuff.shopOrMaster = true;
+                townMessage.setVisibility(View.GONE);
                 startActivity(new Intent(Town.this, BuyingStuff.class));
             }
         });
@@ -61,17 +65,23 @@ public class Town extends AppCompatActivity {
                 Dialogue.atHouse = false;
                 mHandler.postDelayed(delayDisplayUpdate, 2000);
                 Exploration.visitedTowns[Exploration.thisTownIndex][3] = 1;
+                townMessage.setVisibility(View.GONE);
                 startActivity(new Intent(Town.this, Dialogue.class));
             }
         });
         hotelButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                townMessage.setText("");
-                Outside.isCamping = false;
-                Spell.usedVision = false;
-                EnterNames.thisPlayer.myGold -= 100;
-                startActivity(new Intent(Town.this, Sleeping.class));
+                if (EnterNames.thisPlayer.myGold > 99) {
+                    townMessage.setText("");
+                    Outside.isCamping = false;
+                    Spell.usedVision = false;
+                    EnterNames.thisPlayer.myGold -= 100;
+                    startActivity(new Intent(Town.this, Sleeping.class));
+                } else {
+                    townMessage.setVisibility(View.VISIBLE);
+                    townMessage.setText(noGold);
+                }
             }
         });
         masterButton.setOnClickListener(new View.OnClickListener() {
@@ -79,6 +89,7 @@ public class Town extends AppCompatActivity {
             public void onClick(View view) {
                 townMessage.setText("");
                 BuyingStuff.shopOrMaster = false;
+                townMessage.setVisibility(View.GONE);
                 startActivity(new Intent(Town.this, BuyingStuff.class));
             }
         });
