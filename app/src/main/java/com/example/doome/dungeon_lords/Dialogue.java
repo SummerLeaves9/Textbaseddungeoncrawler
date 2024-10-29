@@ -1175,56 +1175,56 @@ public class Dialogue extends AppCompatActivity {
         head = new DialogueNode("", "Pineapples on pizza?");
         head.DNAppendLeft(new DialogueNode("Heck yeah!", "Correct."));
         head.DNAppendRight(new DialogueNode("Of course not, how dare you!", "Shame. *Dr. Manhattan disintegrates you*"));
-        head.getLeft().appendLeaves();
-        head.getRight().appendLeaves();
+        head.getLeft().buildtree();
+        head.getRight().buildtree();
          */
         head = new DialogueNode("", "This is the second village, test!");
-        head.appendLeaves();
+        head.buildtree();
     }
 
     private void buildVillageTalk2() {
         head = new DialogueNode("", "This is the fourth village, test!");
-        head.appendLeaves();
+        head.buildtree();
     }
 
     private void buildVillageTalk3() {
         head = new DialogueNode("", "This is the sixth village, test!");
-        head.appendLeaves();
+        head.buildtree();
     }
 
     private void buildVillageTalk4() {
         head = new DialogueNode("", "This is the eighth village, test!");
-        head.appendLeaves();
+        head.buildtree();
     }
 
     private void buildVillageTalk5() {
         head = new DialogueNode("", "This is the tenth village, test!");
-        head.appendLeaves();
+        head.buildtree();
     }
 
     private void buildHouseTalk1() {
         head = new DialogueNode("", "This is the first house, test!");
-        head.appendLeaves();
+        head.buildtree();
     }
 
     private void buildHouseTalk2() {
         head = new DialogueNode("", "This is the second house, test!");
-        head.appendLeaves();
+        head.buildtree();
     }
 
     private void buildHouseTalk3() {
         head = new DialogueNode("", "This is the third house, test!");
-        head.appendLeaves();
+        head.buildtree();
     }
 
     private void buildHouseTalk4() {
         head = new DialogueNode("", "This is the fourth house, test!");
-        head.appendLeaves();
+        head.buildtree();
     }
 
     private void buildHouseTalk5() {
         head = new DialogueNode("", "This is the last house, test!");
-        head.appendLeaves();
+        head.buildtree();
     }
 
     /**

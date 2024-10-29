@@ -9,6 +9,8 @@ public class DialogueNode {
     private String bit = "";
     private DialogueNode left = null;
     private DialogueNode right = null;
+    private static String testBit = "progressed one level of the dialogue tree.";
+    private static DialogueNode sampleLeaf = new DialogueNode("Goodbye.", "");
 
     public DialogueNode(String myLinkedResp, String myBit) {
         linkedResp = myLinkedResp;
@@ -27,9 +29,12 @@ public class DialogueNode {
 
     //here-document
     
-    public void appendLeaves() {
-        this.DNAppendLeft(new DialogueNode("Goodbye.", ""));
-        this.DNAppendRight(new DialogueNode("Goodbye.", ""));
+    public void buildtree() {
+        DialogueNode level1L = new DialogueNode("very interesting!", testBit);
+        level1L.DNAppendLeft(sampleLeaf);
+        level1L.DNAppendRight(sampleLeaf);
+        this.DNAppendLeft(level1L);
+        this.DNAppendRight(level1L);
     }
 
     public String getLeftResponse() {
